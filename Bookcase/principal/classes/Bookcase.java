@@ -2,6 +2,7 @@ package classes;
 
 import cu.edu.cujae.ceis.tree.binary.BinaryTree;
 import cu.edu.cujae.ceis.tree.general.GeneralTree;
+import cu.edu.cujae.ceis.tree.iterators.general.InDepthIterator;
 
 public class Bookcase {
 	private GeneralTree<NodeInfo> tree;
@@ -16,7 +17,24 @@ public class Bookcase {
 		this.tree = tree;
 	}
 	
-
+	//test funtion
+	public Carreer get_first_carreer()
+	{
+		InDepthIterator<NodeInfo> iter= tree.inDepthIterator();
+		
+		Carreer carrear_esc = new Carreer();
+		boolean esc = true;
+		while (esc && iter.hasNext()) {
+			NodeInfo aux = iter.next();
+			if (aux instanceof Carreer) {
+				esc = false;
+				carrear_esc = (Carreer)aux;
+			}
+			
+		}
+		
+		return carrear_esc;
+	}
 	
 	
 }
