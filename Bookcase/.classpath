@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="principal"/>
-	<classpathentry kind="src" path="lib"/>
-	<classpathentry kind="lib" path="lib/tree-package-v3.0.jar"/>
+	<classpathentry kind="lib" path="libs/tree-package-v3.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
