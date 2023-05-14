@@ -7,6 +7,7 @@ public class Material {
 	private String author;
 	private Date date_creation;
 	
+	
 	public Material(String tittle, String author, Date date_creation) {
 		this.tittle = tittle;
 		this.author = author;

@@ -5,7 +5,9 @@ public class Carreer extends NodeInfo {
 	//I think this property is not necessary
 	private int duration;
 	
-	
+	public Carreer() {
+		
+	}
 	public Carreer(String name, int duration) {
 		this.name = name;
 		this.duration = duration;
