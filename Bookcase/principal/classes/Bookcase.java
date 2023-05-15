@@ -17,7 +17,7 @@ public class Bookcase {
 		this.tree = tree;
 	}
 	
-	//test funtion
+	//test funtion para que naylet vea 
 	public Carreer get_first_carreer()
 	{
 		InDepthIterator<NodeInfo> iter= tree.inDepthIterator();
