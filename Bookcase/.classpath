@@ -4,5 +4,6 @@
 	<classpathentry kind="src" path="principal"/>
 	<classpathentry kind="src" path="test_and_run"/>
 	<classpathentry kind="lib" path="libs/tree-package-v3.0.jar"/>
+	<classpathentry kind="lib" path="C:/doc diego/informatica/2doa_1ers/ED/Grafos/Materiales complementarios Tema 3.-20230604/Biblioteca Grafos/3- Grafos Enlazados/libs/LinkedGraph_1.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
