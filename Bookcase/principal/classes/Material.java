@@ -2,7 +2,8 @@ package classes;
 
 import java.util.Date;
 
-public class Material {
+abstract class Material {
+	
 	private String tittle;
 	private String author;
 	private Date dateCreation;
