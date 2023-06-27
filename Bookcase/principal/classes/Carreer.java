@@ -1,6 +1,6 @@
 package classes;
 
-public class Carreer extends NodeInfo {
+public class Carreer implements NodeInfo {
 	private String name;
 	//I think this property is not necessary
 	private int duration;

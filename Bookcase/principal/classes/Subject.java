@@ -1,6 +1,6 @@
 package classes;
 
-public class Subject extends NodeInfo {
+public class Subject implements NodeInfo {
 	
 	private String name;
 	

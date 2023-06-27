@@ -1,6 +1,6 @@
 package classes;
 
-public class Year extends NodeInfo {
+public class Year implements NodeInfo {
 	
 	private int numYear;
 
