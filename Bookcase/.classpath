@@ -3,6 +3,8 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="principal"/>
 	<classpathentry kind="src" path="test_and_run"/>
-	<classpathentry kind="lib" path="libs/tree-package-v3.0.jar"/>
+	<classpathentry kind="src" path="Visual"/>
+	<classpathentry kind="lib" path="libs/tree-package-v3.0.jar" sourcepath="libs/src-Trees"/>
+	<classpathentry kind="lib" path="libs/LinkedGraph_1.0.jar" sourcepath="libs/src-Graph"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

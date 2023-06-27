@@ -3,18 +3,18 @@ package classes;
 import java.util.Date;
 
 public class Document extends Material {
-	private String tipe_doc;
+	private String typeDoc;
 	public Document(String tittle, String author, Date date_creation, String tipe_doc) {
 		super(tittle, author, date_creation);
-		this.tipe_doc = tipe_doc;
+		this.typeDoc = tipe_doc;
 	}
 
-	public String getTipe_doc() {
-		return tipe_doc;
+	public String getTypeDoc() {
+		return typeDoc;
 	}
 
-	public void setTipe_doc(String tipe_doc) {
-		this.tipe_doc = tipe_doc;
+	public void setTypeDoc(String tipe_doc) {
+		this.typeDoc = tipe_doc;
 	}
 
 	
