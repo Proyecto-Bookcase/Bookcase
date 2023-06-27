@@ -1,7 +1,9 @@
 package classes;
 
 public class Year extends NodeInfo {
+	
 	private int numYear;
+
 	public Year(int number_year) {
 		this.numYear = number_year;
 	}
