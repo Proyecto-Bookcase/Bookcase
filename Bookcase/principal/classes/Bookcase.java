@@ -1,12 +1,18 @@
 package classes;
 
+import cu.edu.cujae.ceis.graph.LinkedGraph;
+import cu.edu.cujae.ceis.graph.interfaces.ILinkedNotDirectedGraph;
 import cu.edu.cujae.ceis.tree.general.GeneralTree;
 import cu.edu.cujae.ceis.tree.iterators.general.InDepthIterator;
 
 public class Bookcase {
+	
 	private GeneralTree<NodeInfo> tree;
-	public Bookcase(GeneralTree<NodeInfo> tree) {
+	private ILinkedNotDirectedGraph graph;
+	
+	public Bookcase(GeneralTree<NodeInfo> tree, LinkedGraph graph) {
 		this.tree = tree;
+		this.graph = graph;
 	}
 	public GeneralTree<NodeInfo> getTree() {
 		return tree;
@@ -34,6 +40,11 @@ public class Bookcase {
 		
 		return carrear_esc;
 	}
-	//comentario para hacer una prueba con la rama en github
-	
+		
+	public ILinkedNotDirectedGraph getGraph() {
+		return graph;
+	}
+	public void setGraph(ILinkedNotDirectedGraph graph) {
+		this.graph = graph;
+	}
 }
