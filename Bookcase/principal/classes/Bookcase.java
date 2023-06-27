@@ -1,6 +1,5 @@
 package classes;
 
-import cu.edu.cujae.ceis.tree.binary.BinaryTree;
 import cu.edu.cujae.ceis.tree.general.GeneralTree;
 import cu.edu.cujae.ceis.tree.iterators.general.InDepthIterator;
 
@@ -18,7 +17,7 @@ public class Bookcase {
 	}
 	
 	//test funtion para que naylet vea 
-	public Carreer get_first_carreer()
+	public Carreer getFirstCarreer()
 	{
 		InDepthIterator<NodeInfo> iter= tree.inDepthIterator();
 		
