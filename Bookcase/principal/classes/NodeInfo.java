@@ -1,5 +1,5 @@
 package classes;
 
-public class NodeInfo {
+public interface NodeInfo {
 
 }
