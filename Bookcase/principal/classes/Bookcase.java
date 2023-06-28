@@ -21,7 +21,7 @@ public class Bookcase implements NodeInfo {
 	private ILinkedNotDirectedGraph graph;
 
 	private HashMap<String, String> carreersIds;
-	
+
 	private String id;
 
 	// Singleton
@@ -124,6 +124,19 @@ public class Bookcase implements NodeInfo {
 		return node;
 	}
 
+	private BinaryTreeNode<NodeInfo> addSubjectToTree(String idYear, Subject subject) {
+		InDepthIterator<NodeInfo> it = instance.tree.inDepthIterator();
+		while (it.hasNext()) {
+			if (it.next().getId().equals(subject.getId()))
+				throw new IllegalArgumentException("Ya existe un nodo con id: " + subject.getId());
+		}
+
+		BinaryTreeNode<NodeInfo> node = new BinaryTreeNode<NodeInfo>(subject);
+		BinaryTreeNode<NodeInfo> father = getYearNode(idYear);
+		instance.tree.insertNode(node, father);
+		return node;
+	}
+
 	/**
 	 * 
 	 * @return primer ID de carrera disponible
@@ -181,10 +194,9 @@ public class Bookcase implements NodeInfo {
 			NodeInfo info = help.getInfo();
 
 			if (info instanceof Carreer && ((Carreer) info).getId().equals(id)) {
-				
-					salida = help;
-					esc = 1;
-				
+
+				salida = help;
+				esc = 1;
 
 			}
 			if (info instanceof Year) {
@@ -237,10 +249,9 @@ public class Bookcase implements NodeInfo {
 			NodeInfo info = help.getInfo();
 
 			if (info instanceof Carreer && ((Carreer) info).getId().equals(id)) {
-				
-					salida = help;
-					esc = 1;
-				
+
+				salida = help;
+				esc = 1;
 
 			}
 			if (info instanceof Year) {
