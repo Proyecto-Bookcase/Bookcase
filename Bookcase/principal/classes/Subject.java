@@ -16,4 +16,10 @@ public class Subject implements NodeInfo {
 		this.name = name;
 	}
 
+	@Override
+	public String getId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
