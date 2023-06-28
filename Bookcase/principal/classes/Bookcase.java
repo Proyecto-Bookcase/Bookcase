@@ -1,6 +1,7 @@
 package classes;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -21,6 +22,7 @@ public class Bookcase implements NodeInfo {
 	private ILinkedNotDirectedGraph graph;
 
 	private HashMap<String, String> carreersIds;
+	private HashMap<String, HashSet<String>> subjectsIds;
 
 	private String id;
 
@@ -32,6 +34,7 @@ public class Bookcase implements NodeInfo {
 		tree = new GeneralTree<NodeInfo>();
 		graph = new LinkedGraph();
 		carreersIds = new HashMap<String, String>();
+		subjectsIds = new HashMap<String, HashSet<String>>();
 		this.id = "8431354235413434";
 	}
 
@@ -124,16 +127,54 @@ public class Bookcase implements NodeInfo {
 		return node;
 	}
 
-	private BinaryTreeNode<NodeInfo> addSubjectToTree(String idYear, Subject subject) {
-		InDepthIterator<NodeInfo> it = instance.tree.inDepthIterator();
-		while (it.hasNext()) {
-			if (it.next().getId().equals(subject.getId()))
-				throw new IllegalArgumentException("Ya existe un nodo con id: " + subject.getId());
+	public Object[] newSubject(String yearId, String name) {
+		// Get the first available subject ID
+		String id = getFirstAvailableSubjectId(yearId);
+		// Get the set of subject IDs for the given year ID
+		HashSet<String> set = subjectsIds.get(yearId);
+		// If the set is null, create a new set and add it to the subjectsIds map
+		if (set == null) {
+			set = new HashSet<String>();
+			subjectsIds.put(yearId, set);
 		}
+		// If the ID is already present in the set, throw an exception
+		if (!set.add(id)) {
+			throw new IllegalArgumentException("Ya existe una asignatura con el id: " + yearId + id);
+		}
+		// Create a new Subject object with the concatenated year ID and subject ID
+		Subject subject = new Subject(yearId + id, name);
+		// Return an array containing the result of adding the subject to the tree and
+		// graph
+		return new Object[] { addSubjectToTree(yearId, subject), addSubjectToGraph(subject) };
+	}
 
+
+	/**
+	 * Agrega un tema al árbol.*
+	 * 
+	 * @param idYear  el identificador del año*
+	 * @param subject el tema a agregar*@return el nodo del árbol que se
+	 *                agregó*@throws IllegalArgumentException si ya existe un nodo
+	 *                con el mismo identificador
+	 */
+
+	private BinaryTreeNode<NodeInfo> addSubjectToTree(String idYear, Subject subject) {
+		// Obtener un iterador en profundidad del árbol
+		InDepthIterator<NodeInfo> it = instance.tree.inDepthIterator();
+		// Verificar si ya existe un nodo con el mismo identificador
+		while (it.hasNext()) {
+			NodeInfo currentNode = it.next();
+			if (currentNode.getId().equals(subject.getId())) {
+				throw new IllegalArgumentException("Ya existe un nodo con id: " + subject.getId());
+			}
+		}
+		// Crear un nuevo nodo con la información del tema
 		BinaryTreeNode<NodeInfo> node = new BinaryTreeNode<NodeInfo>(subject);
+		// Obtener el nodo padre correspondiente al año
 		BinaryTreeNode<NodeInfo> father = getYearNode(idYear);
+		// Insertar el nodo en el árbol
 		instance.tree.insertNode(node, father);
+		// Devolver el nodo agregado
 		return node;
 	}
 
@@ -158,6 +199,30 @@ public class Bookcase implements NodeInfo {
 		}
 
 		return String.format("%02d", i); // Formatear i como un número de dos dígitos y devolverlo
+	}
+
+	/**
+	 * Obtiene el primer ID de carrera disponible.
+	 * @param yearId ID del año*
+	 * @returnprimer ID de carrera disponible
+	 */
+
+	public String getFirstAvailableSubjectId(String yearId) {
+		int i = 0;
+		boolean stop = false;
+     // Obtiene los hijos del nodo del año
+		Iterator<NodeInfo> it = instance.tree.getSonsInfo(getYearNode(yearId)).iterator();
+     // Itera sobre los hijos hasta encontrar el primer ID de carrera disponible
+		while (!stop && it.hasNext()) {
+			Subject subject = (Subject) it.next();
+			if (Integer.parseInt(subject.getId().substring(3)) == i) {
+				i++;
+			} else {
+				stop = true;
+			}
+		}
+
+		return String.format("%02d", i);
 	}
 
 	public BinaryTreeNode<NodeInfo> getCarreerNode(String id) {
@@ -269,33 +334,26 @@ public class Bookcase implements NodeInfo {
 	public String getId() {
 		return id;
 	}
-	
-	public Vertex addSubjectToGraph(Subject subject)
-	{
+
+	private Vertex addSubjectToGraph(Subject subject) {
 		Vertex esc = new Vertex(subject);
-		
+
 		LinkedList<Vertex> vertext_list = graph.getVerticesList();
 		Iterator<Vertex> iter = vertext_list.iterator();
 		boolean find = false;
 		while (iter.hasNext() && !find) {
 			Vertex help = iter.next();
 			Object info = help.getInfo();
-			if(info instanceof Subject && ((Subject)info).getId().equals(subject.getId()))
-			{
+			if (info instanceof Subject && ((Subject) info).getId().equals(subject.getId())) {
 				find = true;
 			}
 		}
-		if(!find)
-		{
+		if (!find) {
 			graph.insertVertex(esc);
-		}
-		else 
-		{
+		} else {
 			esc = null;
 		}
-		
-		
-		
+
 		return esc;
 	}
 }
