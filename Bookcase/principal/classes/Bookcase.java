@@ -6,6 +6,7 @@ import java.util.LinkedList;
 
 import cu.edu.cujae.ceis.graph.LinkedGraph;
 import cu.edu.cujae.ceis.graph.interfaces.ILinkedNotDirectedGraph;
+import cu.edu.cujae.ceis.graph.vertex.Vertex;
 import cu.edu.cujae.ceis.tree.binary.BinaryTreeNode;
 import cu.edu.cujae.ceis.tree.general.GeneralTree;
 import cu.edu.cujae.ceis.tree.iterators.general.InBreadthIterator;
@@ -256,5 +257,34 @@ public class Bookcase implements NodeInfo {
 	// este metodo creo que hay que eliminarlo
 	public String getId() {
 		return id;
+	}
+	
+	public Vertex newsubject(Subject subject)
+	{
+		Vertex esc = new Vertex(subject);
+		
+		LinkedList<Vertex> vertext_list = graph.getVerticesList();
+		Iterator<Vertex> iter = vertext_list.iterator();
+		boolean find = false;
+		while (iter.hasNext() && !find) {
+			Vertex help = iter.next();
+			Object info = help.getInfo();
+			if(info instanceof Subject && ((Subject)info).getId().equals(subject.getId()))
+			{
+				find = true;
+			}
+		}
+		if(!find)
+		{
+			graph.insertVertex(esc);
+		}
+		else 
+		{
+			esc = null;
+		}
+		
+		
+		
+		return null;
 	}
 }
