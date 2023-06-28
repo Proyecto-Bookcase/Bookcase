@@ -111,11 +111,16 @@ public class Bookcase implements NodeInfo {
 	
 	//TODO método que devuelve el nodo dado el id
 	public BinaryTreeNode<NodeInfo> getCarreerNode(String id){
+		
 		return null;
 	}
-	
-	public void  sa() {
-		
+  
+	public BinaryTreeNode<NodeInfo> getYearNode(String id)
+	{
+		return null;
 	}
 
+public void  sa() {
+		
+	}
 }
