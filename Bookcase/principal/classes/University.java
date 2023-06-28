@@ -4,6 +4,11 @@ public class University implements NodeInfo{
 	
 	private String id;
 	private String name;
+
+	public University(String id, String name){
+		setId(id);
+		setName(name);
+	}
 	
 	public String getName() {
 		return name;
