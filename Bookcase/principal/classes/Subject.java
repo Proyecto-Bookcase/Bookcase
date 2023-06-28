@@ -1,12 +1,14 @@
 package classes;
 
-public class Subject extends NodeInfo {
+public class Subject implements NodeInfo {
+	
 	private String name;
+	private String id;
+	
 	public Subject(String name) {
 		this.name = name;
 	}
 	
-
 	public String getName() {
 		return name;
 	}
@@ -14,5 +16,13 @@ public class Subject extends NodeInfo {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	
+	public String getId() {
+		
+		return id;
+	}
+
+	
 
 }

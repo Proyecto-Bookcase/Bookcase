@@ -6,7 +6,6 @@ public class Exercices extends Material {
 
 	//I think this property is not necesary
 	private int total;
-	
 	private String tipe;
 
 	

@@ -1,16 +1,22 @@
 package classes;
 
-public class Carreer extends NodeInfo {
-	private String name;
-	//I think this property is not necessary
-	private int duration;
+import java.util.Iterator;
+
+import cu.edu.cujae.ceis.tree.binary.BinaryTreeNode;
+import cu.edu.cujae.ceis.tree.general.GeneralTree;
+
+public class Carreer implements NodeInfo {
 	
-	public Carreer() {
-		
-	}
-	public Carreer(String name, int duration) {
-		this.name = name;
-		this.duration = duration;
+	private String name;
+	private String id;
+	private int duration;
+	boolean[] years;
+	
+	protected Carreer(String id, String name, int duration) {
+		setId(id);
+		setName(name);
+		setDuration(duration);
+		years = new boolean[10];
 	}
 	
 	public String getName() {
@@ -25,4 +31,11 @@ public class Carreer extends NodeInfo {
 	public void setDuration(int duration) {
 		this.duration = duration;
 	}
+	public String getId() {
+		return id;
+	}
+	private void setId(String id) {
+		this.id = id;
+	}
+	
 }

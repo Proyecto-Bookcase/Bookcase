@@ -1,17 +1,23 @@
 package classes;
 
-public class Year extends NodeInfo {
-	private int number_year;
-	public Year(int number_year) {
-		this.number_year = number_year;
+public class Year implements NodeInfo {
+	
+	private int numberYear;
+	private String id;
+
+	protected Year(String id, int numberYear) {
+		this.numberYear = numberYear;
 	}
 	
-	public int getNumber_year() {
-		return number_year;
+	public int getNumberYear() {
+		return numberYear;
 	}
 
-	public void setNumber_year(int number_year) {
-		this.number_year = number_year;
+	public String getId() {
+		return id;
 	}
 
+	private void setId(String id) {
+		this.id = id;
+	}
 }
