@@ -143,7 +143,7 @@ public class Bookcase implements NodeInfo {
 		return String.format("%02d", i); // Formatear i como un número de dos dígitos y devolverlo
 	}
 
-	// TODO método que devuelve el nodo dado el id
+	// TODO método que devuelve el nodo dado elid
 	public BinaryTreeNode<NodeInfo> getCarreerNode(String id){
 		//aqui cambie para probar
 		BinaryTreeNode<NodeInfo> esc= null;

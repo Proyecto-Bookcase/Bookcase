@@ -17,6 +17,7 @@ public class Subject implements NodeInfo {
 		this.name = name;
 	}
 
+	
 	public String getId() {
 		
 		return id;
