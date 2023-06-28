@@ -6,7 +6,8 @@ public class Year implements NodeInfo {
 	private String id;
 
 	protected Year(String id, int numberYear) {
-		this.numberYear = numberYear;
+		setId(id);
+		setNumberYear(numberYear);
 	}
 	
 	public int getNumberYear() {
@@ -19,5 +20,9 @@ public class Year implements NodeInfo {
 
 	private void setId(String id) {
 		this.id = id;
+	}
+
+	private void setNumberYear(int numberYear) {
+		this.numberYear = numberYear;
 	}
 }
