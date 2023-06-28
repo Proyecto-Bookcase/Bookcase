@@ -1,9 +1,11 @@
 package classes;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 import cu.edu.cujae.ceis.graph.LinkedGraph;
 import cu.edu.cujae.ceis.graph.interfaces.ILinkedNotDirectedGraph;
@@ -41,7 +43,7 @@ public class Bookcase implements NodeInfo {
 	public static Bookcase getInstance() {
 		if (instance == null) {
 			instance = new Bookcase();
-			instance.tree.setRoot(new BinaryTreeNode<NodeInfo>(new University("","")));
+			instance.tree.setRoot(new BinaryTreeNode<NodeInfo>(new University("", "")));
 		}
 		return instance;
 	}
@@ -69,30 +71,45 @@ public class Bookcase implements NodeInfo {
 	}
 
 	/**
-	 * Método para crear una nueva carrera. Se agrega automáticamente al árbol
+	 * Crea una nueva carrera con el nombre y la duración especificada.
 	 * 
-	 * @param name     Nombre de la nueva carrera
-	 * @param duration Duración en años de la nueva carrera
-	 * @return nodo con la carrera creada
+	 * @param name     el nombre de la carrera
+	 * @param duration la duración de la carrera
+	 * @return un arreglo de objetos que contiene el nodo de la carrera y los nodos
+	 *         de los años
+	 * @throws IllegalArgumentException si la carrera ya existe
 	 */
-	public BinaryTreeNode<NodeInfo> newCarreer(String name, int duration) {
-		// Verificar si ya existe una carrera con el mismo nombre
+	public Object[] newCarreer(String name, int duration) {
+		// Verificar si la carrera ya existe en el mapa de ids de carreras
 		if (carreersIds.containsKey(name)) {
 			throw new IllegalArgumentException("Ya existe la Carrera: " + name);
 		}
-		// Obtener un nuevo ID para la carrera
+		// Obtener el primer id de carrera disponible
 		String id = getFirstAvailableCarreerId();
-		// Agregar la carrera al mapa de IDs
+		// Agregar la carrera al mapa de ids de carreras
 		carreersIds.put(name, id);
-		// Crear un nodo con el nuevo objeto Carreer
+		// Crear un nuevo nodo de árbol binario con la información de la carrera
 		BinaryTreeNode<NodeInfo> node = new BinaryTreeNode<NodeInfo>(new Carreer(id, name, duration));
 		// Insertar el nodo en el árbol
 		instance.tree.insertNode(node, (BinaryTreeNode<NodeInfo>) instance.tree.getRoot());
+		// Crear una lista de nodos de árbol para representar los años de duración de la
+		// carrera
+		ArrayList<BinaryTreeNode<NodeInfo>> years = new ArrayList<BinaryTreeNode<NodeInfo>>();
 		for (int i = 1; i <= duration; i++) {
-			newYear(id, i);
+			years.add(newYear(id, i));
 		}
-		// Devolver el nodo
-		return node;
+		// Devolver un arreglo de objetos que contiene el nodo de la carrera y la lista
+		// de años
+		return new Object[] { node, years };
+	}
+
+	ArrayList<BinaryTreeNode<NodeInfo>> years = new ArrayList<BinaryTreeNode<NodeInfo>>();for(
+	int i = 1;i<=duration;i++)
+	{
+		years.add(newYear(id, i));
+	}
+
+	return new Object[]{node,years};
 	}
 
 	/**
@@ -100,7 +117,7 @@ public class Bookcase implements NodeInfo {
 	 * 
 	 * @param idCarrera  el id de la carrera
 	 * @param numberYear el número de año a crear
-	 * @return el nodo de la carrera
+	 * @return el nodo de año creado
 	 * @throws IllegalArgumentException si no existe una carrera con el id
 	 *                                  proporcionado o si el año ya existe en la
 	 *                                  carrera
@@ -147,7 +164,6 @@ public class Bookcase implements NodeInfo {
 		// graph
 		return new Object[] { addSubjectToTree(yearId, subject), addSubjectToGraph(subject) };
 	}
-
 
 	/**
 	 * Agrega un tema al árbol.*
@@ -203,6 +219,7 @@ public class Bookcase implements NodeInfo {
 
 	/**
 	 * Obtiene el primer ID de carrera disponible.
+	 * 
 	 * @param yearId ID del año*
 	 * @returnprimer ID de carrera disponible
 	 */
@@ -210,9 +227,9 @@ public class Bookcase implements NodeInfo {
 	public String getFirstAvailableSubjectId(String yearId) {
 		int i = 0;
 		boolean stop = false;
-     // Obtiene los hijos del nodo del año
+		// Obtiene los hijos del nodo del año
 		Iterator<NodeInfo> it = instance.tree.getSonsInfo(getYearNode(yearId)).iterator();
-     // Itera sobre los hijos hasta encontrar el primer ID de carrera disponible
+		// Itera sobre los hijos hasta encontrar el primer ID de carrera disponible
 		while (!stop && it.hasNext()) {
 			Subject subject = (Subject) it.next();
 			if (Integer.parseInt(subject.getId().substring(3)) == i) {
@@ -228,8 +245,7 @@ public class Bookcase implements NodeInfo {
 	public BinaryTreeNode<NodeInfo> getCarreerNode(String id) {
 		// aqui cambie para probar
 		BinaryTreeNode<NodeInfo> esc = null;
-		LinkedList<BinaryTreeNode<NodeInfo>> carrer_list = (LinkedList<BinaryTreeNode<NodeInfo>>) tree
-				.getSons((BinaryTreeNode<NodeInfo>) tree.getRoot());
+		List<BinaryTreeNode<NodeInfo>> carrer_list = tree.getSons((BinaryTreeNode<NodeInfo>) tree.getRoot());
 		Iterator<BinaryTreeNode<NodeInfo>> iter = carrer_list.iterator();
 		boolean find = false;
 		while (iter.hasNext() && !find) {
