@@ -58,6 +58,8 @@ public class Carreer implements NodeInfo {
 		GeneralTree<NodeInfo> tree = Bookcase.getInstance().getTree();
 		tree.insertNode(node, node);
 		
+		tree.
+		
 //		instance.tree.insertNode(new BinaryTreeNode<NodeInfo>(carreer),
 //				(BinaryTreeNode<NodeInfo>) instance.tree.getRoot());
 		// Devolver la carrera creada
