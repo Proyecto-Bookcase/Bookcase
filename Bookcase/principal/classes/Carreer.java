@@ -1,10 +1,5 @@
 package classes;
 
-import java.util.Iterator;
-
-import cu.edu.cujae.ceis.tree.binary.BinaryTreeNode;
-import cu.edu.cujae.ceis.tree.general.GeneralTree;
-
 public class Carreer implements NodeInfo {
 	
 	private String name;
