@@ -20,6 +20,8 @@ public class Bookcase implements NodeInfo {
 	private ILinkedNotDirectedGraph graph;
 
 	private HashMap<String, String> carreersIds;
+	
+	private String id;
 
 	// Singleton
 	private static Bookcase instance;
@@ -29,6 +31,7 @@ public class Bookcase implements NodeInfo {
 		tree = new GeneralTree<NodeInfo>();
 		graph = new LinkedGraph();
 		carreersIds = new HashMap<String, String>();
+		this.id = "8431354235413434";
 	}
 
 	public static Bookcase getInstance() {
@@ -143,114 +146,45 @@ public class Bookcase implements NodeInfo {
 		return String.format("%02d", i); // Formatear i como un número de dos dígitos y devolverlo
 	}
 
-	// TODO método que devuelve el nodo dado elid
-	public BinaryTreeNode<NodeInfo> getCarreerNode(String id){
-		//aqui cambie para probar
-		BinaryTreeNode<NodeInfo> esc= null;
-		LinkedList<BinaryTreeNode<NodeInfo>> carrer_list = (LinkedList<BinaryTreeNode<NodeInfo>>)tree.
-				getSons((BinaryTreeNode<NodeInfo>)tree.getRoot());
+	public BinaryTreeNode<NodeInfo> getCarreerNode(String id) {
+		// aqui cambie para probar
+		BinaryTreeNode<NodeInfo> esc = null;
+		LinkedList<BinaryTreeNode<NodeInfo>> carrer_list = (LinkedList<BinaryTreeNode<NodeInfo>>) tree
+				.getSons((BinaryTreeNode<NodeInfo>) tree.getRoot());
 		Iterator<BinaryTreeNode<NodeInfo>> iter = carrer_list.iterator();
 		boolean find = false;
-		while (iter.hasNext() && !find) 
-		{
-			esc = (BinaryTreeNode<NodeInfo>)iter.next();
-			Carreer carrer_help = (Carreer)(esc.getInfo()); 
+		while (iter.hasNext() && !find) {
+			esc = iter.next();
+			Carreer carrer_help = (Carreer) (esc.getInfo());
 			if (carrer_help.getId().equals(id)) {
 				find = true;
-				
+
 			}
 		}
-		if(!find)
-		{
+		if (!find) {
 			esc = null;
 		}
 		return esc;
 	}
-	
-	public BinaryTreeNode<NodeInfo> getYearNode(String id)
-	{
-		BinaryTreeNode<NodeInfo> salida = new BinaryTreeNode<NodeInfo>();
-        salida = null;
-        int esc = 0;
 
-        InBreadthIterator iter = tree.inBreadthIterator();
-        
-        
-        while (esc ==0 && iter.hasNext()) {
-            BinaryTreeNode<NodeInfo> help = new BinaryTreeNode<NodeInfo>();
-            help = iter.nextNode();
-            NodeInfo info = help.getInfo();
-
-            if(info instanceof Carreer )
-            {
-                if (((Carreer)info).getId().equals(id) ) {
-                    salida = help;
-                    esc = 1;
-                }
-
-            }
-            if (info instanceof Year) {
-                esc = 2;
-            }
-        }
-        if (esc != 1) {
-			salida = null;
-		}
-
-
-        return salida;
-    }
-	public BinaryTreeNode<NodeInfo> getSubjectNode(String id)
-	{
-		BinaryTreeNode<NodeInfo> salida = new BinaryTreeNode<NodeInfo>();
-		salida = null;
-		boolean esc = false;
-		
-		InBreadthIterator iter = tree.inBreadthIterator();
-		
-		while (!esc && iter.hasNext()) {
-			BinaryTreeNode<NodeInfo> help = new BinaryTreeNode<NodeInfo>();
-			help = iter.nextNode();
-			NodeInfo info = help.getInfo();
-			
-			if(info instanceof Subject )
-			{
-				if (((Subject)info).getId().equals(id) ) {
-					salida = help;
-					esc = true;
-				}
-				
-			}
-			if (info instanceof Year) {
-				esc = true;
-			}
-		}
-		
-		
-		return salida;	
-	}
-	//esto no se si funciona xq no se que tipo es la raiz
-	//es otra vercion del getCarreerNode
-	public BinaryTreeNode<NodeInfo> fin_carrer(String id)
-	{
+	public BinaryTreeNode<NodeInfo> getYearNode(String id) {
 		BinaryTreeNode<NodeInfo> salida = new BinaryTreeNode<NodeInfo>();
 		salida = null;
 		int esc = 0;
-		
-		InBreadthIterator iter = tree.inBreadthIterator();
-		
-		while (esc ==0 && iter.hasNext()) {
+
+		InBreadthIterator<NodeInfo> iter = tree.inBreadthIterator();
+
+		while (esc == 0 && iter.hasNext()) {
 			BinaryTreeNode<NodeInfo> help = new BinaryTreeNode<NodeInfo>();
 			help = iter.nextNode();
 			NodeInfo info = help.getInfo();
-			
-			if(info instanceof Carreer )
-			{
-				if (((Carreer)info).getId().equals(id) ) {
+
+			if (info instanceof Carreer && ((Carreer) info).getId().equals(id)) {
+				
 					salida = help;
 					esc = 1;
-				}
 				
+
 			}
 			if (info instanceof Year) {
 				esc = 2;
@@ -259,15 +193,68 @@ public class Bookcase implements NodeInfo {
 		if (esc != 1) {
 			salida = null;
 		}
-		
-		
+
 		return salida;
 	}
 
+	public BinaryTreeNode<NodeInfo> getSubjectNode(String id) {
+		BinaryTreeNode<NodeInfo> salida = new BinaryTreeNode<NodeInfo>();
+		salida = null;
+		boolean esc = false;
 
-	//este metodo creo que hay que eliminarlo
+		InBreadthIterator<NodeInfo> iter = tree.inBreadthIterator();
+
+		while (!esc && iter.hasNext()) {
+			BinaryTreeNode<NodeInfo> help = new BinaryTreeNode<NodeInfo>();
+			help = iter.nextNode();
+			NodeInfo info = help.getInfo();
+
+			if (info instanceof Subject && ((Subject) info).getId().equals(id)) {
+				salida = help;
+				esc = true;
+			}
+			if (info instanceof Year) {
+				esc = true;
+			}
+		}
+
+		return salida;
+	}
+
+	// esto no se si funciona xq no se que tipo es la raiz
+	// es otra vercion del getCarreerNode
+	public BinaryTreeNode<NodeInfo> fin_carrer(String id) {
+		BinaryTreeNode<NodeInfo> salida = new BinaryTreeNode<NodeInfo>();
+		salida = null;
+		int esc = 0;
+
+		InBreadthIterator<NodeInfo> iter = tree.inBreadthIterator();
+
+		while (esc == 0 && iter.hasNext()) {
+			BinaryTreeNode<NodeInfo> help = new BinaryTreeNode<NodeInfo>();
+			help = iter.nextNode();
+			NodeInfo info = help.getInfo();
+
+			if (info instanceof Carreer && ((Carreer) info).getId().equals(id)) {
+				
+					salida = help;
+					esc = 1;
+				
+
+			}
+			if (info instanceof Year) {
+				esc = 2;
+			}
+		}
+		if (esc != 1) {
+			salida = null;
+		}
+
+		return salida;
+	}
+
+	// este metodo creo que hay que eliminarlo
 	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
+		return id;
 	}
 }
