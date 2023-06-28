@@ -3,6 +3,7 @@ package classes;
 public class Subject implements NodeInfo {
 	
 	private String name;
+	private String id;
 	
 	public Subject(String name) {
 		this.name = name;
@@ -16,10 +17,11 @@ public class Subject implements NodeInfo {
 		this.name = name;
 	}
 
-	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return id;
 	}
+
+	
 
 }
