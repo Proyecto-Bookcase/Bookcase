@@ -63,7 +63,7 @@ public class Bookcase implements NodeInfo {
 	 * Método para crear una nueva carrera. Se agrega automáticamente al árbol
 	 * 
 	 * @param name     Nombre de la nueva carrera
-	 * @param duration Duración en horas de la nueva carrera
+	 * @param duration Duración en años de la nueva carrera
 	 * @return nodo con la carrera creada
 	 */
 	public BinaryTreeNode<NodeInfo> newCarreer(String name, int duration) {
@@ -79,12 +79,45 @@ public class Bookcase implements NodeInfo {
 		BinaryTreeNode<NodeInfo> node = new BinaryTreeNode<NodeInfo>(new Carreer(id, name, duration));
 		// Insertar el nodo en el árbol
 		instance.tree.insertNode(node, (BinaryTreeNode<NodeInfo>) instance.tree.getRoot());
+		for (int i = 1; i <= duration; i++) {
+			newYear(id, i);
+		}
 		// Devolver el nodo
 		return node;
 	}
-	
-	
-	
+
+	/**
+	 * Crea un nuevo año para una carrera específica.
+	 * 
+	 * @param idCarrera  el id de la carrera
+	 * @param numberYear el número de año a crear
+	 * @return el nodo de la carrera
+	 * @throws IllegalArgumentException si no existe una carrera con el id
+	 *                                  proporcionado o si el año ya existe en la
+	 *                                  carrera
+	 */
+	public BinaryTreeNode<NodeInfo> newYear(String idCarrera, int numberYear) {
+		// Obtener el nodo de la carrera
+		BinaryTreeNode<NodeInfo> node = getCarreerNode(idCarrera);
+		// Verificar si el nodo de la carrera existe
+		if (node == null) {
+			throw new IllegalArgumentException("No existe una carrera con este id: " + idCarrera);
+		}
+		// Verificar si el año ya existe en la carrera
+		for (NodeInfo year : instance.tree.getSonsInfo(node)) {
+			if (Integer.parseInt(year.getId().substring(2)) == numberYear) {
+				throw new IllegalArgumentException(
+						"Ya existe el año " + numberYear + " en la Carrera " + ((Carreer) node.getInfo()).getName());
+			}
+		}
+		// Crear el nuevo año
+		Year year = new Year(idCarrera + numberYear, numberYear);
+		BinaryTreeNode<NodeInfo> yearNode = new BinaryTreeNode<NodeInfo>(year);
+		// Insertar el nuevo año en la carrera
+		instance.tree.insertNode(yearNode, node);
+		return node;
+	}
+
 	/**
 	 * 
 	 * @return primer ID de carrera disponible
@@ -104,23 +137,23 @@ public class Bookcase implements NodeInfo {
 				stop = true; // Detener el bucle
 			}
 		}
-		
+
 		return String.format("%02d", i); // Formatear i como un número de dos dígitos y devolverlo
 	}
-	
-	
-	//TODO método que devuelve el nodo dado el id
-	public BinaryTreeNode<NodeInfo> getCarreerNode(String id){
-		
-		return null;
-	}
-  
-	public BinaryTreeNode<NodeInfo> getYearNode(String id)
-	{
+
+	// TODO método que devuelve el nodo dado el id
+	public BinaryTreeNode<NodeInfo> getCarreerNode(String id) {
+
 		return null;
 	}
 
-public void  sa() {
-		
+	public BinaryTreeNode<NodeInfo> getYearNode(String id) {
+		return null;
+	}
+
+	@Override
+	public String getId() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
