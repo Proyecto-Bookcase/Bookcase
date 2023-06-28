@@ -41,7 +41,7 @@ public class Bookcase implements NodeInfo {
 	public static Bookcase getInstance() {
 		if (instance == null) {
 			instance = new Bookcase();
-			instance.tree.setRoot(new BinaryTreeNode<NodeInfo>(new University()));
+			instance.tree.setRoot(new BinaryTreeNode<NodeInfo>(new University("","")));
 		}
 		return instance;
 	}
