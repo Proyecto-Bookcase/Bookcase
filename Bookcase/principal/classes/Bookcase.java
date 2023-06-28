@@ -259,7 +259,7 @@ public class Bookcase implements NodeInfo {
 		return id;
 	}
 	
-	public Vertex newsubject(Subject subject)
+	public Vertex addSubjectToGraph(Subject subject)
 	{
 		Vertex esc = new Vertex(subject);
 		
@@ -285,6 +285,6 @@ public class Bookcase implements NodeInfo {
 		
 		
 		
-		return null;
+		return esc;
 	}
 }
