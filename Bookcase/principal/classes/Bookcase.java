@@ -75,8 +75,9 @@ public class Bookcase implements NodeInfo {
 	 * 
 	 * @param name     el nombre de la carrera
 	 * @param duration la duración de la carrera
-	 * @return un arreglo de objetos que contiene el nodo de la carrera y los nodos
-	 *         de los años
+	 * @return un arreglo de objetos que contiene el nodo de la carrera
+	 *         <code> BinaryTreeNode </code> y los nodos
+	 *         de los años <code> ArrayList </code>
 	 * @throws IllegalArgumentException si la carrera ya existe
 	 */
 	public Object[] newCarreer(String name, int duration) {
