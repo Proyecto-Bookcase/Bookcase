@@ -52,20 +52,6 @@ public class Bookcase implements NodeInfo {
 		return tree;
 	}
 
-	// test funtion para que naylet vea
-	public Carreer getFirstCarreer() {
-		InDepthIterator<NodeInfo> iter = tree.inDepthIterator();
-
-		Carreer carrear_esc = null;
-		while (carrear_esc == null && iter.hasNext()) {
-			NodeInfo aux = iter.next();
-			if (aux instanceof Carreer) {
-				carrear_esc = (Carreer) aux;
-			}
-		}
-		return carrear_esc;
-	}
-
 	public ILinkedNotDirectedGraph getGraph() {
 		return graph;
 	}
@@ -102,15 +88,6 @@ public class Bookcase implements NodeInfo {
 		// Devolver un arreglo de objetos que contiene el nodo de la carrera y la lista
 		// de años
 		return new Object[] { node, years };
-	}
-
-	ArrayList<BinaryTreeNode<NodeInfo>> years = new ArrayList<BinaryTreeNode<NodeInfo>>();for(
-	int i = 1;i<=duration;i++)
-	{
-		years.add(newYear(id, i));
-	}
-
-	return new Object[]{node,years};
 	}
 
 	/**
