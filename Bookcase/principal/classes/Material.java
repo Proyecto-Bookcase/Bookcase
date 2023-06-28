@@ -4,32 +4,33 @@ import java.util.Date;
 
 abstract class Material {
 	
-	private String tittle;
-	private String author;
-	private Date dateCreation;
+	
+	protected String tittle;
+	protected String author;
+	protected Date dateCreation;
 	
 	
-	public Material(String tittle, String author, Date date_creation) {
+	protected Material(String tittle, String author, Date date_creation) {
 		this.tittle = tittle;
 		this.author = author;
 		this.dateCreation = date_creation;
 	}
-	public String getTittle() {
+	protected String getTittle() {
 		return tittle;
 	}
-	public void setTittle(String tittle) {
+	protected void setTittle(String tittle) {
 		this.tittle = tittle;
 	}
-	public String getAuthor() {
+	protected String getAuthor() {
 		return author;
 	}
-	public void setAuthor(String author) {
+	protected void setAuthor(String author) {
 		this.author = author;
 	}
-	public Date getDateCreation() {
+	protected Date getDateCreation() {
 		return dateCreation;
 	}
-	public void setDateCreation(Date date_creation) {
+	protected void setDateCreation(Date date_creation) {
 		this.dateCreation = date_creation;
 	}
 	
