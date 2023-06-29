@@ -11,20 +11,10 @@ import cu.edu.cujae.ceis.graph.edge.WeightedEdge;
 import cu.edu.cujae.ceis.graph.vertex.Vertex;
 
 /**
- * <h2> WriteLinkedGrah </h2>
+ * <h2>WriteLinkedGrah</h2>
  * <p>
  * La clase WriteLinkedGraph se encarga de escribir un grafo enlazado en
  * archivos. El
- * constructor <code>WriteLinkedGraph(File filePath, File indexPath, LinkedGraph
- * graph)</code> toma como parámetros la ruta del archivo donde se escribirá el
- * grafo, la ruta del archivo de índice y el grafo enlazado a escribir.</p>
- * 
- * <p>Los métodos <code>getFilePath()</code> ,
- * <code>setFilePath(File filePath)</code> , <code>getIndexFile()</code> ,
- * <code>setIndexFile(File indexFile)</code> , <code>getGraph()</code> y
- * </code>setGraph(LinkedGraph graph)</code> son
- * métodos de acceso y modificación para las propiedades de la clase.
- * </p>
  * 
  * <p>
  * El método <code>writeGraph()</code> es el encargado de escribir el grafo en
@@ -32,7 +22,7 @@ import cu.edu.cujae.ceis.graph.vertex.Vertex;
  * </p>
  * 
  * <p>
- * <b>Archivo de Índice</b>:
+ * <b>•Archivo de Índice</b>:
  * int: cantidad de vértices,
  * Luego una lista secuencial de la info de los vértices que están formados cada
  * uno por
@@ -43,7 +33,7 @@ import cu.edu.cujae.ceis.graph.vertex.Vertex;
  * </p>
  * 
  * <p>
- * <b>Archivo de Relaciones</b>:
+ * <b>•Archivo de Relaciones</b>:
  * int: cantidad de relaciones (aristas),
  * luego tiene las relaciones en forma secuencial donde cada una está conformada
  * por:
