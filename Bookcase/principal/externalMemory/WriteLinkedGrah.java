@@ -11,29 +11,45 @@ import cu.edu.cujae.ceis.graph.edge.WeightedEdge;
 import cu.edu.cujae.ceis.graph.vertex.Vertex;
 
 /**
- * La clase WriteLinkedGraph se encarga de escribir un grafo enlazado en archivos. El
- * constructor`WriteLinkedGraph(File filePath, File indexPath, LinkedGraph
- * graph)` toma como parámetros la ruta del archivo donde se escribirá el
- * grafo, la ruta del archivo de índice y el grafo enlazado a escribir.
+ * <h2> WriteLinkedGrah </h2>
+ * <p>
+ * La clase WriteLinkedGraph se encarga de escribir un grafo enlazado en
+ * archivos. El
+ * constructor <code>WriteLinkedGraph(File filePath, File indexPath, LinkedGraph
+ * graph)</code> toma como parámetros la ruta del archivo donde se escribirá el
+ * grafo, la ruta del archivo de índice y el grafo enlazado a escribir.</p>
  * 
- * Los métodos `getFilePath()` , `setFilePath(File filePath)` , `getIndexFile()` ,
- * `setIndexFile(File indexFile)` , `getGraph()` y `setGraph(LinkedGraph graph)` son
+ * <p>Los métodos <code>getFilePath()</code> ,
+ * <code>setFilePath(File filePath)</code> , <code>getIndexFile()</code> ,
+ * <code>setIndexFile(File indexFile)</code> , <code>getGraph()</code> y
+ * </code>setGraph(LinkedGraph graph)</code> son
  * métodos de acceso y modificación para las propiedades de la clase.
+ * </p>
  * 
- * El método `writeGraph()` es el encargado de escribir el grafo en
+ * <p>
+ * El método <code>writeGraph()</code> es el encargado de escribir el grafo en
  * los archivos, los cuales quedan estructurados de la siguiente manera:
+ * </p>
  * 
- * <b>Archivo de Índice</b>: 
- * int: cantidad de vértices, 
- * Luego una lista secuencial de la info de los vértices que están formados cada uno por 
- * int: tamaño de Bytes de la info, seguido de los Bytes de la info 
- * (El índice de cada info va a ser el orden en que aparezcan en el fichero empezando desde el
- * 0 hasta la cantidad de vertices -1). 
+ * <p>
+ * <b>Archivo de Índice</b>:
+ * int: cantidad de vértices,
+ * Luego una lista secuencial de la info de los vértices que están formados cada
+ * uno por
+ * int: tamaño de Bytes de la info, seguido de los Bytes de la info
+ * (El índice de cada info va a ser el orden en que aparezcan en el fichero
+ * empezando desde el
+ * 0 hasta la cantidad de vertices -1).
+ * </p>
  * 
- * <b>Archivo de Relaciones<b>: 
- * int: cantidad de relaciones (aristas), 
- * luego tiene las relaciones en forma secuencial donde cada una está conformada por: 
- * int: nodo origen, int: nodo destino, int: tamaño de Bytes del Peso, bytes del peso de la arista.
+ * <p>
+ * <b>Archivo de Relaciones</b>:
+ * int: cantidad de relaciones (aristas),
+ * luego tiene las relaciones en forma secuencial donde cada una está conformada
+ * por:
+ * int: nodo origen, int: nodo destino, int: tamaño de Bytes del Peso, bytes del
+ * peso de la arista.
+ * </p>
  */
 public class WriteLinkedGrah {
 
