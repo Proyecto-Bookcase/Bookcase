@@ -104,7 +104,8 @@ public class ReadGeneralTree<E extends Serializable> {
      * Devuelve el nodo que contiene la información especificada.
      * 
      * @param info la información a buscar en el árbol
-     * @return el nodo que contiene la información especificada, o null si no se
+     * @return el nodo que contiene la información especificada, o <code>null</code>
+     *         si no se
      *         encuentra
      */
     private BinaryTreeNode<E> getNode(E info) {
