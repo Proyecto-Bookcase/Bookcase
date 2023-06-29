@@ -252,13 +252,13 @@ public class Bookcase implements NodeInfo {
 			help = iter.nextNode();
 			NodeInfo info = help.getInfo();
 
-			if (info instanceof Carreer && ((Carreer) info).getId().equals(id)) {
+			if (info instanceof Year && ((Year) info).getId().equals(id)) {
 
 				salida = help;
 				esc = 1;
 
 			}
-			if (info instanceof Year) {
+			if (info instanceof Subject) {
 				esc = 2;
 			}
 		}
@@ -324,10 +324,6 @@ public class Bookcase implements NodeInfo {
 		return salida;
 	}
 
-	// este metodo creo que hay que eliminarlo
-	public String getId() {
-		return id;
-	}
 
 	private Vertex addSubjectToGraph(Subject subject) {
 		Vertex esc = new Vertex(subject);
@@ -349,5 +345,9 @@ public class Bookcase implements NodeInfo {
 		}
 
 		return esc;
+	}
+	// este metodo creo que hay que eliminarlo
+	public String getId() {
+		return id;
 	}
 }
