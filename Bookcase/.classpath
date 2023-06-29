@@ -7,7 +7,7 @@
 	</classpathentry>
 	<classpathentry kind="src" path="principal"/>
 	<classpathentry kind="src" path="test_and_run"/>
-	<classpathentry kind="src" path="Visual"/>
+	<classpathentry kind="src" path="visual"/>
 	<classpathentry kind="lib" path="libs/tree-package-v3.0.jar" sourcepath="libs/src-Trees"/>
 	<classpathentry kind="lib" path="libs/LinkedGraph_1.0.jar" sourcepath="libs/src-Graph"/>
 	<classpathentry kind="lib" path="libs/junit-4.13.2.jar"/>
