@@ -10,6 +10,31 @@ import cu.edu.cujae.ceis.graph.edge.Edge;
 import cu.edu.cujae.ceis.graph.edge.WeightedEdge;
 import cu.edu.cujae.ceis.graph.vertex.Vertex;
 
+/**
+ * La clase WriteLinkedGraph se encarga de escribir un grafo enlazado en archivos. El
+ * constructor`WriteLinkedGraph(File filePath, File indexPath, LinkedGraph
+ * graph)` toma como parámetros la ruta del archivo donde se escribirá el
+ * grafo, la ruta del archivo de índice y el grafo enlazado a escribir.
+ * 
+ * Los métodos `getFilePath()` , `setFilePath(File filePath)` , `getIndexFile()` ,
+ * `setIndexFile(File indexFile)` , `getGraph()` y `setGraph(LinkedGraph graph)` son
+ * métodos de acceso y modificación para las propiedades de la clase.
+ * 
+ * El método `writeGraph()` es el encargado de escribir el grafo en
+ * los archivos, los cuales quedan estructurados de la siguiente manera:
+ * 
+ * <b>Archivo de Índice</b>: 
+ * int: cantidad de vértices, 
+ * Luego una lista secuencial de la info de los vértices que están formados cada uno por 
+ * int: tamaño de Bytes de la info, seguido de los Bytes de la info 
+ * (El índice de cada info va a ser el orden en que aparezcan en el fichero empezando desde el
+ * 0 hasta la cantidad de vertices -1). 
+ * 
+ * <b>Archivo de Relaciones<b>: 
+ * int: cantidad de relaciones (aristas), 
+ * luego tiene las relaciones en forma secuencial donde cada una está conformada por: 
+ * int: nodo origen, int: nodo destino, int: tamaño de Bytes del Peso, bytes del peso de la arista.
+ */
 public class WriteLinkedGrah {
 
     private File filePath;
