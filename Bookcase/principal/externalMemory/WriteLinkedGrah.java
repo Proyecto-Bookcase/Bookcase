@@ -44,12 +44,12 @@ import cu.edu.cujae.ceis.graph.vertex.Vertex;
 public class WriteLinkedGrah {
 
     private File filePath;
-    private File indexFile;
+    private File indexPath;
     private LinkedGraph graph;
 
     public WriteLinkedGrah(File filePath, File indexPath, LinkedGraph graph) {
         this.filePath = filePath;
-        this.indexFile = indexPath;
+        this.indexPath = indexPath;
         this.graph = graph;
 
     }
@@ -65,13 +65,13 @@ public class WriteLinkedGrah {
     }
 
     // Este método devuelve el archivo de índice
-    public File getIndexFile() {
-        return indexFile;
+    public File getIndexPath() {
+        return indexPath;
     }
 
     // Este método establece el archivo de índice
-    public void setIndexFile(File indexFile) {
-        this.indexFile = indexFile;
+    public void setIndexPath(File indexFile) {
+        this.indexPath = indexFile;
     }
 
     // Este método devuelve el grafo
@@ -89,7 +89,7 @@ public class WriteLinkedGrah {
         List<Vertex> list = graph.getVerticesList();
         int listSize = list.size();
         try (RandomAccessFile file = new RandomAccessFile(filePath, "w");
-                RandomAccessFile index = new RandomAccessFile(indexFile, "w")) {
+                RandomAccessFile index = new RandomAccessFile(indexPath, "w")) {
             // Escribir el tamaño de la lista en el archivo de índice
             index.writeInt(listSize);
             // Escribir un valor inicial en el archivo principal
