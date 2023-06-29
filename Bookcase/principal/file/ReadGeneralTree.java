@@ -2,13 +2,14 @@ package file;
 
 import java.io.File;
 import java.io.RandomAccessFile;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import cu.edu.cujae.ceis.tree.binary.BinaryTreeNode;
 import cu.edu.cujae.ceis.tree.general.GeneralTree;
 import cu.edu.cujae.ceis.tree.iterators.general.InBreadthIterator;
 
-public class ReadGeneralTree<E> {
+public class ReadGeneralTree<E extends Serializable> {
 
     private GeneralTree<E> tree;
     private File filePath;
