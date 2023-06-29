@@ -1,6 +1,6 @@
 package externalMemory;
 
-public class InfoReaded<E> {
+class InfoReaded<E> {
     private E info;
     private int rightSon;
     private boolean isLeaf;
