@@ -15,7 +15,7 @@ import cu.edu.cujae.ceis.tree.general.GeneralTree;
 import cu.edu.cujae.ceis.tree.iterators.general.InBreadthIterator;
 import cu.edu.cujae.ceis.tree.iterators.general.InDepthIterator;
 
-public class Bookcase implements NodeInfo {
+public class Bookcase {
 
 	// General Tree
 	private GeneralTree<NodeInfo> tree;
@@ -26,8 +26,6 @@ public class Bookcase implements NodeInfo {
 	private HashMap<String, String> carreersIds;
 	private HashMap<String, HashSet<String>> subjectsIds;
 
-	private String id;
-
 	// Singleton
 	private static Bookcase instance;
 
@@ -37,7 +35,6 @@ public class Bookcase implements NodeInfo {
 		graph = new LinkedGraph();
 		carreersIds = new HashMap<String, String>();
 		subjectsIds = new HashMap<String, HashSet<String>>();
-		this.id = "8431354235413434";
 	}
 
 	public static Bookcase getInstance() {
@@ -345,9 +342,5 @@ public class Bookcase implements NodeInfo {
 		}
 
 		return esc;
-	}
-	// este metodo creo que hay que eliminarlo
-	public String getId() {
-		return id;
 	}
 }

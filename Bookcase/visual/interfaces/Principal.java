@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 
 public class Principal extends JFrame {
 
+	private static final long serialVersionUID = -7077272486481467310L;
 	private JPanel contentPane;
 	private JLabel lblNewLabel_2;
 	private JLabel lblNewLabel_5;
