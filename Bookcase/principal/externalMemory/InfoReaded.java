@@ -1,4 +1,4 @@
-package file;
+package externalMemory;
 
 public class InfoReaded<E> {
     private E info;

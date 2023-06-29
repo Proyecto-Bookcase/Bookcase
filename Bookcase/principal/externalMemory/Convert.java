@@ -1,4 +1,4 @@
-package file;
+package externalMemory;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
