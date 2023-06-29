@@ -13,6 +13,7 @@ import javax.swing.JPasswordField;
 
 public class Login extends JFrame {
 
+	private static final long serialVersionUID = -8967207235087266361L;
 	private JPanel contentPane;
 	private JLabel lblLibrera;
 	private JLabel lblNewLabel;
