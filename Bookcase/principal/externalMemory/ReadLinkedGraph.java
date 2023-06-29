@@ -1,4 +1,4 @@
-package file;
+package externalMemory;
 
 public class ReadLinkedGraph {
     
