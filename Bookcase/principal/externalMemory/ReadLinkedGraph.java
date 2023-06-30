@@ -62,8 +62,7 @@ public class ReadLinkedGraph {
         try (RandomAccessFile file = new RandomAccessFile(filePath, "r")) {
             // Insertar los vértices en el grafo
             for (Object object : index) {
-                Vertex vertex = new Vertex(object);
-                graph.insertVertex(vertex);
+                graph.insertVertex(object);
             }
             // Leer el número de aristas
             int edgeCount = file.readInt();
