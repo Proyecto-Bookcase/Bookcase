@@ -1,23 +1,26 @@
 package test;
 
 import java.io.File;
+import java.util.Iterator;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import cu.edu.cujae.ceis.tree.binary.BinaryTreeNode;
 import cu.edu.cujae.ceis.tree.general.GeneralTree;
+import cu.edu.cujae.ceis.tree.iterators.general.InDepthIterator;
 import externalMemory.ReadGeneralTree;
 import externalMemory.WriteGeneralTree;
 
-class WriteAndReadGeneralTreeTest {
+class WiteAndReadGeneralTreeTest {
 
     private GeneralTree<String> tree;
     private File filePath;
 
     @BeforeEach
     void setUp() throws Exception {
-        filePath = new File("Tree.DATA");
+        filePath = new File("Tree2.DATA");
         tree = new GeneralTree<>();
 
         BinaryTreeNode<String> a = new BinaryTreeNode<String>("A");
@@ -46,14 +49,23 @@ class WriteAndReadGeneralTreeTest {
         tree.insertNode(i, d);
         tree.insertNode(j, d);
         tree.insertNode(k, d);
+        InDepthIterator<String> iter = tree.inDepthIterator();
+        while (iter.hasNext()) {
+            System.out.print(iter.next()+" ");
+        }
+        System.out.println();
     }
 
     @Test
     void test() {
         WriteGeneralTree<String> writer = new WriteGeneralTree<>(filePath, tree);
-        writer.writeTree();
+        writer.writeTreeNew();
         ReadGeneralTree<String> reader = new ReadGeneralTree<>(filePath);
+        GeneralTree<String> new_tree= reader.generateTree();
+        InDepthIterator<String> iterator = new_tree.inDepthIterator();
+        while (iterator.hasNext()) {
+            System.out.print(iterator.next()+" ");
+        }
     }
 
 }
-

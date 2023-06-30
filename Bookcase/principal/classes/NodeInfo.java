@@ -1,5 +1,7 @@
 package classes;
 
-public interface NodeInfo {
+import java.io.Serializable;
+
+public interface NodeInfo extends Serializable{
 	String getId();
 }
