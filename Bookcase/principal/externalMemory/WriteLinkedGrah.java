@@ -10,15 +10,46 @@ import cu.edu.cujae.ceis.graph.edge.Edge;
 import cu.edu.cujae.ceis.graph.edge.WeightedEdge;
 import cu.edu.cujae.ceis.graph.vertex.Vertex;
 
+/**
+ * <h2>WriteLinkedGrah</h2>
+ * <p>
+ * La clase WriteLinkedGraph se encarga de escribir un grafo enlazado en
+ * archivos. El
+ * 
+ * <p>
+ * El método <code>writeGraph()</code> es el encargado de escribir el grafo en
+ * los archivos, los cuales quedan estructurados de la siguiente manera:
+ * </p>
+ * 
+ * <p>
+ * <b>•Archivo de Índice</b>:
+ * int: cantidad de vértices,
+ * Luego una lista secuencial de la info de los vértices que están formados cada
+ * uno por
+ * int: tamaño de Bytes de la info, seguido de los Bytes de la info
+ * (El índice de cada info va a ser el orden en que aparezcan en el fichero
+ * empezando desde el
+ * 0 hasta la cantidad de vertices -1).
+ * </p>
+ * 
+ * <p>
+ * <b>•Archivo de Relaciones</b>:
+ * int: cantidad de relaciones (aristas),
+ * luego tiene las relaciones en forma secuencial donde cada una está conformada
+ * por:
+ * int: nodo origen, int: nodo destino, int: tamaño de Bytes del Peso, bytes del
+ * peso de la arista.
+ * </p>
+ */
 public class WriteLinkedGrah {
 
     private File filePath;
-    private File indexFile;
+    private File indexPath;
     private LinkedGraph graph;
 
     public WriteLinkedGrah(File filePath, File indexPath, LinkedGraph graph) {
         this.filePath = filePath;
-        this.indexFile = indexPath;
+        this.indexPath = indexPath;
         this.graph = graph;
 
     }
@@ -34,13 +65,13 @@ public class WriteLinkedGrah {
     }
 
     // Este método devuelve el archivo de índice
-    public File getIndexFile() {
-        return indexFile;
+    public File getIndexPath() {
+        return indexPath;
     }
 
     // Este método establece el archivo de índice
-    public void setIndexFile(File indexFile) {
-        this.indexFile = indexFile;
+    public void setIndexPath(File indexFile) {
+        this.indexPath = indexFile;
     }
 
     // Este método devuelve el grafo
@@ -58,7 +89,7 @@ public class WriteLinkedGrah {
         List<Vertex> list = graph.getVerticesList();
         int listSize = list.size();
         try (RandomAccessFile file = new RandomAccessFile(filePath, "w");
-                RandomAccessFile index = new RandomAccessFile(indexFile, "w")) {
+                RandomAccessFile index = new RandomAccessFile(indexPath, "w")) {
             // Escribir el tamaño de la lista en el archivo de índice
             index.writeInt(listSize);
             // Escribir un valor inicial en el archivo principal

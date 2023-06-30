@@ -9,6 +9,35 @@ import cu.edu.cujae.ceis.tree.binary.BinaryTreeNode;
 import cu.edu.cujae.ceis.tree.general.GeneralTree;
 import cu.edu.cujae.ceis.tree.iterators.general.InBreadthIterator;
 
+/**
+ * 
+ * <h2>ReadGeneralTree</h2>
+ * 
+ * <p>
+ * Lee la información dentro de un fichero donde haya un árbol guardado en preorden.
+ * Convierte esa información en un árbol.
+ * </p>
+ * 
+ * <h2>
+ * El fichero debe tener la siguiente estructura:
+ * </h2>
+ * 
+ * <p>
+ * <h3>Encabezado</h3>
+ * <p>int: cantidad de nodos</p>
+ * <p/>
+ * 
+ * <p>
+ * 
+ * <h3>Lista secuencial</h3>
+ * <p>int: tamaño de info</p>
+ * <p>bytes: bytes de info</p>
+ * <p>int: Primer Hermano o Hijo derecho
+ * <p>boolean: ¿Es hoja?<p>
+ * <p/>
+ * 
+ * <p>
+ */
 public class ReadGeneralTree<E extends Serializable> {
 
     private GeneralTree<E> tree;
