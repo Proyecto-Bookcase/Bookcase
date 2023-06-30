@@ -2,6 +2,7 @@ package externalMemory;
 
 import java.io.File;
 import java.io.RandomAccessFile;
+import java.io.Serializable;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -88,8 +89,8 @@ public class WriteLinkedGrah {
         // Obtener la lista de vértices del grafo
         List<Vertex> list = graph.getVerticesList();
         int listSize = list.size();
-        try (RandomAccessFile file = new RandomAccessFile(filePath, "w");
-                RandomAccessFile index = new RandomAccessFile(indexPath, "w")) {
+        try (RandomAccessFile file = new RandomAccessFile(filePath, "rw");
+                RandomAccessFile index = new RandomAccessFile(indexPath, "rw")) {
             // Escribir el tamaño de la lista en el archivo de índice
             index.writeInt(listSize);
             // Escribir un valor inicial en el archivo principal
@@ -98,8 +99,8 @@ public class WriteLinkedGrah {
             // Iterar sobre la lista de vértices
             ListIterator<Vertex> it = list.listIterator();
             while (it.hasNext()) {
-                Vertex vertex = it.next();
                 int i = it.nextIndex();
+                Vertex vertex = it.next();
                 // Convertir la información del vértice a bytes
                 byte[] infoBytes = Convert.toBytes(vertex.getInfo());
                 // Escribir la longitud de los bytes en el archivo de índice
@@ -112,9 +113,12 @@ public class WriteLinkedGrah {
                     // Obtener el índice del vértice de destino en la lista
                     int destination = list.indexOf(edge.getVertex());
                     // Obtener el peso de la arista
-                    Object weight = new Object();
-                    if (edge instanceof WeightedEdge)
-                        weight = ((WeightedEdge) edge).getWeight();
+                    Object weight = 1;
+                    if (edge instanceof WeightedEdge) {
+                        Object w = ((WeightedEdge) edge).getWeight();
+                        if(w instanceof Serializable)
+                            weight = (Serializable)w;
+                    }
                     // Convertir el peso a bytes
                     byte[] weightBytes = Convert.toBytes(weight);
                     // Escribir el índice del vértice de origen en el archivo principal
