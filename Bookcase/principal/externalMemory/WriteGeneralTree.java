@@ -1,108 +1,124 @@
 package externalMemory;
 
-
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.RandomAccess;
+import java.util.List;
 
-
-import classes.NodeInfo;
 import cu.edu.cujae.ceis.tree.binary.BinaryTreeNode;
 import cu.edu.cujae.ceis.tree.general.GeneralTree;
 import cu.edu.cujae.ceis.tree.iterators.general.InDepthIterator;
 
+/**
+ * La clase WriteGeneralTree es responsable de escribir un objeto GeneralTree en
+ * un archivo.
+ */
 public class WriteGeneralTree<E extends Serializable> {
+
 	private GeneralTree<E> tree;
-    private File filePath;
+	private File filePath;
 
-    public WriteGeneralTree(File filePath, GeneralTree<E> tree) {
-        this.setFilePath(filePath);
-        this.setTree(tree);
-        
-    }
+	public WriteGeneralTree(File filePath, GeneralTree<E> tree) {
+		this.setFilePath(filePath);
+		this.setTree(tree);
 
+	}
+
+	/**
+	 * La función devuelve la ruta del archivo.
+	 * 
+	 * @return El método devuelve un objeto File, que representa la ruta a un
+	 *         archivo.
+	 */
 	public File getFilePath() {
 		return filePath;
 	}
 
+	/**
+	 * La función establece la ruta del archivo para un archivo dado.
+	 * 
+	 * @param filePath El parámetro filePath es de tipo File, que representa una
+	 *                 ruta de archivo en el
+	 *                 sistema de archivos.
+	 */
 	public void setFilePath(File filePath) {
 		this.filePath = filePath;
 	}
 
+	/**
+	 * La función devuelve un objeto GeneralTree.
+	 * 
+	 * @return El método devuelve un objeto GeneralTree.
+	 */
 	public GeneralTree<E> getTree() {
 		return tree;
 	}
 
+	/**
+	 * La función establece el valor de la variable "árbol" en el objeto GeneralTree
+	 * proporcionado.
+	 * 
+	 * @param tree El parámetro "árbol" es de tipo GeneralTree<E>, que es una clase
+	 *             genérica que
+	 *             representa una estructura de datos de árbol general. Se utiliza
+	 *             para establecer el valor de la
+	 *             variable de instancia "árbol" en la clase actual.
+	 */
 	public void setTree(GeneralTree<E> tree) {
 		this.tree = tree;
 	}
-	public void WriteDataTree() throws IOException
-	{
-		RandomAccessFile file_open = new RandomAccessFile(filePath, "rw");
-		int cantidad_node = countNodes((BinaryTreeNode<E>)tree.getRoot());
-		file_open.writeInt(cantidad_node);
-		
-		
-		InDepthIterator<E> iter = tree.inDepthIterator();
-		
-		while (iter.hasNext()) {
-			BinaryTreeNode<E> node = iter.nextNode();
-			byte[] byteNode = Convert.toBytes(node.getInfo());
-			int tamNode = byteNode.length;
-			file_open.writeInt(tamNode);
-			file_open.write(byteNode);
-			BinaryTreeNode<E> rigth_node = node.getRight();
-			int pos_rigth_bro  = -1;
-			if( rigth_node != null)
-			{
-				pos_rigth_bro  = foundPosInTree(rigth_node);
+
+	/**
+	 * La función writeTree() escribe el árbol binario en un archivo, incluido el
+	 * número de nodos, el
+	 * valor de cada nodo, el tamaño de cada nodo, la posición del primer hijo y si
+	 * el nodo es hoja
+	 * izquierdo.
+	 */
+	public void writeTree() {
+		try (RandomAccessFile file = new RandomAccessFile(filePath, "rw")) {
+			// Obtener la cantidad de nodos en el árbol
+			int cantNodes = tree.totalNodes();
+			// Escribir la cantidad de nodos en el archivo
+			file.writeInt(cantNodes);
+			// Obtener un iterador en profundidad del árbol
+			InDepthIterator<E> it = tree.inDepthIterator();
+			// Crear una lista para almacenar los nodos en orden de recorrido en profundidad
+			List<BinaryTreeNode<E>> list = new ArrayList<>();
+			// Agregar cada nodo del iterador a la lista
+			while (it.hasNext()) {
+				list.add(it.nextNode());
 			}
-			file_open.writeInt(pos_rigth_bro);
-			if(node.getLeft()==null)
-			{
-				file_open.writeInt(1); // si es verdadero
+			// Reinicializar el iterador
+			it = tree.inDepthIterator();
+			// Escribir cada nodo en el archivo
+			while (it.hasNext()) {
+				// Obtener el siguiente nodo del iterador
+				BinaryTreeNode<E> node = it.nextNode();
+				// Convertir el valor del nodo a bytes
+				byte[] byteNode = Convert.toBytes(node.getInfo());
+				// Obtener el tamaño en bytes del nodo
+				int tamNode = byteNode.length;
+				// Escribir el tamaño del nodo en el archivo
+				file.writeInt(tamNode);
+				// Escribir el valor del nodo en el archivo
+				file.write(byteNode);
+				// Obtener el nodo derecho del nodo actual
+				BinaryTreeNode<E> rightNode = node.getRight();
+				// Obtener la posición del primer hijo
+				int posFirstChild = -1;
+				if (rightNode != null) {
+					posFirstChild = list.indexOf(rightNode);
+				}
+				// Escribir la posición del primer hijo en el archivo
+				file.writeInt(posFirstChild);
+				// Escribir un booleano indicando si el nodo es hoja
+				file.writeBoolean(node.getLeft() == null);
 			}
-			else
-			{
-				file_open.writeInt(0);
-			}
-			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		file_open.close();
-		
 	}
-	private int countNodes(BinaryTreeNode root) {
-        if (root == null) {
-            return 0;
-        }   
-        return 1 + countNodes(root.getLeft()) + countNodes(root.getRight());
-    }
-	//este metodo hay que mejorarlo
-	private int foundPosInTree(BinaryTreeNode<E> node)
-	{
-		int pos = -1;
-		InDepthIterator<E> iterator = tree.inDepthIterator();
-		boolean find = false;
-		while (!find && iterator.hasNext()) {
-			BinaryTreeNode<E> nodeAux = iterator.nextNode();
-			
-			if(nodeAux.getInfo().equals(node.getInfo()))
-			{
-				pos++;
-				find = true;
-			}
-			else {
-				pos++;
-			}
-		}
-		
-		return pos;
-	}
-	
-	
 
 }
