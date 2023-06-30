@@ -5,7 +5,6 @@ import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
 import cu.edu.cujae.ceis.graph.LinkedGraph;
-import cu.edu.cujae.ceis.graph.vertex.Vertex;
 
 /**
  * The ReadLinkedGraph class is used to read a graph from a file and store it in
