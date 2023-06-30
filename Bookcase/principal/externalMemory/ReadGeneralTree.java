@@ -101,6 +101,11 @@ public class ReadGeneralTree<E extends Serializable> {
                 node = new BinaryTreeNode<E>(info);
             }
 
+            // Inserta el nodo en el árbol si hay un nodo padre
+            if (padre != null) {
+                tree.insertNode(node, padre);
+            }
+
             int rightSon = infoReaded.getRightSon();
 
             // Establece el hijo derecho del nodo actual
@@ -118,11 +123,6 @@ public class ReadGeneralTree<E extends Serializable> {
             // Establece la raíz del árbol si está vacío
             if (tree.isEmpty()) {
                 tree.setRoot(node);
-            }
-
-            // Inserta el nodo en el árbol si hay un nodo padre
-            if (padre != null) {
-                tree.insertNode(node, padre);
             }
         }
 
