@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.junit.platform.engine.support.hierarchical.Node;
 
 import cu.edu.cujae.ceis.graph.LinkedGraph;
 import cu.edu.cujae.ceis.graph.interfaces.ILinkedNotDirectedGraph;
 import cu.edu.cujae.ceis.graph.vertex.Vertex;
+import cu.edu.cujae.ceis.tree.binary.BinaryTree;
 import cu.edu.cujae.ceis.tree.binary.BinaryTreeNode;
 import cu.edu.cujae.ceis.tree.general.GeneralTree;
 import cu.edu.cujae.ceis.tree.iterators.general.InBreadthIterator;
@@ -349,7 +353,7 @@ public class Bookcase {
 
 
 	//este metodo devuekve las asignaturas que usan mayor cantidad de materiales
-	public List<Subject> subjectsMoreMaterialUse()
+	public List<Subject> subjectsMostMaterialUse()
 	{
 		// aqui se crea la lista de salida 
 		List<Subject> escLits = new LinkedList<Subject>();
@@ -387,9 +391,113 @@ public class Bookcase {
 
 			cont++;
 		}
-
-
-
 		return escLits;
 	} 
+
+	//metodo para encontrara los materiales mas utilizados
+	public List<Material> mostUseMaterial()
+	{
+		// aqui se crea la lista de salida 
+		List<Material> escList = new LinkedList<Material>();
+
+
+		//se obtiene la lisat de vertices del ggrafo 
+		LinkedList<Vertex> vertList = graph.getVerticesList();
+		//se inicializa  el iterador
+		Iterator<Vertex> iter = vertList.iterator();
+
+		//se inicializa la cantidad de asignaturas que usan un material determinadoS
+		int max = 0;
+		// se lleva un contador para ver el indice del vertice recorrido
+		int cont = 0;
+		while (iter.hasNext()) {
+			Vertex vert = iter.next();
+			Object help = vert.getInfo();
+			//se comprueba si la info del vertice es instancia de subject
+			if (help instanceof Material ) {
+				//se obtiene el grado del vertice
+				int grade = graph.degreeND(cont);
+				//se revisa si es mayor que la cantidad de materiales 
+				if (grade > max) {
+					//si es mayor se reinicia la lista se añade el subject
+					//y se actualiza la cantidad de materiales
+					max = grade;
+					escList.clear();
+					escList.add((Material)help);
+				}
+				else if(grade== max)
+				{
+					// si es igual se añade el subject a la lista
+					escList.add((Material)help);
+				}
+
+			}
+
+			cont++;
+		}
+		return escList;
+	}
+	
+	
+	
+	//para una carrera los materiales mas usados
+	//asumo que materiales mas usados se tomara como los materiales que mas asignaturas los usan
+	public List<Material> mostUsedMaterialOfCarrer(Carreer carreer)
+	{/*
+		
+		BinaryTreeNode<NodeInfo> nodeCarreer = fin_carrer(carreer.getName());
+
+		List<BinaryTreeNode<NodeInfo>> yearsList = new LinkedList<BinaryTreeNode<NodeInfo>>();
+
+		yearsList = tree.getSons(nodeCarreer);
+
+		List<BinaryTreeNode<NodeInfo>> subjectsList = new LinkedList<BinaryTreeNode<NodeInfo>>();
+		
+		Iterator<BinaryTreeNode<NodeInfo>> iter = yearsList.iterator();
+		while (iter.hasNext()) {
+			BinaryTreeNode<NodeInfo> yearIter = iter.next();
+			subjectsList.addAll(tree.getSons(yearIter));
+			
+		}
+		*/
+		List<Material> escList = new LinkedList<Material>();
+
+		LinkedList<Vertex> vertList =  graph.getVerticesList();
+		Iterator<Vertex> iter = vertList.iterator(); 		
+
+		while(iter.hasNext())
+		{
+			
+		}
+		
+		return escList;
+	}
+	
+	 
+	//metodo que tiene que hacer altro
+	public Auxiliary findInfoSubjcetId()
+	{
+		return null;
+	}
+
+
+	private BinaryTreeNode<NodeInfo> findNodeCarrer(Carreer carreer)
+	{
+		BinaryTreeNode<NodeInfo> escNode = new BinaryTreeNode<NodeInfo>();
+		
+		InBreadthIterator<NodeInfo> iter = tree.inBreadthIterator();
+
+		int found = 0;
+		while(found ==0 && iter.hasNext())
+		{
+			BinaryTreeNode<NodeInfo> nodeIter = iter.nextNode();
+			NodeInfo nodeInfo = nodeIter.getInfo();
+			if (nodeInfo instanceof Carreer && ((Carreer)nodeInfo).getId().equals(carreer.getId())) {
+				escNode = nodeIter;
+			}
+
+		}
+
+		return escNode;
+	}
 }
