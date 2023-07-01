@@ -343,4 +343,42 @@ public class Bookcase {
 
 		return esc;
 	}
+
+
+
+
+
+	//create the new method for 
+	public List<Subject> subjectsMoreMaterialUse(Subject subject)
+	{
+		List<Subject> escLits = new LinkedList<Subject>();
+		LinkedList<Vertex> vertList = graph.getVerticesList();
+		Iterator<Vertex> iter = vertList.iterator();
+
+		int max = 0;
+		int cont = 0;
+		while (iter.hasNext()) {
+			Vertex vert = iter.next();
+			Object help = vert.getInfo();
+			if (help instanceof Subject ) {
+				int grade = graph.degreeND(cont);
+				if (grade > max) {
+					max = grade;
+					escLits.clear();
+					escLits.add((Subject)help);
+				}
+				else if(grade== max)
+				{
+					escLits.add((Subject)help);
+				}
+
+			}
+
+			cont++;
+		}
+
+
+
+		return escLits;
+	} 
 }
