@@ -81,6 +81,7 @@ public class Formulario extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setUndecorated(true);
+		setLocationRelativeTo(null);
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -503,7 +504,7 @@ public class Formulario extends JFrame {
 	private JButton getBtnCerrar() {
 		if (btnCerrar == null) {
 			btnCerrar = new JButton("");
-			btnCerrar.setBounds(500, 11, 75, 23);
+			btnCerrar.setBounds(538, 11, 75, 23);
 			btnCerrar.setIcon(new ImageIcon(Formulario.class.getResource("/icons/icons8-x-24.png")));
 			
 			btnCerrar.setOpaque(false);
