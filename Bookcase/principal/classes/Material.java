@@ -2,7 +2,7 @@ package classes;
 
 import java.util.Date;
 
-abstract class Material {
+public abstract class Material {
 	
 	
 	protected String tittle;
