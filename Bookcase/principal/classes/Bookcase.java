@@ -348,27 +348,38 @@ public class Bookcase {
 
 
 
-	//create the new method for 
-	public List<Subject> subjectsMoreMaterialUse(Subject subject)
+	//este metodo devuekve las asignaturas que usan mayor cantidad de materiales
+	public List<Subject> subjectsMoreMaterialUse()
 	{
+		// aqui se crea la lista de salida 
 		List<Subject> escLits = new LinkedList<Subject>();
+		//se obtiene la lisat de vertices del ggrafo 
 		LinkedList<Vertex> vertList = graph.getVerticesList();
+		//se inicializa  el iterador
 		Iterator<Vertex> iter = vertList.iterator();
 
+		//se inicializa la cantidad de materiales
 		int max = 0;
+		// se lleva un contador para ver el indice del vertice recorrido
 		int cont = 0;
 		while (iter.hasNext()) {
 			Vertex vert = iter.next();
 			Object help = vert.getInfo();
+			//se comprueba si la info del vertice es instancia de subject
 			if (help instanceof Subject ) {
+				//se obtiene el grado del vertice
 				int grade = graph.degreeND(cont);
+				//se revisa si es mayor que la cantidad de materiales 
 				if (grade > max) {
+					//si es mayor se reinicia la lista se añade el subject
+					//y se actualiza la cantidad de materiales
 					max = grade;
 					escLits.clear();
 					escLits.add((Subject)help);
 				}
 				else if(grade== max)
 				{
+					// si es igual se añade el subject a la lista
 					escLits.add((Subject)help);
 				}
 
