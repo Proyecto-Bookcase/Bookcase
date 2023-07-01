@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 
 import org.junit.platform.engine.support.hierarchical.Node;
 
@@ -63,8 +64,8 @@ public class Bookcase {
 	 * @param name     el nombre de la carrera
 	 * @param duration la duración de la carrera
 	 * @return un arreglo de objetos que contiene el nodo de la carrera
-	 *         <code> BinaryTreeNode </code> y los nodos
-	 *         de los años <code> ArrayList </code>
+	 *         <code> BinaryTreeNode </code> y los nodos de los años
+	 *         <code> ArrayList </code>
 	 * @throws IllegalArgumentException si la carrera ya existe
 	 */
 	public Object[] newCarreer(String name, int duration) {
@@ -325,7 +326,6 @@ public class Bookcase {
 		return salida;
 	}
 
-
 	private Vertex addSubjectToGraph(Subject subject) {
 		Vertex esc = new Vertex(subject);
 
@@ -348,43 +348,36 @@ public class Bookcase {
 		return esc;
 	}
 
-
-
-
-
-	//este metodo devuekve las asignaturas que usan mayor cantidad de materiales
-	public List<Subject> subjectsMostMaterialUse()
-	{
-		// aqui se crea la lista de salida 
+	// este metodo devuekve las asignaturas que usan mayor cantidad de materiales
+	public List<Subject> subjectsMostMaterialUse() {
+		// aqui se crea la lista de salida
 		List<Subject> escLits = new LinkedList<Subject>();
-		//se obtiene la lisat de vertices del ggrafo 
+		// se obtiene la lisat de vertices del ggrafo
 		LinkedList<Vertex> vertList = graph.getVerticesList();
-		//se inicializa  el iterador
+		// se inicializa el iterador
 		Iterator<Vertex> iter = vertList.iterator();
 
-		//se inicializa la cantidad de materiales
+		// se inicializa la cantidad de materiales
 		int max = 0;
 		// se lleva un contador para ver el indice del vertice recorrido
 		int cont = 0;
 		while (iter.hasNext()) {
 			Vertex vert = iter.next();
 			Object help = vert.getInfo();
-			//se comprueba si la info del vertice es instancia de subject
-			if (help instanceof Subject ) {
-				//se obtiene el grado del vertice
+			// se comprueba si la info del vertice es instancia de subject
+			if (help instanceof Subject) {
+				// se obtiene el grado del vertice
 				int grade = graph.degreeND(cont);
-				//se revisa si es mayor que la cantidad de materiales 
+				// se revisa si es mayor que la cantidad de materiales
 				if (grade > max) {
-					//si es mayor se reinicia la lista se añade el subject
-					//y se actualiza la cantidad de materiales
+					// si es mayor se reinicia la lista se añade el subject
+					// y se actualiza la cantidad de materiales
 					max = grade;
 					escLits.clear();
-					escLits.add((Subject)help);
-				}
-				else if(grade== max)
-				{
+					escLits.add((Subject) help);
+				} else if (grade == max) {
 					// si es igual se añade el subject a la lista
-					escLits.add((Subject)help);
+					escLits.add((Subject) help);
 				}
 
 			}
@@ -392,43 +385,39 @@ public class Bookcase {
 			cont++;
 		}
 		return escLits;
-	} 
+	}
 
-	//metodo para encontrara los materiales mas utilizados
-	public List<Material> mostUseMaterial()
-	{
-		// aqui se crea la lista de salida 
+	// metodo para encontrara los materiales mas utilizados
+	public List<Material> mostUseMaterial() {
+		// aqui se crea la lista de salida
 		List<Material> escList = new LinkedList<Material>();
 
-
-		//se obtiene la lisat de vertices del ggrafo 
+		// se obtiene la lisat de vertices del ggrafo
 		LinkedList<Vertex> vertList = graph.getVerticesList();
-		//se inicializa  el iterador
+		// se inicializa el iterador
 		Iterator<Vertex> iter = vertList.iterator();
 
-		//se inicializa la cantidad de asignaturas que usan un material determinadoS
+		// se inicializa la cantidad de asignaturas que usan un material determinadoS
 		int max = 0;
 		// se lleva un contador para ver el indice del vertice recorrido
 		int cont = 0;
 		while (iter.hasNext()) {
 			Vertex vert = iter.next();
 			Object help = vert.getInfo();
-			//se comprueba si la info del vertice es instancia de subject
-			if (help instanceof Material ) {
-				//se obtiene el grado del vertice
+			// se comprueba si la info del vertice es instancia de subject
+			if (help instanceof Material) {
+				// se obtiene el grado del vertice
 				int grade = graph.degreeND(cont);
-				//se revisa si es mayor que la cantidad de materiales 
+				// se revisa si es mayor que la cantidad de materiales
 				if (grade > max) {
-					//si es mayor se reinicia la lista se añade el subject
-					//y se actualiza la cantidad de materiales
+					// si es mayor se reinicia la lista se añade el subject
+					// y se actualiza la cantidad de materiales
 					max = grade;
 					escList.clear();
-					escList.add((Material)help);
-				}
-				else if(grade== max)
-				{
+					escList.add((Material) help);
+				} else if (grade == max) {
 					// si es igual se añade el subject a la lista
-					escList.add((Material)help);
+					escList.add((Material) help);
 				}
 
 			}
@@ -437,62 +426,82 @@ public class Bookcase {
 		}
 		return escList;
 	}
-	
-	
-	
-	//para una carrera los materiales mas usados
-	//asumo que materiales mas usados se tomara como los materiales que mas asignaturas los usan
-	public List<Material> mostUsedMaterialOfCarrer(Carreer carreer)
-	{/*
-		
-		BinaryTreeNode<NodeInfo> nodeCarreer = fin_carrer(carreer.getName());
 
-		List<BinaryTreeNode<NodeInfo>> yearsList = new LinkedList<BinaryTreeNode<NodeInfo>>();
-
-		yearsList = tree.getSons(nodeCarreer);
-
-		List<BinaryTreeNode<NodeInfo>> subjectsList = new LinkedList<BinaryTreeNode<NodeInfo>>();
-		
-		Iterator<BinaryTreeNode<NodeInfo>> iter = yearsList.iterator();
-		while (iter.hasNext()) {
-			BinaryTreeNode<NodeInfo> yearIter = iter.next();
-			subjectsList.addAll(tree.getSons(yearIter));
-			
-		}
-		*/
+	// para una carrera los materiales mas usados
+	// asumo que materiales mas usados se tomara como los materiales que mas
+	// asignaturas los usan
+	public List<Material> mostUsedMaterialOfCarrer(
+			Carreer carreer) {/*
+								 * 
+								 * BinaryTreeNode<NodeInfo> nodeCarreer = fin_carrer(carreer.getName());
+								 * 
+								 * List<BinaryTreeNode<NodeInfo>> yearsList = new
+								 * LinkedList<BinaryTreeNode<NodeInfo>>();
+								 * 
+								 * yearsList = tree.getSons(nodeCarreer);
+								 * 
+								 * List<BinaryTreeNode<NodeInfo>> subjectsList = new
+								 * LinkedList<BinaryTreeNode<NodeInfo>>();
+								 * 
+								 * Iterator<BinaryTreeNode<NodeInfo>> iter = yearsList.iterator(); while
+								 * (iter.hasNext()) { BinaryTreeNode<NodeInfo> yearIter = iter.next();
+								 * subjectsList.addAll(tree.getSons(yearIter));
+								 * 
+								 * }
+								 */
 		List<Material> escList = new LinkedList<Material>();
 
-		LinkedList<Vertex> vertList =  graph.getVerticesList();
-		Iterator<Vertex> iter = vertList.iterator(); 		
+		LinkedList<Vertex> vertList = graph.getVerticesList();
+		Iterator<Vertex> iter = vertList.iterator();
 
-		while(iter.hasNext())
-		{
-			
+		while (iter.hasNext()) {
+
 		}
-		
+
 		return escList;
 	}
-	
-	 
-	//metodo que tiene que hacer altro
-	public Auxiliary findInfoSubjcetId()
-	{
-		return null;
+
+	// metodo que tiene que hacer altro
+	public Auxiliary findInfoSubjcetId(String id) {
+		Auxiliary aux = new Auxiliary();
+		String carreer = id.substring(2);
+		int year = Integer.parseInt(id.substring(2, 3));
+
+		List<BinaryTreeNode<NodeInfo>> list = instance.tree.getSons((BinaryTreeNode<NodeInfo>) instance.tree.getRoot());
+		ListIterator<BinaryTreeNode<NodeInfo>> it = list.listIterator();
+		boolean found = false;
+		while (found && it.hasNext()) {
+			BinaryTreeNode<NodeInfo> node = it.next();
+			if (node.getInfo().getId().equals(carreer)) {
+				aux.setCarrerNode(node);
+				List<BinaryTreeNode<NodeInfo>> years = instance.tree.getSons(node);
+				ListIterator<BinaryTreeNode<NodeInfo>> iter = list.listIterator();
+				while (found && iter.hasNext()) {
+					node = it.next();
+					int number = ((Year) node.getInfo()).getNumberYear();
+					if (number == year) {
+						aux.setYearNode(node);
+						found = true;
+					}
+				}
+
+			}
+
+		}
+
+		return aux;
 	}
 
-
-	private BinaryTreeNode<NodeInfo> findNodeCarrer(Carreer carreer)
-	{
+	private BinaryTreeNode<NodeInfo> findNodeCarrer(Carreer carreer) {
 		BinaryTreeNode<NodeInfo> escNode = new BinaryTreeNode<NodeInfo>();
-		
+
 		InBreadthIterator<NodeInfo> iter = tree.inBreadthIterator();
 
 		int found = 0;
-		while(found ==0 && iter.hasNext())
-		{
+		while (found == 0 && iter.hasNext()) {
 			BinaryTreeNode<NodeInfo> nodeIter = iter.nextNode();
 			NodeInfo nodeInfo = nodeIter.getInfo();
-			if (nodeInfo instanceof Carreer && ((Carreer)nodeInfo).getId().equals(carreer.getId())) {
+			if (nodeInfo instanceof Carreer && ((Carreer) nodeInfo).getId().equals(carreer.getId())) {
 				escNode = nodeIter;
 			}
 
