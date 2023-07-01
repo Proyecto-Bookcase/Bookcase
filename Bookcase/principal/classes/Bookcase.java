@@ -10,7 +10,9 @@ import java.util.List;
 
 import org.junit.platform.engine.support.hierarchical.Node;
 
+import AuxiliaryClass.Auxiliary;
 import cu.edu.cujae.ceis.graph.LinkedGraph;
+import cu.edu.cujae.ceis.graph.edge.Edge;
 import cu.edu.cujae.ceis.graph.interfaces.ILinkedNotDirectedGraph;
 import cu.edu.cujae.ceis.graph.vertex.Vertex;
 import cu.edu.cujae.ceis.tree.binary.BinaryTree;
@@ -352,6 +354,10 @@ public class Bookcase {
 
 
 
+
+
+
+	
 	//este metodo devuekve las asignaturas que usan mayor cantidad de materiales
 	public List<Subject> subjectsMostMaterialUse()
 	{
@@ -443,31 +449,42 @@ public class Bookcase {
 	//para una carrera los materiales mas usados
 	//asumo que materiales mas usados se tomara como los materiales que mas asignaturas los usan
 	public List<Material> mostUsedMaterialOfCarrer(Carreer carreer)
-	{/*
-		
-		BinaryTreeNode<NodeInfo> nodeCarreer = fin_carrer(carreer.getName());
-
-		List<BinaryTreeNode<NodeInfo>> yearsList = new LinkedList<BinaryTreeNode<NodeInfo>>();
-
-		yearsList = tree.getSons(nodeCarreer);
-
-		List<BinaryTreeNode<NodeInfo>> subjectsList = new LinkedList<BinaryTreeNode<NodeInfo>>();
-		
-		Iterator<BinaryTreeNode<NodeInfo>> iter = yearsList.iterator();
-		while (iter.hasNext()) {
-			BinaryTreeNode<NodeInfo> yearIter = iter.next();
-			subjectsList.addAll(tree.getSons(yearIter));
-			
-		}
-		*/
+	{
 		List<Material> escList = new LinkedList<Material>();
 
 		LinkedList<Vertex> vertList =  graph.getVerticesList();
 		Iterator<Vertex> iter = vertList.iterator(); 		
-
+		int max = 0;
 		while(iter.hasNext())
 		{
-			
+			Vertex vert = iter.next();
+			NodeInfo  vertInfo = (NodeInfo)vert.getInfo();
+			if (vertInfo instanceof Material) {
+				int useMaterial =0;
+
+				LinkedList<Edge> subjectsList = vert.getEdgeList();
+				Iterator<Edge> iterEdge = subjectsList.iterator();
+
+				while (iterEdge.hasNext()) {
+					Edge edge = iterEdge.next();
+					
+					Auxiliary auxiliary = findInfoSubjcetId(((Subject)edge.getVertex().getInfo()).getId());
+					if(auxiliary.getCarrerNode().getInfo().getId().equals(carreer.getId()))
+					{
+						useMaterial++;
+					}
+				}
+				if (max < useMaterial) {
+					escList.clear();
+					escList.add((Material)vert.getInfo());
+					max = useMaterial;
+
+				}
+				else if(max == useMaterial)
+				{
+					escList.add((Material)vert.getInfo());
+				}
+			}
 		}
 		
 		return escList;
@@ -475,12 +492,13 @@ public class Bookcase {
 	
 	 
 	//metodo que tiene que hacer altro
-	public Auxiliary findInfoSubjcetId()
+	public Auxiliary findInfoSubjcetId(String id)
 	{
 		return null;
 	}
 
 
+	//este metodo no creo que haga falta xq hice otro anteriormente igual
 	private BinaryTreeNode<NodeInfo> findNodeCarrer(Carreer carreer)
 	{
 		BinaryTreeNode<NodeInfo> escNode = new BinaryTreeNode<NodeInfo>();
@@ -500,4 +518,7 @@ public class Bookcase {
 
 		return escNode;
 	}
+
+	
+
 }

@@ -1,17 +1,18 @@
-package classes;
+package AuxiliaryClass;
 
+import classes.NodeInfo;
 import cu.edu.cujae.ceis.tree.binary.BinaryTree;
 import cu.edu.cujae.ceis.tree.binary.BinaryTreeNode;
 
 public class Auxiliary {
-    private BinaryTree<NodeInfo> carrerNode;
+    private BinaryTreeNode<NodeInfo> carrerNode;
     private BinaryTreeNode<NodeInfo> yearNode;
     private BinaryTreeNode<NodeInfo> subjectNode;
-    
-    public BinaryTree<NodeInfo> getCarrerNode() {
+
+    public BinaryTreeNode<NodeInfo> getCarrerNode() {
         return carrerNode;
     }
-    public void setCarrerNode(BinaryTree<NodeInfo> carrerNode) {
+    public void setCarrerNode(BinaryTreeNode<NodeInfo> carrerNode) {
         this.carrerNode = carrerNode;
     }
     public BinaryTreeNode<NodeInfo> getYearNode() {
