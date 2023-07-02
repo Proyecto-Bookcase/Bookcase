@@ -651,6 +651,7 @@ public class Formulario extends JFrame {
 	private JRadioButton getRdbtnCarrera() {
 		if (rdbtnCarrera == null) {
 			rdbtnCarrera = new JRadioButton("Carrera");
+			rdbtnCarrera.setSelected(true);
 			rdbtnCarrera.setBackground(new Color(255, 255, 255));
 			rdbtnCarrera.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -795,7 +796,8 @@ public class Formulario extends JFrame {
 			spinnerCArrera.setVisible(false);
 			spinnerCArrera.setModel(new SpinnerNumberModel(2, 2, 6, 1));
 			spinnerCArrera.setBounds(101, 113, 273, 23);
-//			spinner.getT
+//			spinnerCArrera.
+			
 		}
 		return spinnerCArrera;
 	}
