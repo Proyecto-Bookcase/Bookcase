@@ -12,5 +12,6 @@
 	<classpathentry kind="lib" path="libs/LinkedGraph_1.0.jar" sourcepath="libs/src-Graph"/>
 	<classpathentry kind="lib" path="libs/junit-4.13.2.jar"/>
 	<classpathentry kind="lib" path="libs/junit-platform-console-standalone-1.10.0-M1.jar"/>
+	<classpathentry kind="lib" path="libs/jcalendar-1.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
