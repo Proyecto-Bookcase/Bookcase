@@ -81,7 +81,7 @@ public class Formulario extends JFrame {
 	 * Create the frame.
 	 */
 	public Formulario() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(Formulario.class.getResource("/icons/icons8-book-64.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Formulario.class.getResource("/icons/icons8-book-64 (2).png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 603, 527);
 		contentPane = new JPanel();
@@ -580,7 +580,7 @@ public class Formulario extends JFrame {
 			btnCerrar.setFocusPainted(false);
 			btnCerrar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					System.exit(0);
+					dispose();
 				}
 			});
 		}
