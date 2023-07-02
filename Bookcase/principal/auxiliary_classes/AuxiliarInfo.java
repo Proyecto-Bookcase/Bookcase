@@ -1,4 +1,4 @@
-package AuxiliaryClass;
+package auxiliary_classes;
 
 import classes.Carreer;
 import classes.Material;
