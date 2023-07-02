@@ -1,15 +1,18 @@
 package classes;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Random;
 
-import AuxiliaryClass.AuxiliarInfo;
-import AuxiliaryClass.Auxiliary;
+import auxiliary_classes.AuxiliarInfo;
+import auxiliary_classes.Auxiliary;
 import cu.edu.cujae.ceis.graph.LinkedGraph;
 import cu.edu.cujae.ceis.graph.edge.Edge;
 import cu.edu.cujae.ceis.graph.interfaces.ILinkedNotDirectedGraph;
@@ -18,6 +21,7 @@ import cu.edu.cujae.ceis.tree.binary.BinaryTreeNode;
 import cu.edu.cujae.ceis.tree.general.GeneralTree;
 import cu.edu.cujae.ceis.tree.iterators.general.InBreadthIterator;
 import cu.edu.cujae.ceis.tree.iterators.general.InDepthIterator;
+import interfaces.NodeInfo;
 
 public class Bookcase {
 
@@ -35,16 +39,16 @@ public class Bookcase {
 
 	// Constructors
 	private Bookcase() {
-		tree = new GeneralTree<NodeInfo>();
+		tree = new GeneralTree<>();
 		graph = new LinkedGraph();
-		carreersIds = new HashMap<String, String>();
-		subjectsIds = new HashMap<String, HashSet<String>>();
+		carreersIds = new HashMap<>();
+		subjectsIds = new HashMap<>();
 	}
 
 	public static Bookcase getInstance() {
 		if (instance == null) {
 			instance = new Bookcase();
-			instance.tree.setRoot(new BinaryTreeNode<NodeInfo>(new University("", "")));
+			instance.tree.setRoot(new BinaryTreeNode<>(new University("", "")));
 		}
 		return instance;
 	}
@@ -77,12 +81,12 @@ public class Bookcase {
 		// Agregar la carrera al mapa de ids de carreras
 		carreersIds.put(name, id);
 		// Crear un nuevo nodo de árbol binario con la información de la carrera
-		BinaryTreeNode<NodeInfo> node = new BinaryTreeNode<NodeInfo>(new Carreer(id, name, duration));
+		BinaryTreeNode<NodeInfo> node = new BinaryTreeNode<>(new Carreer(id, name, duration));
 		// Insertar el nodo en el árbol
 		instance.tree.insertNode(node, (BinaryTreeNode<NodeInfo>) instance.tree.getRoot());
 		// Crear una lista de nodos de árbol para representar los años de duración de la
 		// carrera
-		ArrayList<BinaryTreeNode<NodeInfo>> years = new ArrayList<BinaryTreeNode<NodeInfo>>();
+		ArrayList<BinaryTreeNode<NodeInfo>> years = new ArrayList<>();
 		for (int i = 1; i <= duration; i++) {
 			years.add(newYear(id, i));
 		}
@@ -117,7 +121,7 @@ public class Bookcase {
 		}
 		// Crear el nuevo año
 		Year year = new Year(idCarrera + numberYear, numberYear);
-		BinaryTreeNode<NodeInfo> yearNode = new BinaryTreeNode<NodeInfo>(year);
+		BinaryTreeNode<NodeInfo> yearNode = new BinaryTreeNode<>(year);
 		// Insertar el nuevo año en la carrera
 		instance.tree.insertNode(yearNode, node);
 		return node;
@@ -130,7 +134,7 @@ public class Bookcase {
 		HashSet<String> set = subjectsIds.get(yearId);
 		// If the set is null, create a new set and add it to the subjectsIds map
 		if (set == null) {
-			set = new HashSet<String>();
+			set = new HashSet<>();
 			subjectsIds.put(yearId, set);
 		}
 		// If the ID is already present in the set, throw an exception
@@ -143,6 +147,53 @@ public class Bookcase {
 		// graph
 		return new Object[] { addSubjectToTree(yearId, subject), addSubjectToGraph(subject) };
 	}
+
+	public Vertex newMaterial(String tittle, String author, Calendar dateCreation) {
+
+		Vertex res = null;
+		String id = randomMaterialId();
+		Material material = new Mater 
+
+		return res;
+	}
+
+	private boolean checkId(String id) {
+		
+		boolean check = true;
+
+		InDepthIterator<NodeInfo> iterTree = instance.tree.inDepthIterator();
+		LinkedList<Vertex> list = instance.graph.getVerticesList();
+		Iterator<Vertex> iterGraph = list.iterator();
+
+		while (check && (iterTree.hasNext() || iterGraph.hasNext())) {
+
+			if (iterTree.hasNext() && iterTree.next().getId().equals(id))
+				check = false;
+
+			if (check && iterGraph.hasNext()) {
+				Object info = iterGraph.next().getInfo();
+				if (!(info instanceof Subject) && ((Material) info).getId().equals(id))
+					check = false;
+
+			}
+		}
+		return check;
+	}
+
+	private String randomMaterialId() {
+
+        Random random = new Random();
+        StringBuilder strBuilder = new StringBuilder(8);
+        boolean check = false;
+		String id = null;
+        while (!check) {
+			random.setSeed((new GregorianCalendar()).getTimeInMillis());
+            id = random.ints(8, 0, 10).toArray().toString();
+            check = Bookcase.getInstance().checkId(id);
+        }
+
+        return id;
+    }
 
 	/**
 	 * Agrega un tema al árbol.*
@@ -164,7 +215,7 @@ public class Bookcase {
 			}
 		}
 		// Crear un nuevo nodo con la información del tema
-		BinaryTreeNode<NodeInfo> node = new BinaryTreeNode<NodeInfo>(subject);
+		BinaryTreeNode<NodeInfo> node = new BinaryTreeNode<>(subject);
 		// Obtener el nodo padre correspondiente al año
 		BinaryTreeNode<NodeInfo> father = getYearNode(idYear);
 		// Insertar el nodo en el árbol
@@ -224,13 +275,13 @@ public class Bookcase {
 	public BinaryTreeNode<NodeInfo> getCarreerNode(String id) {
 		// aqui cambie para probar
 		BinaryTreeNode<NodeInfo> esc = null;
-		List<BinaryTreeNode<NodeInfo>> carrer_list = tree.getSons((BinaryTreeNode<NodeInfo>) tree.getRoot());
-		Iterator<BinaryTreeNode<NodeInfo>> iter = carrer_list.iterator();
+		List<BinaryTreeNode<NodeInfo>> carreerList = tree.getSons((BinaryTreeNode<NodeInfo>) tree.getRoot());
+		Iterator<BinaryTreeNode<NodeInfo>> iter = carreerList.iterator();
 		boolean find = false;
 		while (iter.hasNext() && !find) {
 			esc = iter.next();
-			Carreer carrer_help = (Carreer) (esc.getInfo());
-			if (carrer_help.getId().equals(id)) {
+			Carreer carreerHelp = (Carreer) (esc.getInfo());
+			if (carreerHelp.getId().equals(id)) {
 				find = true;
 
 			}
@@ -242,14 +293,14 @@ public class Bookcase {
 	}
 
 	public BinaryTreeNode<NodeInfo> getYearNode(String id) {
-		BinaryTreeNode<NodeInfo> salida = new BinaryTreeNode<NodeInfo>();
+		BinaryTreeNode<NodeInfo> salida = new BinaryTreeNode<>();
 		salida = null;
 		int esc = 0;
 
 		InBreadthIterator<NodeInfo> iter = tree.inBreadthIterator();
 
 		while (esc == 0 && iter.hasNext()) {
-			BinaryTreeNode<NodeInfo> help = new BinaryTreeNode<NodeInfo>();
+			BinaryTreeNode<NodeInfo> help = new BinaryTreeNode<>();
 			help = iter.nextNode();
 			NodeInfo info = help.getInfo();
 
@@ -271,14 +322,14 @@ public class Bookcase {
 	}
 
 	public BinaryTreeNode<NodeInfo> getSubjectNode(String id) {
-		BinaryTreeNode<NodeInfo> salida = new BinaryTreeNode<NodeInfo>();
+		BinaryTreeNode<NodeInfo> salida = new BinaryTreeNode<>();
 		salida = null;
 		boolean esc = false;
 
 		InBreadthIterator<NodeInfo> iter = tree.inBreadthIterator();
 
 		while (!esc && iter.hasNext()) {
-			BinaryTreeNode<NodeInfo> help = new BinaryTreeNode<NodeInfo>();
+			BinaryTreeNode<NodeInfo> help = new BinaryTreeNode<>();
 			help = iter.nextNode();
 			NodeInfo info = help.getInfo();
 
@@ -296,15 +347,15 @@ public class Bookcase {
 
 	// esto no se si funciona xq no se que tipo es la raiz
 	// es otra vercion del getCarreerNode
-	public BinaryTreeNode<NodeInfo> fin_carrer(String id) {
-		BinaryTreeNode<NodeInfo> salida = new BinaryTreeNode<NodeInfo>();
+	public BinaryTreeNode<NodeInfo> findCarreer(String id) {
+		BinaryTreeNode<NodeInfo> salida = new BinaryTreeNode<>();
 		salida = null;
 		int esc = 0;
 
 		InBreadthIterator<NodeInfo> iter = tree.inBreadthIterator();
 
 		while (esc == 0 && iter.hasNext()) {
-			BinaryTreeNode<NodeInfo> help = new BinaryTreeNode<NodeInfo>();
+			BinaryTreeNode<NodeInfo> help = new BinaryTreeNode<>();
 			help = iter.nextNode();
 			NodeInfo info = help.getInfo();
 
@@ -328,8 +379,8 @@ public class Bookcase {
 	private Vertex addSubjectToGraph(Subject subject) {
 		Vertex esc = new Vertex(subject);
 
-		LinkedList<Vertex> vertext_list = graph.getVerticesList();
-		Iterator<Vertex> iter = vertext_list.iterator();
+		LinkedList<Vertex> vertexList = graph.getVerticesList();
+		Iterator<Vertex> iter = vertexList.iterator();
 		boolean find = false;
 		while (iter.hasNext() && !find) {
 			Vertex help = iter.next();
@@ -350,7 +401,7 @@ public class Bookcase {
 	// este metodo devuekve las asignaturas que usan mayor cantidad de materiales
 	public List<Subject> subjectsMostMaterialUse() {
 		// aqui se crea la lista de salida
-		List<Subject> escLits = new LinkedList<Subject>();
+		List<Subject> escLits = new LinkedList<>();
 		// se obtiene la lisat de vertices del ggrafo
 		LinkedList<Vertex> vertList = graph.getVerticesList();
 		// se inicializa el iterador
@@ -389,7 +440,7 @@ public class Bookcase {
 	// metodo para encontrara los materiales mas utilizados
 	public List<Material> mostUseMaterial() {
 		// aqui se crea la lista de salida
-		List<Material> escList = new LinkedList<Material>();
+		List<Material> escList = new LinkedList<>();
 
 		// se obtiene la lisat de vertices del ggrafo
 		LinkedList<Vertex> vertList = graph.getVerticesList();
@@ -429,27 +480,9 @@ public class Bookcase {
 	// para una carrera los materiales mas usados
 	// asumo que materiales mas usados se tomara como los materiales que mas
 	// asignaturas los usan
-	public List<Material> mostUsedMaterialOfCarrer(Carreer carreer) 
-	{	/*
-		* 
-		* BinaryTreeNode<NodeInfo> nodeCarreer = fin_carrer(carreer.getName());
-		* 
-		* List<BinaryTreeNode<NodeInfo>> yearsList = new
-		* LinkedList<BinaryTreeNode<NodeInfo>>();
-		* 
-		* yearsList = tree.getSons(nodeCarreer);
-		* 
-		* List<BinaryTreeNode<NodeInfo>> subjectsList = new
-		* LinkedList<BinaryTreeNode<NodeInfo>>();
-		* 
-		* Iterator<BinaryTreeNode<NodeInfo>> iter = yearsList.iterator(); while
-		* (iter.hasNext()) { BinaryTreeNode<NodeInfo> yearIter = iter.next();
-		* subjectsList.addAll(tree.getSons(yearIter));
-		* 
-		* }
-		*/
+	public List<Material> mostUsedMaterialOfCarrer(Carreer carreer) {
 
-		List<Material> escList = new LinkedList<Material>();
+		List<Material> escList = new LinkedList<>();
 
 		LinkedList<Vertex> vertList = graph.getVerticesList();
 		Iterator<Vertex> iter = vertList.iterator();
@@ -494,13 +527,13 @@ public class Bookcase {
 		List<BinaryTreeNode<NodeInfo>> list = instance.tree.getSons((BinaryTreeNode<NodeInfo>) instance.tree.getRoot());
 		ListIterator<BinaryTreeNode<NodeInfo>> it = list.listIterator();
 		boolean found = false;
-		while (found && it.hasNext()) {
+		while (!found && it.hasNext()) {
 			BinaryTreeNode<NodeInfo> node = it.next();
 			if (node.getInfo().getId().equals(carreer)) {
 				aux.setCarrerNode(node);
 				List<BinaryTreeNode<NodeInfo>> years = instance.tree.getSons(node);
 				ListIterator<BinaryTreeNode<NodeInfo>> iter = years.listIterator();
-				while (found && iter.hasNext()) {
+				while (!found && iter.hasNext()) {
 					node = it.next();
 					int number = ((Year) node.getInfo()).getNumberYear();
 					if (number == year) {
@@ -535,13 +568,11 @@ public class Bookcase {
 		return escNode;
 	}
 
-
-
-	//este metodo devuelve toda la informacion de los materiales de una carrera
-	//es decir devuelve cada material la cantidad de veces que se utiliza en la carrera
-	//para cada subject diferente
-	public List<AuxiliarInfo> getAllMaterialOfCarrer1(Carreer carreer)
-	{
+	// este metodo devuelve toda la informacion de los materiales de una carrera
+	// es decir devuelve cada material la cantidad de veces que se utiliza en la
+	// carrera
+	// para cada subject diferente
+	public List<AuxiliarInfo> getAllMaterialOfCarrer1(Carreer carreer) {
 		List<AuxiliarInfo> escList = new LinkedList<AuxiliarInfo>();
 
 		LinkedList<Vertex> vertList = graph.getVerticesList();
@@ -551,7 +582,6 @@ public class Bookcase {
 			Vertex vert = iter.next();
 			NodeInfo vertInfo = (NodeInfo) vert.getInfo();
 			if (vertInfo instanceof Material) {
-				
 
 				LinkedList<Edge> subjectsList = vert.getEdgeList();
 				Iterator<Edge> iterEdge = subjectsList.iterator();
@@ -562,11 +592,11 @@ public class Bookcase {
 					Auxiliary auxiliary = findInfoSubjcetId(((Subject) edge.getVertex().getInfo()).getId());
 					if (auxiliary.getCarrerNode().getInfo().getId().equals(carreer.getId())) {
 						AuxiliarInfo auxAdd = new AuxiliarInfo(carreer,
-							(Subject)edge.getVertex().getInfo(),
-							(Year)auxiliary.getYearNode().getInfo(),
-							(Material)vertInfo);
-							escList.add(auxAdd);
-												
+								(Subject) edge.getVertex().getInfo(),
+								(Year) auxiliary.getYearNode().getInfo(),
+								(Material) vertInfo);
+						escList.add(auxAdd);
+
 					}
 				}
 			}
@@ -574,9 +604,9 @@ public class Bookcase {
 
 		return escList;
 	}
+
 	// este metodo solo devuelve los materiales de una carrera en especifico
-	public List<Material> getAllMaterialOfCarrer2(Carreer carreer)
-	{
+	public List<Material> getAllMaterialOfCarrer2(Carreer carreer) {
 		List<Material> escList = new LinkedList<Material>();
 
 		LinkedList<Vertex> vertList = graph.getVerticesList();
@@ -586,18 +616,17 @@ public class Bookcase {
 			Vertex vert = iter.next();
 			NodeInfo vertInfo = (NodeInfo) vert.getInfo();
 			if (vertInfo instanceof Material) {
-				
 
 				LinkedList<Edge> subjectsList = vert.getEdgeList();
 				Iterator<Edge> iterEdge = subjectsList.iterator();
 				boolean inCarrer = false;
-				while (inCarrer && iterEdge.hasNext() ) {
+				while (!inCarrer && iterEdge.hasNext()) {
 					Edge edge = iterEdge.next();
 
 					Auxiliary auxiliary = findInfoSubjcetId(((Subject) edge.getVertex().getInfo()).getId());
 					if (auxiliary.getCarrerNode().getInfo().getId().equals(carreer.getId())) {
 						inCarrer = true;
-						escList.add((Material)vertInfo);												
+						escList.add((Material) vertInfo);
 					}
 				}
 			}
@@ -606,10 +635,10 @@ public class Bookcase {
 		return escList;
 	}
 
-	//este metodo devuelve la lista de materiales que estan en la carrera y el year especificado
-	public List<Material> getAllMaterialOfCarrerAndYear(Carreer carreer, Year year)
-	{
-		List<Material> escList = new LinkedList<Material>();
+	// este metodo devuelve la lista de materiales que estan en la carrera y el year
+	// especificado
+	public List<Material> getAllMaterialOfCarrerAndYear(Carreer carreer, Year year) {
+		List<Material> escList = new LinkedList<>();
 
 		LinkedList<Vertex> vertList = graph.getVerticesList();
 		Iterator<Vertex> iter = vertList.iterator();
@@ -618,19 +647,18 @@ public class Bookcase {
 			Vertex vert = iter.next();
 			NodeInfo vertInfo = (NodeInfo) vert.getInfo();
 			if (vertInfo instanceof Material) {
-				
 
 				LinkedList<Edge> subjectsList = vert.getEdgeList();
 				Iterator<Edge> iterEdge = subjectsList.iterator();
 				boolean inCarrerAndYear = false;
-				while (inCarrerAndYear && iterEdge.hasNext() ) {
+				while (!inCarrerAndYear && iterEdge.hasNext()) {
 					Edge edge = iterEdge.next();
 
 					Auxiliary auxiliary = findInfoSubjcetId(((Subject) edge.getVertex().getInfo()).getId());
 					if (auxiliary.getCarrerNode().getInfo().getId().equals(carreer.getId()) &&
-						auxiliary.getYearNode().getInfo().getId().equals(year.getId())) {
+							auxiliary.getYearNode().getInfo().getId().equals(year.getId())) {
 						inCarrerAndYear = true;
-						escList.add((Material)vertInfo);												
+						escList.add((Material) vertInfo);
 					}
 				}
 			}
@@ -639,24 +667,23 @@ public class Bookcase {
 		return escList;
 	}
 
-	//devuelve todos los materiales de un subject
-	public List<Material> getAllMaterialOfSubject(Subject subject)
-	{
-		List<Material> escList = new LinkedList<Material>();
+	// devuelve todos los materiales de un subject
+	public List<Material> getAllMaterialOfSubject(Subject subject) {
+		List<Material> escList = new LinkedList<>();
 
 		LinkedList<Vertex> vertList = graph.getVerticesList();
 		Iterator<Vertex> iter = vertList.iterator();
 
 		boolean find = false;
-		while (!find  && iter.hasNext()) {
+		while (!find && iter.hasNext()) {
 			Vertex vertIter = iter.next();
 			Object vertInfo = vertIter.getInfo();
-			if (vertInfo instanceof Subject && ((Subject)vertInfo).getId().equals(subject.getId())) {
+			if (vertInfo instanceof Subject && ((Subject) vertInfo).getId().equals(subject.getId())) {
 				LinkedList<Edge> edgeList = vertIter.getEdgeList();
 				Iterator<Edge> iterEdge = edgeList.iterator();
 				while (iterEdge.hasNext()) {
 					Vertex vertEdge = iterEdge.next().getVertex();
-					escList.add((Material)vertEdge.getInfo());
+					escList.add((Material) vertEdge.getInfo());
 				}
 
 				find = true;
@@ -665,9 +692,8 @@ public class Bookcase {
 		return escList;
 	}
 
-	//este metodo devuelve todos los subjects que utilizan un material
-	public List<Subject> getAllSubjectOfMaterial(Material material)
-	{
+	// este metodo devuelve todos los subjects que utilizan un material
+	public List<Subject> getAllSubjectOfMaterial(Material material) {
 		List<Subject> escList = new LinkedList<Subject>();
 		LinkedList<Vertex> vertList = graph.getVerticesList();
 		Iterator<Vertex> iter = vertList.iterator();
@@ -676,16 +702,14 @@ public class Bookcase {
 		while (!find && iter.hasNext()) {
 			Vertex vertIter = iter.next();
 			Object vertInfo = vertIter.getInfo();
-			if (vertInfo instanceof Material )
-			{
+			if (vertInfo instanceof Material) {
 				LinkedList<Edge> edgeList = vertIter.getEdgeList();
 				Iterator<Edge> iterEdge = edgeList.iterator();
-				while (iterEdge.hasNext()) 
-				{
+				while (iterEdge.hasNext()) {
 					Vertex vertEdge = iterEdge.next().getVertex();
-					escList.add((Subject)vertEdge.getInfo());
+					escList.add((Subject) vertEdge.getInfo());
 				}
-			} 
+			}
 		}
 		return escList;
 	}
