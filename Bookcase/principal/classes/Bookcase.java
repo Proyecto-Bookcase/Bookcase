@@ -152,7 +152,7 @@ public class Bookcase {
 
 		Vertex res = null;
 		String id = randomMaterialId();
-		Material material = new Mater 
+//		Material material = new Mater 
 
 		return res;
 	}

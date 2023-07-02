@@ -1,6 +1,6 @@
 package classes;
 
-import java.util.Date;
+import java.util.Calendar;
 
 public class Book extends Material {
 	private String editorial;
@@ -9,9 +9,9 @@ public class Book extends Material {
 	//I think this property can be int, and not string
 	private String publicationYear;
 	
-	public Book(String tittle, String author, Date date_creation, String editorial, String edition,
+	public Book(String id,String tittle, String author, Calendar date_creation, String editorial, String edition,
 			String publication_year) {
-		super(tittle, author, date_creation);
+		super(id,tittle, author, date_creation);
 		this.editorial = editorial;
 		this.edition = edition;
 		this.publicationYear = publication_year;
