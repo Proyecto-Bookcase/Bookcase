@@ -1,19 +1,21 @@
 package classes;
 
-import java.util.Date;
+import java.util.Calendar;
 
-abstract class Material {
+public abstract class Material {
 	
 	
 	protected String tittle;
 	protected String author;
-	protected Date dateCreation;
+	protected Calendar dateCreation;
+	protected String id;
 	
 	
-	protected Material(String tittle, String author, Date date_creation) {
-		this.tittle = tittle;
-		this.author = author;
-		this.dateCreation = date_creation;
+	protected Material(String id, String tittle, String author, Calendar dateCreation) {
+		setId(id);;
+		setTittle(tittle);
+		setAuthor(author);
+		setDateCreation(dateCreation);
 	}
 	protected String getTittle() {
 		return tittle;
@@ -24,13 +26,19 @@ abstract class Material {
 	protected String getAuthor() {
 		return author;
 	}
+	public String getId() {
+		return id;
+	}
+	private void setId(String id) {
+		this.id = id;
+	}
 	protected void setAuthor(String author) {
 		this.author = author;
 	}
-	protected Date getDateCreation() {
+	protected Calendar getDateCreation() {
 		return dateCreation;
 	}
-	protected void setDateCreation(Date date_creation) {
+	protected void setDateCreation(Calendar date_creation) {
 		this.dateCreation = date_creation;
 	}
 	

@@ -1,7 +1,10 @@
 package classes;
 
+import interfaces.NodeInfo;
+
 public class Year implements NodeInfo {
 	
+	private static final long serialVersionUID = -5860593484384881204L;
 	private int numberYear;
 	private String id;
 

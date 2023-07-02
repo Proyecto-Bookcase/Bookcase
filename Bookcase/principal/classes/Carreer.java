@@ -1,7 +1,11 @@
 package classes;
 
+import interfaces.NodeInfo;
+
 public class Carreer implements NodeInfo {
 	
+	
+	private static final long serialVersionUID = 7613715531489864307L;
 	private String name;
 	private String id;
 	private int duration;
