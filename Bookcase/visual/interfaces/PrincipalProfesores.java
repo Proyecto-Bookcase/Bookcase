@@ -65,6 +65,7 @@ public class PrincipalProfesores extends JFrame {
 	private JPanel paneLarriba;
 	private JLabel lblPAnelArriba;
 	private JScrollPane scrollPaneMenu;
+	private JLabel lblBusquedaAvansada;
 
 	/**
 	 * Launch the application.
@@ -595,20 +596,20 @@ public class PrincipalProfesores extends JFrame {
 			btnOpcionesMostar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					int x = 77;
-					int y = 197;
+					int y = 255;
 					panelOpciones.setVisible(true);
 					btnOpcionesMostar.setVisible(false);
 					btnOpcionesEsconder.setVisible(true);
-					if (y == 197) {
+					if (y == 255) {
 						panelOpciones.show();
 						panelOpciones.setSize(77, y);
 						Thread th = new Thread() {
 							@Override
 							public void run() {
 								try {
-									int y = 197;
+									int y = 255;
 									for (int i = 0; i <= y; i++) {
-										Thread.sleep(1);
+										Thread.sleep(3);
 										panelOpciones.setSize(77, i);
 									}
 								} catch (Exception e) {
@@ -637,12 +638,13 @@ public class PrincipalProfesores extends JFrame {
 	private JPanel getPanelOpciones() {
 		if (panelOpciones == null) {
 			panelOpciones = new JPanel();
-			panelOpciones.setBounds(976, 353, 77, 197);
+			panelOpciones.setBounds(976, 299, 77, 251);
 			panelOpciones.setBackground(new Color(240, 240, 240));
 			panelOpciones.setLayout(null);
 			panelOpciones.add(getBtnAnadir());
 			panelOpciones.add(getBtnEliminar());
 			panelOpciones.add(getBtnEditar());
+			panelOpciones.add(getLblBusquedaAvansada());
 			panelOpciones.setVisible(false);
 		}
 		return panelOpciones;
@@ -710,16 +712,16 @@ public class PrincipalProfesores extends JFrame {
 			btnOpcionesEsconder.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					int x = 77;
-					int y = 197;
+					int y = 255;
 					btnOpcionesEsconder.setVisible(false);
 					btnOpcionesMostar.setVisible(true);
-					if (y == 197) {
+					if (y == 255) {
 						Thread th = new Thread() {
 							@Override
 							public void run() {
 								try {
-									for (int i = 197; i >= 0; i--) {
-										Thread.sleep(1);
+									for (int i = 255; i >= 0; i--) {
+										Thread.sleep(5);
 										panelOpciones.setSize(77, i);
 									}
 								} catch (Exception e) {
@@ -769,5 +771,15 @@ public class PrincipalProfesores extends JFrame {
 			scrollPaneMenu.setBounds(0, 0, 213, 600);
 		}
 		return scrollPaneMenu;
+	}
+	private JLabel getLblBusquedaAvansada() {
+		if (lblBusquedaAvansada == null) {
+			lblBusquedaAvansada = new JLabel("");
+			lblBusquedaAvansada.setBounds(21, 190, 56, 50);
+			lblBusquedaAvansada.setIcon(new ImageIcon(PrincipalProfesores.class.getResource("/icons/icons8_Search_45px_1.png")));
+			lblBusquedaAvansada.setToolTipText("Busqueda Avansada esto es un label no un boton");
+
+		}
+		return lblBusquedaAvansada;
 	}
 }
