@@ -775,8 +775,8 @@ public class PrincipalProfesores extends JFrame {
 	private JLabel getLblBusquedaAvansada() {
 		if (lblBusquedaAvansada == null) {
 			lblBusquedaAvansada = new JLabel("");
-			lblBusquedaAvansada.setBounds(21, 190, 56, 50);
-			lblBusquedaAvansada.setIcon(new ImageIcon(PrincipalProfesores.class.getResource("/icons/icons8_Search_45px_1.png")));
+			lblBusquedaAvansada.setBounds(10, 190, 56, 50);
+			lblBusquedaAvansada.setIcon(new ImageIcon(PrincipalProfesores.class.getResource("/icons/icons8_slider_45px_1.png")));
 			lblBusquedaAvansada.setToolTipText("Busqueda Avansada esto es un label no un boton");
 
 		}
