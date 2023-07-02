@@ -53,7 +53,6 @@ public class Formulario extends JFrame {
 	private JSeparator separator_2;
 	private JSeparator separator_3;
 	private JSeparator separator_3_1;
-	private JButton btnAtras;
 	private JButton btnAnnadirInterior;
 	private JPanel panelEliminar;
 	private JScrollPane scrollPane_1;
@@ -92,7 +91,6 @@ public class Formulario extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		contentPane.add(getScrollPane_1());
-		contentPane.add(getBtnAtras());
 		contentPane.add(getBtnCerrar());
 		contentPane.add(getPanel());
 		contentPane.add(getPanelAnnadir());
@@ -607,18 +605,6 @@ public class Formulario extends JFrame {
 		}
 		return separator_3_1;
 	}
-	private JButton getBtnAtras() {
-		if (btnAtras == null) {
-			btnAtras = new JButton("");
-			btnAtras.setIcon(new ImageIcon(Formulario.class.getResource("/icons/icons8-login-30.png")));
-			btnAtras.setOpaque(false);
-			btnAtras.setFocusPainted(false);
-			btnAtras.setContentAreaFilled(false);
-			btnAtras.setBorder(null);
-			btnAtras.setBounds(0, 11, 64, 31);
-		}
-		return btnAtras;
-	}
 	private JButton getBtnAnnadirInterior() {
 		if (btnAnnadirInterior == null) {
 			btnAnnadirInterior = new JButton("");
@@ -690,6 +676,7 @@ public class Formulario extends JFrame {
 	private JLabel getLblNewLabel_4() {
 		if (lblNewLabel_4 == null) {
 			lblNewLabel_4 = new JLabel("");
+			lblNewLabel_4.setToolTipText("Formularios");
 			lblNewLabel_4.setIcon(new ImageIcon(Formulario.class.getResource("/icons/Fondo de textura de acuarela amarilla brillante _ Vector Gratis.jpg")));
 			lblNewLabel_4.setBounds(0, 0, 613, 499);
 		}

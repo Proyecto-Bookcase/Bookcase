@@ -91,7 +91,7 @@ public class Login extends JFrame {
 		if (lblLibrera == null) {
 			lblLibrera = new JLabel(" INICIAR SESIÓN");
 			lblLibrera.setFont(new Font("Yu Gothic UI Semilight", Font.PLAIN, 33));
-			lblLibrera.setBounds(43, 89, 279, 50);
+			lblLibrera.setBounds(43, 100, 245, 50);
 		}
 		return lblLibrera;
 	}
@@ -99,7 +99,7 @@ public class Login extends JFrame {
 		if (lblImagenUsuario == null) {
 			lblImagenUsuario = new JLabel("");
 			lblImagenUsuario.setIcon(new ImageIcon(Login.class.getResource("/icons/icons8-login-64.png")));
-			lblImagenUsuario.setBounds(129, 31, 64, 58);
+			lblImagenUsuario.setBounds(123, 31, 79, 58);
 		}
 		return lblImagenUsuario;
 	}

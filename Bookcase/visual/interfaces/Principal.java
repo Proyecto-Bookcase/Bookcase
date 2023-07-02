@@ -64,6 +64,7 @@ public class Principal extends JFrame {
 	private JButton btnBusquedaAvanzada;
 	private JTextPane txtpnInformacionApp;
 	private JLabel lblImagenRaton;
+	private JLabel lblFondoRaton;
 
 	/**
 	 * Launch the application.
@@ -109,6 +110,7 @@ public class Principal extends JFrame {
 		contentPane.add(getBtnBusquedaAvanzada());
 		contentPane.add(getTxtpnInformacionApp());
 		contentPane.add(getLblImagenRaton());
+		contentPane.add(getLblFondoRaton());
 		
 	}
 
@@ -151,6 +153,11 @@ public class Principal extends JFrame {
 
 			btnEsconder.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					lblBookcase.setVisible(true);
+					lblFotoLibro.setVisible(true);
+					txtpnInformacionApp.setVisible(true);
+					lblImagenRaton.setVisible(true);
+					lblFondoRaton.setVisible(true);
 					int x = 213;
 					int y = 600;
 					btnMostrar.setVisible(true);
@@ -207,6 +214,8 @@ public class Principal extends JFrame {
 					lblBookcase.setVisible(false);
 					lblFotoLibro.setVisible(false);
 					txtpnInformacionApp.setVisible(false);
+					lblImagenRaton.setVisible(false);
+					lblFondoRaton.setVisible(false);
 					int x = 213;
 					int y = 600;
 
@@ -639,6 +648,7 @@ public class Principal extends JFrame {
 	private JButton getBtnBusquedaAvanzada() {
 		if (btnBusquedaAvanzada == null) {
 			btnBusquedaAvanzada = new JButton("");
+			btnBusquedaAvanzada.setToolTipText("Búsqueda Avanzadas");
 			btnBusquedaAvanzada.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8_slider_45px_1.png")));
 			btnBusquedaAvanzada.setBounds(991, 550, 56, 50);
 			btnBusquedaAvanzada.setOpaque(false);
@@ -652,7 +662,7 @@ public class Principal extends JFrame {
 		if (txtpnInformacionApp == null) {
 			txtpnInformacionApp = new JTextPane();
 			txtpnInformacionApp.setText("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-			txtpnInformacionApp.setBounds(286, 298, 398, 180);
+			txtpnInformacionApp.setBounds(106, 298, 398, 180);
 		}
 		return txtpnInformacionApp;
 	}
@@ -663,5 +673,13 @@ public class Principal extends JFrame {
 			lblImagenRaton.setBounds(705, 140, 213, 338);
 		}
 		return lblImagenRaton;
+	}
+	private JLabel getLblFondoRaton() {
+		if (lblFondoRaton == null) {
+			lblFondoRaton = new JLabel("");
+			lblFondoRaton.setIcon(new ImageIcon(Principal.class.getResource("/icons/FondoPrincipal.png")));
+			lblFondoRaton.setBounds(0, 34, 1053, 566);
+		}
+		return lblFondoRaton;
 	}
 }
