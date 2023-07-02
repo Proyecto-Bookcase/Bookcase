@@ -649,6 +649,7 @@ public class Bookcase {
 
 	// este metodo devuelve la lista de materiales que estan en la carrera y el year
 	// especificado
+	//tengo que modificar este metodo
 	public List<Material> getAllMaterialOfCarrerAndYear(Carreer carreer, Year year) {
 		List<Material> escList = new LinkedList<>();
 
@@ -726,4 +727,86 @@ public class Bookcase {
 		return escList;
 	}
 
+	//eliminar material
+	public void deleteMaterial(Material materialDlete)
+	{
+		
+		int materialIndex = Integer.parseInt( materialDlete.getId());
+		int indexMaterialDelete = getVertexIndexById(materialDlete.getId());
+		LinkedList<Vertex> vertList = graph.getVerticesList();
+		Vertex vertMaterialDelete = vertList.get(indexMaterialDelete);
+		LinkedList<Vertex> adjacentsList = vertMaterialDelete.getAdjacents();
+		Iterator<Vertex> iterAdjacents = adjacentsList.iterator();
+		while (iterAdjacents.hasNext()) {
+			Vertex vertIter = iterAdjacents.next();
+			int indexVert = vertList.indexOf(vertIter);
+			graph.deleteEdgeND(materialIndex,indexVert);
+		}
+		graph.deleteVertex(indexMaterialDelete);
+	}
+
+	private int getVertexIndexById(String id) {
+		
+		int index =0;
+		LinkedList<Vertex> vertList = graph.getVerticesList();
+
+		
+        Iterator<Vertex> iterVert = vertList.iterator();
+        boolean found = false;
+        while (iterVert.hasNext() && ! found) {
+        	Vertex vert = iterVert.next();
+        	Object vertInfo= vert.getInfo();
+        	if( (vertInfo instanceof Subject && ((Subject)vertInfo).getId().equals(id)) ||
+        			(vertInfo instanceof Material && ((Material)vertInfo).getId().equals(id)))
+        	{
+        		found = true;
+        		
+        	}
+        	else {
+        		index ++;
+				
+			}
+
+        }
+		
+		return index;
+	}
+	
+	public void deleteSubject(Subject subjectDelete)
+	{
+		
+		deleteSubjectGraph(subjectDelete);
+		deleteSubjectTree(subjectDelete);
+		
+	}
+	public void deleteSubjectTree(Subject subjectDelete)
+	{
+		BinaryTreeNode<NodeInfo> vertSubjetc = getSubjectNode(subjectDelete.getId());
+		tree.deleteNode(vertSubjetc);
+	}
+	
+	public void deleteSubjectGraph(Subject subjectDelete)
+	{
+		int subjcetIndex = Integer.parseInt( subjectDelete.getId());
+		int indexMaterialDelete = getVertexIndexById(subjectDelete.getId());
+		LinkedList<Vertex> vertList = graph.getVerticesList();
+		Vertex vertSubjectDelete = vertList.get(indexMaterialDelete);
+		LinkedList<Vertex> adjacentsList = vertSubjectDelete.getAdjacents();
+		Iterator<Vertex> iterAdjacents = adjacentsList.iterator();
+		
+		while (iterAdjacents.hasNext()) {
+			
+			Vertex vertIter = iterAdjacents.next();
+			int indexVert = vertList.indexOf(vertIter);
+			graph.deleteEdgeND(subjcetIndex,indexVert);
+			
+		}
+		graph.deleteVertex(indexMaterialDelete);
+		
+	}
+	
+	
+	
+	
+	
 }

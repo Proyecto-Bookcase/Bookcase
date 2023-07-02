@@ -70,7 +70,7 @@ public class Login extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setTitle("Login");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(PrincipalProfesores.class.getResource("/icons/icons8-book-64 (2).png")));	
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/icons/icons8-book-64 (2).png")));	
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		contentPane.add(getLblLibrera());
@@ -91,7 +91,7 @@ public class Login extends JFrame {
 		if (lblLibrera == null) {
 			lblLibrera = new JLabel(" INICIAR SESIÓN");
 			lblLibrera.setFont(new Font("Yu Gothic UI Semilight", Font.PLAIN, 33));
-			lblLibrera.setBounds(43, 89, 279, 50);
+			lblLibrera.setBounds(43, 100, 245, 50);
 		}
 		return lblLibrera;
 	}
@@ -99,7 +99,7 @@ public class Login extends JFrame {
 		if (lblImagenUsuario == null) {
 			lblImagenUsuario = new JLabel("");
 			lblImagenUsuario.setIcon(new ImageIcon(Login.class.getResource("/icons/icons8-login-64.png")));
-			lblImagenUsuario.setBounds(129, 31, 64, 58);
+			lblImagenUsuario.setBounds(123, 31, 79, 58);
 		}
 		return lblImagenUsuario;
 	}
@@ -169,13 +169,15 @@ public class Login extends JFrame {
 					String usuario = txNombreUsuario.getText();
 					String contrasena = passwordField.getText();
 					boolean validoU = validaciones.isCorrectUsernamePasword(usuario,contrasena) ;
-					System.out.println(validaciones.isCorrectUsernamePasword(usuario,contrasena));
 					if(validoU) {
 						boolean isProfesor = validaciones.isProfesor(usuario);
-						PrincipalProfesores p = new PrincipalProfesores();
+						Principal p = new Principal();
 						p.setVisible(true);
 						if(isProfesor) {
-							p.getBtnOpcionesEsconder().enable(true);
+							p.getBtnOpciones().setVisible(true);
+							p.setTitle("Perfil del Profesor");
+						}else {
+							p.setTitle("Perfil del Estudiante");
 						}
 					}
 					

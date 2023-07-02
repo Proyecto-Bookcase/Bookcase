@@ -1,9 +1,11 @@
 package classes;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
-public abstract class Material {
 
+public abstract class Material implements Serializable{
+	
 	protected String tittle;
 	protected String author;
 	protected Calendar dateCreation;
