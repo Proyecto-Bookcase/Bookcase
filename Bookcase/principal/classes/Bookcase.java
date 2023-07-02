@@ -1,7 +1,11 @@
 package classes;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -148,12 +152,50 @@ public class Bookcase {
 		return new Object[] { addSubjectToTree(yearId, subject), addSubjectToGraph(subject) };
 	}
 
-	public Vertex newMaterial(String tittle, String author, Calendar dateCreation) {
+	
+	
+	public <E extends Material> Vertex newMaterial(Class<E> typeMaterial, List<String> idList, Object ... args) {
 
 		Vertex res = null;
 		String id = randomMaterialId();
-//		Material material = new Mater 
-
+		List<Object> arg = new ArrayList<>();
+		arg.add(id);
+		arg.addAll(Arrays.asList(args));
+		args = arg.toArray();
+		
+		Class[] parameterTypes = new Class[args.length];
+		for(int i=0; i<args.length; i++) {
+			parameterTypes[i] = args[i].getClass();
+		}
+		
+		Constructor<E> constructor = null;
+		E info = null;
+		try {
+			
+			constructor = typeMaterial.getConstructor(parameterTypes);
+			info = constructor.newInstance(args);
+			
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		
+		graph.insertVertex(info);
+		int posHead = getVertexIndexById(info.getId());
+		for (String ids : idList) {
+			int posTail = getVertexIndexById(ids);
+			graph.insertEdgeNDG(posTail, posHead);
+		}
+		
 		return res;
 	}
 
@@ -185,14 +227,15 @@ public class Bookcase {
         Random random = new Random();
         StringBuilder strBuilder = new StringBuilder(8);
         boolean check = false;
-		String id = null;
         while (!check) {
 			random.setSeed((new GregorianCalendar()).getTimeInMillis());
-            id = random.ints(8, 0, 10).toArray().toString();
-            check = Bookcase.getInstance().checkId(id);
+            for(int i : random.ints(8, 0, 10).toArray()) {
+            	strBuilder.append(i);
+            }
+            check = instance.checkId(strBuilder.toString());
         }
 
-        return id;
+        return strBuilder.toString();
     }
 
 	/**
@@ -345,37 +388,6 @@ public class Bookcase {
 		return salida;
 	}
 
-	// esto no se si funciona xq no se que tipo es la raiz
-	// es otra vercion del getCarreerNode
-	public BinaryTreeNode<NodeInfo> findCarreer(String id) {
-		BinaryTreeNode<NodeInfo> salida = new BinaryTreeNode<>();
-		salida = null;
-		int esc = 0;
-
-		InBreadthIterator<NodeInfo> iter = tree.inBreadthIterator();
-
-		while (esc == 0 && iter.hasNext()) {
-			BinaryTreeNode<NodeInfo> help = new BinaryTreeNode<>();
-			help = iter.nextNode();
-			NodeInfo info = help.getInfo();
-
-			if (info instanceof Carreer && ((Carreer) info).getId().equals(id)) {
-
-				salida = help;
-				esc = 1;
-
-			}
-			if (info instanceof Year) {
-				esc = 2;
-			}
-		}
-		if (esc != 1) {
-			salida = null;
-		}
-
-		return salida;
-	}
-
 	private Vertex addSubjectToGraph(Subject subject) {
 		Vertex esc = new Vertex(subject);
 
@@ -390,7 +402,7 @@ public class Bookcase {
 			}
 		}
 		if (!find) {
-			graph.insertVertex(esc);
+			graph.insertVertex(esc.getInfo());
 		} else {
 			esc = null;
 		}
@@ -637,6 +649,7 @@ public class Bookcase {
 
 	// este metodo devuelve la lista de materiales que estan en la carrera y el year
 	// especificado
+	//tengo que modificar este metodo
 	public List<Material> getAllMaterialOfCarrerAndYear(Carreer carreer, Year year) {
 		List<Material> escList = new LinkedList<>();
 
@@ -714,4 +727,86 @@ public class Bookcase {
 		return escList;
 	}
 
+	//eliminar material
+	public void deleteMaterial(Material materialDlete)
+	{
+		
+		int materialIndex = Integer.parseInt( materialDlete.getId());
+		int indexMaterialDelete = getVertexIndexById(materialDlete.getId());
+		LinkedList<Vertex> vertList = graph.getVerticesList();
+		Vertex vertMaterialDelete = vertList.get(indexMaterialDelete);
+		LinkedList<Vertex> adjacentsList = vertMaterialDelete.getAdjacents();
+		Iterator<Vertex> iterAdjacents = adjacentsList.iterator();
+		while (iterAdjacents.hasNext()) {
+			Vertex vertIter = iterAdjacents.next();
+			int indexVert = vertList.indexOf(vertIter);
+			graph.deleteEdgeND(materialIndex,indexVert);
+		}
+		graph.deleteVertex(indexMaterialDelete);
+	}
+
+	private int getVertexIndexById(String id) {
+		
+		int index =0;
+		LinkedList<Vertex> vertList = graph.getVerticesList();
+
+		
+        Iterator<Vertex> iterVert = vertList.iterator();
+        boolean found = false;
+        while (iterVert.hasNext() && ! found) {
+        	Vertex vert = iterVert.next();
+        	Object vertInfo= vert.getInfo();
+        	if( (vertInfo instanceof Subject && ((Subject)vertInfo).getId().equals(id)) ||
+        			(vertInfo instanceof Material && ((Material)vertInfo).getId().equals(id)))
+        	{
+        		found = true;
+        		
+        	}
+        	else {
+        		index ++;
+				
+			}
+
+        }
+		
+		return index;
+	}
+	
+	public void deleteSubject(Subject subjectDelete)
+	{
+		
+		deleteSubjectGraph(subjectDelete);
+		deleteSubjectTree(subjectDelete);
+		
+	}
+	public void deleteSubjectTree(Subject subjectDelete)
+	{
+		BinaryTreeNode<NodeInfo> vertSubjetc = getSubjectNode(subjectDelete.getId());
+		tree.deleteNode(vertSubjetc);
+	}
+	
+	public void deleteSubjectGraph(Subject subjectDelete)
+	{
+		int subjcetIndex = Integer.parseInt( subjectDelete.getId());
+		int indexMaterialDelete = getVertexIndexById(subjectDelete.getId());
+		LinkedList<Vertex> vertList = graph.getVerticesList();
+		Vertex vertSubjectDelete = vertList.get(indexMaterialDelete);
+		LinkedList<Vertex> adjacentsList = vertSubjectDelete.getAdjacents();
+		Iterator<Vertex> iterAdjacents = adjacentsList.iterator();
+		
+		while (iterAdjacents.hasNext()) {
+			
+			Vertex vertIter = iterAdjacents.next();
+			int indexVert = vertList.indexOf(vertIter);
+			graph.deleteEdgeND(subjcetIndex,indexVert);
+			
+		}
+		graph.deleteVertex(indexMaterialDelete);
+		
+	}
+	
+	
+	
+	
+	
 }
