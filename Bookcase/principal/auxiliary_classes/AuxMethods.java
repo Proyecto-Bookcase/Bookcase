@@ -19,7 +19,7 @@ public final class AuxMethods {
         boolean check = false;
         while (!check) {
             String intStream = random.ints(lenght, 0, 10).toArray().toString();
-            check = Bookcase.getInstance().
+//            check = Bookcase.getInstance().
         }
 
         return strBuilder.toString();

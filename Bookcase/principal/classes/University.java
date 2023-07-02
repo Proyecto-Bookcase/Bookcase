@@ -1,7 +1,10 @@
 package classes;
 
+import interfaces.NodeInfo;
+
 public class University implements NodeInfo{
 	
+	private static final long serialVersionUID = -2532574182095177780L;
 	private String id;
 	private String name;
 

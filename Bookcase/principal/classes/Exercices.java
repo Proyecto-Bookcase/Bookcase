@@ -1,6 +1,6 @@
 package classes;
 
-import java.util.Date;
+import java.util.Calendar;
 
 public class Exercices extends Material {
 
@@ -9,8 +9,8 @@ public class Exercices extends Material {
 	private String tipe;
 
 	
-	public Exercices(String tittle, String author, Date date_creation, int total, String tipe) {
-		super(tittle, author, date_creation);
+	public Exercices(String id,String tittle, String author, Calendar date_creation, int total, String tipe) {
+		super(id, tittle, author, date_creation);
 		this.total = total;
 		this.tipe = tipe;
 	}
