@@ -4,17 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.junit.platform.engine.support.hierarchical.Node;
-
+import AuxiliaryClass.Auxiliary;
 import cu.edu.cujae.ceis.graph.LinkedGraph;
+import cu.edu.cujae.ceis.graph.edge.Edge;
 import cu.edu.cujae.ceis.graph.interfaces.ILinkedNotDirectedGraph;
 import cu.edu.cujae.ceis.graph.vertex.Vertex;
-import cu.edu.cujae.ceis.tree.binary.BinaryTree;
 import cu.edu.cujae.ceis.tree.binary.BinaryTreeNode;
 import cu.edu.cujae.ceis.tree.general.GeneralTree;
 import cu.edu.cujae.ceis.tree.iterators.general.InBreadthIterator;
@@ -449,13 +447,38 @@ public class Bookcase {
 								 * 
 								 * }
 								 */
+
 		List<Material> escList = new LinkedList<Material>();
 
 		LinkedList<Vertex> vertList = graph.getVerticesList();
 		Iterator<Vertex> iter = vertList.iterator();
-
+		int max = 0;
 		while (iter.hasNext()) {
+			Vertex vert = iter.next();
+			NodeInfo vertInfo = (NodeInfo) vert.getInfo();
+			if (vertInfo instanceof Material) {
+				int useMaterial = 0;
 
+				LinkedList<Edge> subjectsList = vert.getEdgeList();
+				Iterator<Edge> iterEdge = subjectsList.iterator();
+
+				while (iterEdge.hasNext()) {
+					Edge edge = iterEdge.next();
+
+					Auxiliary auxiliary = findInfoSubjcetId(((Subject) edge.getVertex().getInfo()).getId());
+					if (auxiliary.getCarrerNode().getInfo().getId().equals(carreer.getId())) {
+						useMaterial++;
+					}
+				}
+				if (max < useMaterial) {
+					escList.clear();
+					escList.add((Material) vert.getInfo());
+					max = useMaterial;
+
+				} else if (max == useMaterial) {
+					escList.add((Material) vert.getInfo());
+				}
+			}
 		}
 
 		return escList;
@@ -475,7 +498,7 @@ public class Bookcase {
 			if (node.getInfo().getId().equals(carreer)) {
 				aux.setCarrerNode(node);
 				List<BinaryTreeNode<NodeInfo>> years = instance.tree.getSons(node);
-				ListIterator<BinaryTreeNode<NodeInfo>> iter = list.listIterator();
+				ListIterator<BinaryTreeNode<NodeInfo>> iter = years.listIterator();
 				while (found && iter.hasNext()) {
 					node = it.next();
 					int number = ((Year) node.getInfo()).getNumberYear();
@@ -492,6 +515,7 @@ public class Bookcase {
 		return aux;
 	}
 
+	// este metodo no creo que haga falta xq hice otro anteriormente igual
 	private BinaryTreeNode<NodeInfo> findNodeCarrer(Carreer carreer) {
 		BinaryTreeNode<NodeInfo> escNode = new BinaryTreeNode<NodeInfo>();
 
@@ -509,4 +533,5 @@ public class Bookcase {
 
 		return escNode;
 	}
+
 }
