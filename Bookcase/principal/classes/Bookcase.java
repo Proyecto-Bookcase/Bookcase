@@ -637,6 +637,7 @@ public class Bookcase {
 
 	// este metodo devuelve la lista de materiales que estan en la carrera y el year
 	// especificado
+	//tengo que modificar este metodo
 	public List<Material> getAllMaterialOfCarrerAndYear(Carreer carreer, Year year) {
 		List<Material> escList = new LinkedList<>();
 
@@ -730,10 +731,6 @@ public class Bookcase {
 			graph.deleteEdgeND(materialIndex,indexVert);
 		}
 		graph.deleteVertex(indexMaterialDelete);
-		
-		
-		
-		
 	}
 
 	private int getVertexIndexById(String id) {
@@ -763,7 +760,38 @@ public class Bookcase {
 		return index;
 	}
 	
+	public void deleteSubject(Subject subjectDelete)
+	{
+		
+		deleteSubjectGraph(subjectDelete);
+		deleteSubjectTree(subjectDelete);
+		
+	}
+	public void deleteSubjectTree(Subject subjectDelete)
+	{
+		BinaryTreeNode<NodeInfo> vertSubjetc = getSubjectNode(subjectDelete.getId());
+		tree.deleteNode(vertSubjetc);
+	}
 	
+	public void deleteSubjectGraph(Subject subjectDelete)
+	{
+		int subjcetIndex = Integer.parseInt( subjectDelete.getId());
+		int indexMaterialDelete = getVertexIndexById(subjectDelete.getId());
+		LinkedList<Vertex> vertList = graph.getVerticesList();
+		Vertex vertSubjectDelete = vertList.get(indexMaterialDelete);
+		LinkedList<Vertex> adjacentsList = vertSubjectDelete.getAdjacents();
+		Iterator<Vertex> iterAdjacents = adjacentsList.iterator();
+		
+		while (iterAdjacents.hasNext()) {
+			
+			Vertex vertIter = iterAdjacents.next();
+			int indexVert = vertList.indexOf(vertIter);
+			graph.deleteEdgeND(subjcetIndex,indexVert);
+			
+		}
+		graph.deleteVertex(indexMaterialDelete);
+		
+	}
 	
 	
 	
