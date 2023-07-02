@@ -1,7 +1,5 @@
 package interfaces;
 
-//import javafx.scene.layout.Background;
-
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -18,8 +16,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JTextArea;
+import javax.swing.WindowConstants;
+import javax.swing.border.EmptyBorder;
 
 public class PrincipalProfesores extends JFrame {
 
@@ -40,7 +39,7 @@ public class PrincipalProfesores extends JFrame {
 	private JButton btnInfo;
 	private JButton btnElectrica;
 	private JButton btnQuimica;
-	private JButton BtnIndustrial;
+	private JButton btnIndustrial;
 	private JButton btnMec;
 	private JButton btnBiomedica;
 	private JButton btnAut;
@@ -88,7 +87,7 @@ public class PrincipalProfesores extends JFrame {
 	 */
 	public PrincipalProfesores() {
 		setUndecorated(true);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1053, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -357,15 +356,15 @@ public class PrincipalProfesores extends JFrame {
 	}
 
 	private JButton getBtnIndustrial() {
-		if (BtnIndustrial == null) {
-			BtnIndustrial = new JButton("Industrial");
-			BtnIndustrial.setBounds(21, 345, 164, 23);
-			BtnIndustrial.setOpaque(false);
-			BtnIndustrial.setBorder(null);
-			BtnIndustrial.setContentAreaFilled(false);
-			BtnIndustrial.setFocusPainted(false);
+		if (btnIndustrial == null) {
+			btnIndustrial = new JButton("Industrial");
+			btnIndustrial.setBounds(21, 345, 164, 23);
+			btnIndustrial.setOpaque(false);
+			btnIndustrial.setBorder(null);
+			btnIndustrial.setContentAreaFilled(false);
+			btnIndustrial.setFocusPainted(false);
 		}
-		return BtnIndustrial;
+		return btnIndustrial;
 	}
 
 	private JButton getBtnMec() {
@@ -572,7 +571,6 @@ public class PrincipalProfesores extends JFrame {
 			btnMinimizar.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-//					setExtendedState(contentP);
 					setExtendedState(JFrame.CROSSHAIR_CURSOR);
 
 				}
@@ -722,7 +720,7 @@ public class PrincipalProfesores extends JFrame {
 								try {
 									for (int i = 255; i >= 0; i--) {
 										Thread.sleep(5);
-										panelOpciones.setSize(77, i);
+										panelOpciones.setSize(x, i);
 									}
 								} catch (Exception e) {
 									JOptionPane.showMessageDialog(null, e);
