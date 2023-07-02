@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
+import AuxiliaryClass.AuxiliarInfo;
 import AuxiliaryClass.Auxiliary;
 import cu.edu.cujae.ceis.graph.LinkedGraph;
 import cu.edu.cujae.ceis.graph.edge.Edge;
@@ -428,25 +429,25 @@ public class Bookcase {
 	// para una carrera los materiales mas usados
 	// asumo que materiales mas usados se tomara como los materiales que mas
 	// asignaturas los usan
-	public List<Material> mostUsedMaterialOfCarrer(
-			Carreer carreer) {/*
-								 * 
-								 * BinaryTreeNode<NodeInfo> nodeCarreer = fin_carrer(carreer.getName());
-								 * 
-								 * List<BinaryTreeNode<NodeInfo>> yearsList = new
-								 * LinkedList<BinaryTreeNode<NodeInfo>>();
-								 * 
-								 * yearsList = tree.getSons(nodeCarreer);
-								 * 
-								 * List<BinaryTreeNode<NodeInfo>> subjectsList = new
-								 * LinkedList<BinaryTreeNode<NodeInfo>>();
-								 * 
-								 * Iterator<BinaryTreeNode<NodeInfo>> iter = yearsList.iterator(); while
-								 * (iter.hasNext()) { BinaryTreeNode<NodeInfo> yearIter = iter.next();
-								 * subjectsList.addAll(tree.getSons(yearIter));
-								 * 
-								 * }
-								 */
+	public List<Material> mostUsedMaterialOfCarrer(Carreer carreer) 
+	{	/*
+		* 
+		* BinaryTreeNode<NodeInfo> nodeCarreer = fin_carrer(carreer.getName());
+		* 
+		* List<BinaryTreeNode<NodeInfo>> yearsList = new
+		* LinkedList<BinaryTreeNode<NodeInfo>>();
+		* 
+		* yearsList = tree.getSons(nodeCarreer);
+		* 
+		* List<BinaryTreeNode<NodeInfo>> subjectsList = new
+		* LinkedList<BinaryTreeNode<NodeInfo>>();
+		* 
+		* Iterator<BinaryTreeNode<NodeInfo>> iter = yearsList.iterator(); while
+		* (iter.hasNext()) { BinaryTreeNode<NodeInfo> yearIter = iter.next();
+		* subjectsList.addAll(tree.getSons(yearIter));
+		* 
+		* }
+		*/
 
 		List<Material> escList = new LinkedList<Material>();
 
@@ -532,6 +533,161 @@ public class Bookcase {
 		}
 
 		return escNode;
+	}
+
+
+
+	//este metodo devuelve toda la informacion de los materiales de una carrera
+	//es decir devuelve cada material la cantidad de veces que se utiliza en la carrera
+	//para cada subject diferente
+	public List<AuxiliarInfo> getAllMaterialOfCarrer1(Carreer carreer)
+	{
+		List<AuxiliarInfo> escList = new LinkedList<AuxiliarInfo>();
+
+		LinkedList<Vertex> vertList = graph.getVerticesList();
+		Iterator<Vertex> iter = vertList.iterator();
+		int max = 0;
+		while (iter.hasNext()) {
+			Vertex vert = iter.next();
+			NodeInfo vertInfo = (NodeInfo) vert.getInfo();
+			if (vertInfo instanceof Material) {
+				
+
+				LinkedList<Edge> subjectsList = vert.getEdgeList();
+				Iterator<Edge> iterEdge = subjectsList.iterator();
+
+				while (iterEdge.hasNext()) {
+					Edge edge = iterEdge.next();
+
+					Auxiliary auxiliary = findInfoSubjcetId(((Subject) edge.getVertex().getInfo()).getId());
+					if (auxiliary.getCarrerNode().getInfo().getId().equals(carreer.getId())) {
+						AuxiliarInfo auxAdd = new AuxiliarInfo(carreer,
+							(Subject)edge.getVertex().getInfo(),
+							(Year)auxiliary.getYearNode().getInfo(),
+							(Material)vertInfo);
+							escList.add(auxAdd);
+												
+					}
+				}
+			}
+		}
+
+		return escList;
+	}
+	// este metodo solo devuelve los materiales de una carrera en especifico
+	public List<Material> getAllMaterialOfCarrer2(Carreer carreer)
+	{
+		List<Material> escList = new LinkedList<Material>();
+
+		LinkedList<Vertex> vertList = graph.getVerticesList();
+		Iterator<Vertex> iter = vertList.iterator();
+		int max = 0;
+		while (iter.hasNext()) {
+			Vertex vert = iter.next();
+			NodeInfo vertInfo = (NodeInfo) vert.getInfo();
+			if (vertInfo instanceof Material) {
+				
+
+				LinkedList<Edge> subjectsList = vert.getEdgeList();
+				Iterator<Edge> iterEdge = subjectsList.iterator();
+				boolean inCarrer = false;
+				while (inCarrer && iterEdge.hasNext() ) {
+					Edge edge = iterEdge.next();
+
+					Auxiliary auxiliary = findInfoSubjcetId(((Subject) edge.getVertex().getInfo()).getId());
+					if (auxiliary.getCarrerNode().getInfo().getId().equals(carreer.getId())) {
+						inCarrer = true;
+						escList.add((Material)vertInfo);												
+					}
+				}
+			}
+		}
+
+		return escList;
+	}
+
+	//este metodo devuelve la lista de materiales que estan en la carrera y el year especificado
+	public List<Material> getAllMaterialOfCarrerAndYear(Carreer carreer, Year year)
+	{
+		List<Material> escList = new LinkedList<Material>();
+
+		LinkedList<Vertex> vertList = graph.getVerticesList();
+		Iterator<Vertex> iter = vertList.iterator();
+		int max = 0;
+		while (iter.hasNext()) {
+			Vertex vert = iter.next();
+			NodeInfo vertInfo = (NodeInfo) vert.getInfo();
+			if (vertInfo instanceof Material) {
+				
+
+				LinkedList<Edge> subjectsList = vert.getEdgeList();
+				Iterator<Edge> iterEdge = subjectsList.iterator();
+				boolean inCarrerAndYear = false;
+				while (inCarrerAndYear && iterEdge.hasNext() ) {
+					Edge edge = iterEdge.next();
+
+					Auxiliary auxiliary = findInfoSubjcetId(((Subject) edge.getVertex().getInfo()).getId());
+					if (auxiliary.getCarrerNode().getInfo().getId().equals(carreer.getId()) &&
+						auxiliary.getYearNode().getInfo().getId().equals(year.getId())) {
+						inCarrerAndYear = true;
+						escList.add((Material)vertInfo);												
+					}
+				}
+			}
+		}
+
+		return escList;
+	}
+
+	//devuelve todos los materiales de un subject
+	public List<Material> getAllMaterialOfSubject(Subject subject)
+	{
+		List<Material> escList = new LinkedList<Material>();
+
+		LinkedList<Vertex> vertList = graph.getVerticesList();
+		Iterator<Vertex> iter = vertList.iterator();
+
+		boolean find = false;
+		while (!find  && iter.hasNext()) {
+			Vertex vertIter = iter.next();
+			Object vertInfo = vertIter.getInfo();
+			if (vertInfo instanceof Subject && ((Subject)vertInfo).getId().equals(subject.getId())) {
+				LinkedList<Edge> edgeList = vertIter.getEdgeList();
+				Iterator<Edge> iterEdge = edgeList.iterator();
+				while (iterEdge.hasNext()) {
+					Vertex vertEdge = iterEdge.next().getVertex();
+					escList.add((Material)vertEdge.getInfo());
+				}
+
+				find = true;
+			}
+		}
+		return escList;
+	}
+
+	//este metodo devuelve todos los subjects que utilizan un material
+	public List<Subject> getAllSubjectOfMaterial(Material material)
+	{
+		List<Subject> escList = new LinkedList<Subject>();
+		LinkedList<Vertex> vertList = graph.getVerticesList();
+		Iterator<Vertex> iter = vertList.iterator();
+
+		boolean find = false;
+		while (!find && iter.hasNext()) {
+			Vertex vertIter = iter.next();
+			Object vertInfo = vertIter.getInfo();
+			if (vertInfo instanceof Material )
+			{
+				LinkedList<Edge> edgeList = vertIter.getEdgeList();
+				Iterator<Edge> iterEdge = edgeList.iterator();
+				while (iterEdge.hasNext()) 
+				{
+					Vertex vertEdge = iterEdge.next().getVertex();
+					escList.add((Subject)vertEdge.getInfo());
+				}
+			} 
+		}
+		return escList;
 	}
 
 }
