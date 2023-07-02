@@ -6,6 +6,7 @@ import java.util.Calendar;
 
 public abstract class Material implements Serializable{
 	
+	private static final long serialVersionUID = 2510482433577051274L;
 	protected String tittle;
 	protected String author;
 	protected Calendar dateCreation;
@@ -46,8 +47,8 @@ public abstract class Material implements Serializable{
 		return dateCreation;
 	}
 
-	protected void setDateCreation(Calendar date_creation) {
-		this.dateCreation = date_creation;
+	protected void setDateCreation(Calendar dateCreation) {
+		this.dateCreation = dateCreation;
 	}
 
 }
