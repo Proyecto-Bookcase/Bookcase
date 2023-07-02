@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.GregorianCalendar;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,12 +21,18 @@ import javax.swing.JTextField;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.event.DocumentEvent;
+
 import java.awt.Toolkit;
 
 
 
 public class Formulario extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4390428898904257572L;
 	private JPanel contentPane;
 	private JPanel panel;
 	private JLabel lblNewLabel;
@@ -34,16 +41,9 @@ public class Formulario extends JFrame {
 	private JButton btnEliminarMostrar;
 	private JPanel panelAnnadir;
 	private JLabel lblNewLabel_1;
-	private JLabel lblNewLabel_3;
-	private JLabel lblNewLabel_3_1;
 	private JLabel lblNewLabel_3_2;
 	private JLabel lblNewLabel_3_3;
-	private JTextField textFieldNombre;
-	private JComboBox comboBoxTipo;
-	private JComboBox<String> comboBoxCarreras;
-	private JTextField textFieldAnno;
-	private JSeparator separator;
-	private JSeparator separator_1;
+	private JComboBox<String> comboBoxNombreCarrera;
 	private JButton btnAnnadirEliminar;
 	private JPanel panel_1;
 	private JLabel lblNewLabel_2_1;
@@ -60,8 +60,34 @@ public class Formulario extends JFrame {
 	private JButton btnEliminarOcultar;
 	private JLabel lblNewLabel_2;
 	private JLabel lblNewLabel_4;
-
-	/**
+	private JLabel lbAsignatura;
+	private JLabel lbNombreCarrera;
+	private JLabel lbIDCarrera;
+	private JLabel lbAnnosCarrera;
+	private JTextField textFieldID;
+	private JSeparator separator_4_2;
+	private JComboBox<String> cBoxAnnosCarrera;
+	private JLabel lbIDCarrera_1;
+	private JTextField textField_2;
+	private JSeparator separator_4_2_1;
+	private JLabel lbNombreCarrera_1;
+	private JTextField textField_3;
+	private JSeparator separator_4_2_1_1;
+	private JLabel lblAo;
+	private JComboBox<String> cBoxAnnosCarrera_1;
+	private JLabel lbIDCarrera_1_1;
+	private JTextField textField;
+	private JSeparator separator_4_2_2;
+	private JLabel lblNewLabel_3_2_1;
+	private JLabel lbNombreCarrera_1_1;
+	private JLabel lbNombreCarrera_1_2;
+	private JLabel lbNombreCarrera_1_3;
+	private JTextField textField_1;
+	private JTextField textField_4;
+	private JSeparator separator_4_2_2_1;
+	private JSeparator separator_4_2_2_2;
+	
+	/** 
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
@@ -325,17 +351,36 @@ public class Formulario extends JFrame {
 			panelAnnadir.setLayout(null);
 			panelAnnadir.add(getScrollPane());
 			panelAnnadir.add(getLblNewLabel_1());
-			panelAnnadir.add(getLblNewLabel_3());
-			panelAnnadir.add(getLblNewLabel_3_1());
 			panelAnnadir.add(getLblNewLabel_3_2());
 			panelAnnadir.add(getLblNewLabel_3_3());
-			panelAnnadir.add(getTextFieldNombre());
-			panelAnnadir.add(getComboBoxTipo());
-			panelAnnadir.add(getComboBoxCarreras());
-			panelAnnadir.add(getTextFieldAnno());
-			panelAnnadir.add(getSeparator());
-			panelAnnadir.add(getSeparator_1());
+			panelAnnadir.add(getComboBoxNombreCarrera());
 			panelAnnadir.add(getBtnAnnadirInterior());
+			panelAnnadir.add(getLbAsignatura());
+			panelAnnadir.add(getLbNombreCarrera());
+			panelAnnadir.add(getLbIDCarrera());
+			panelAnnadir.add(getLbAnnosCarrera());
+			panelAnnadir.add(getTextFieldID());
+			panelAnnadir.add(getSeparator_4_2());
+			panelAnnadir.add(getCBoxAnnosCarrera());
+			panelAnnadir.add(getLbIDCarrera_1());
+			panelAnnadir.add(getTextField_2());
+			panelAnnadir.add(getSeparator_4_2_1());
+			panelAnnadir.add(getLbNombreCarrera_1());
+			panelAnnadir.add(getTextField_3());
+			panelAnnadir.add(getSeparator_4_2_1_1());
+			panelAnnadir.add(getLblAo());
+			panelAnnadir.add(getCBoxAnnosCarrera_1());
+			panelAnnadir.add(getLbIDCarrera_1_1());
+			panelAnnadir.add(getTextField_4());
+			panelAnnadir.add(getSeparator_4_2_2());
+			panelAnnadir.add(getLblNewLabel_3_2_1());
+			panelAnnadir.add(getLbNombreCarrera_1_1());
+			panelAnnadir.add(getLbNombreCarrera_1_2());
+			panelAnnadir.add(getLbNombreCarrera_1_3());
+			panelAnnadir.add(getTextField_1());
+			panelAnnadir.add(getTextField_4_1());
+			panelAnnadir.add(getSeparator_4_2_2_1());
+			panelAnnadir.add(getSeparator_4_2_2_2());
 			panelAnnadir.setVisible(false);
 		}
 		return panelAnnadir;
@@ -348,27 +393,11 @@ public class Formulario extends JFrame {
 		}
 		return lblNewLabel_1;
 	}
-	private JLabel getLblNewLabel_3() {
-		if (lblNewLabel_3 == null) {
-			lblNewLabel_3 = new JLabel("Nombre:");
-			lblNewLabel_3.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 17));
-			lblNewLabel_3.setBounds(31, 96, 95, 38);
-		}
-		return lblNewLabel_3;
-	}
-	private JLabel getLblNewLabel_3_1() {
-		if (lblNewLabel_3_1 == null) {
-			lblNewLabel_3_1 = new JLabel("Tipo:");
-			lblNewLabel_3_1.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 17));
-			lblNewLabel_3_1.setBounds(31, 157, 85, 38);
-		}
-		return lblNewLabel_3_1;
-	}
 	private JLabel getLblNewLabel_3_2() {
 		if (lblNewLabel_3_2 == null) {
 			lblNewLabel_3_2 = new JLabel("Año:");
 			lblNewLabel_3_2.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 17));
-			lblNewLabel_3_2.setBounds(31, 216, 123, 38);
+			lblNewLabel_3_2.setBounds(15, 226, 69, 38);
 		}
 		return lblNewLabel_3_2;
 	}
@@ -376,76 +405,24 @@ public class Formulario extends JFrame {
 		if (lblNewLabel_3_3 == null) {
 			lblNewLabel_3_3 = new JLabel("Carrera:");
 			lblNewLabel_3_3.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 17));
-			lblNewLabel_3_3.setBounds(31, 282, 123, 38);
+			lblNewLabel_3_3.setBounds(10, 59, 93, 32);
 		}
 		return lblNewLabel_3_3;
 	}
-	private JTextField getTextFieldNombre() {
-		if (textFieldNombre == null) {
-			textFieldNombre = new JTextField();
-			textFieldNombre.setBounds(129, 96, 341, 32);
-			textFieldNombre.setColumns(10);
+	private JComboBox<String> getComboBoxNombreCarrera() {
+		if (comboBoxNombreCarrera == null) {
+			comboBoxNombreCarrera = new JComboBox<String>();
+			comboBoxNombreCarrera.setBackground(new Color(255, 255, 255));
+			comboBoxNombreCarrera.setOpaque(false);
+			comboBoxNombreCarrera.setBounds(125, 87, 253, 20);
 			
-			textFieldNombre.setOpaque(false);
-			textFieldNombre.setBorder(new EmptyBorder(0, 0, 0, 0));
-			textFieldNombre.setOpaque(false);
-		}
-		return textFieldNombre;
-	}
-	private JComboBox getComboBoxTipo() {
-		if (comboBoxTipo == null) {
-			comboBoxTipo = new JComboBox();
-			comboBoxTipo.setBackground(new Color(255, 255, 255));
-			comboBoxTipo.setOpaque(false);
-			comboBoxTipo.setBorder(null);
-			comboBoxTipo.setBounds(129, 155, 292, 32);
+			comboBoxNombreCarrera.addItem("  ");
+			comboBoxNombreCarrera.addItem("elemento 1");
+			comboBoxNombreCarrera.addItem("elemento 1");
 			
 			
 		}
-		return comboBoxTipo;
-	}
-	private JComboBox<String> getComboBoxCarreras() {
-		if (comboBoxCarreras == null) {
-			comboBoxCarreras = new JComboBox<String>();
-			comboBoxCarreras.setBackground(new Color(255, 255, 255));
-			comboBoxCarreras.setOpaque(false);
-			comboBoxCarreras.setBounds(129, 282, 292, 32);
-			
-			comboBoxCarreras.addItem("  ");
-			comboBoxCarreras.addItem("elemento 1");
-			comboBoxCarreras.addItem("elemento 1");
-			
-			
-		}
-		return comboBoxCarreras;
-	}
-	private JTextField getTextFieldAnno() {
-		if (textFieldAnno == null) {
-			textFieldAnno = new JTextField();
-			textFieldAnno.setBounds(131, 228, 192, 32);
-			textFieldAnno.setColumns(10);
-			
-			textFieldAnno.setOpaque(false);
-			textFieldAnno.setBorder(new EmptyBorder(0, 0, 0, 0));
-			textFieldAnno.setOpaque(false);
-		}
-		return textFieldAnno;
-	}
-	private JSeparator getSeparator() {
-		if (separator == null) {
-			separator = new JSeparator();
-			separator.setForeground(new Color(0, 0, 0));
-			separator.setBounds(128, 125, 293, 2);
-		}
-		return separator;
-	}
-	private JSeparator getSeparator_1() {
-		if (separator_1 == null) {
-			separator_1 = new JSeparator();
-			separator_1.setForeground(new Color(0, 0, 0));
-			separator_1.setBounds(135, 253, 286, 2);
-		}
-		return separator_1;
+		return comboBoxNombreCarrera;
 	}
 	private JButton getBtnAnnadirEliminar() {
 		if (btnAnnadirEliminar == null) {
@@ -623,7 +600,7 @@ public class Formulario extends JFrame {
 		if (btnAnnadirInterior == null) {
 			btnAnnadirInterior = new JButton("");
 			btnAnnadirInterior.setIcon(new ImageIcon(Formulario.class.getResource("/icons/icons8-add-properties-24.png")));
-			btnAnnadirInterior.setBounds(332, 361, 89, 38);
+			btnAnnadirInterior.setBounds(379, 11, 42, 38);
 			
 			btnAnnadirInterior.setOpaque(false);
 			btnAnnadirInterior.setBorder(null);
@@ -691,9 +668,233 @@ public class Formulario extends JFrame {
 		if (lblNewLabel_4 == null) {
 			lblNewLabel_4 = new JLabel("");
 			lblNewLabel_4.setIcon(new ImageIcon(Formulario.class.getResource("/icons/Fondo de textura de acuarela amarilla brillante _ Vector Gratis.jpg")));
-			lblNewLabel_4.setBounds(0, 0, 613, 499);
+			lblNewLabel_4.setBounds(0, 0, 613, 527);
 		}
 		return lblNewLabel_4;
+	}
+	private JLabel getLbAsignatura() {
+		if (lbAsignatura == null) {
+			lbAsignatura = new JLabel("Asignatura:");
+			lbAsignatura.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 17));
+			lbAsignatura.setBounds(12, 152, 91, 38);
+		}
+		return lbAsignatura;
+	}
+	private JLabel getLbNombreCarrera() {
+		if (lbNombreCarrera == null) {
+			lbNombreCarrera = new JLabel("Nombre:");
+			lbNombreCarrera.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 12));
+			lbNombreCarrera.setBounds(23, 86, 61, 20);
+		}
+		return lbNombreCarrera;
+	}
+	private JLabel getLbIDCarrera() {
+		if (lbIDCarrera == null) {
+			lbIDCarrera = new JLabel("ID:");
+			lbIDCarrera.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 12));
+			lbIDCarrera.setBounds(23, 133, 61, 20);
+		}
+		return lbIDCarrera;
+	}
+	private JLabel getLbAnnosCarrera() {
+		if (lbAnnosCarrera == null) {
+			lbAnnosCarrera = new JLabel("Años:");
+			lbAnnosCarrera.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 12));
+			lbAnnosCarrera.setBounds(23, 110, 61, 20);
+		}
+		return lbAnnosCarrera;
+	}
+	private JTextField getTextFieldID() {
+		if (textFieldID == null) {
+			textFieldID = new JTextField();
+			textFieldID.setOpaque(false);
+			textFieldID.setColumns(10);
+			textFieldID.setBorder(new EmptyBorder(0, 0, 0, 0));
+			textFieldID.setBounds(125, 133, 253, 20);
+		}
+		return textFieldID;
+	}
+	private JSeparator getSeparator_4_2() {
+		if (separator_4_2 == null) {
+			separator_4_2 = new JSeparator();
+			separator_4_2.setForeground(Color.BLACK);
+			separator_4_2.setBounds(125, 151, 253, 2);
+		}
+		return separator_4_2;
+	}
+	private JComboBox<String> getCBoxAnnosCarrera() {
+		if (cBoxAnnosCarrera == null) {
+			cBoxAnnosCarrera = new JComboBox<String>();
+			cBoxAnnosCarrera.setOpaque(false);
+			cBoxAnnosCarrera.setBackground(Color.WHITE);
+			cBoxAnnosCarrera.setBounds(125, 110, 253, 20);
+		}
+		return cBoxAnnosCarrera;
+	}
+	private JLabel getLbIDCarrera_1() {
+		if (lbIDCarrera_1 == null) {
+			lbIDCarrera_1 = new JLabel("ID:");
+			lbIDCarrera_1.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 12));
+			lbIDCarrera_1.setBounds(25, 207, 61, 20);
+		}
+		return lbIDCarrera_1;
+	}
+	private JTextField getTextField_2() {
+		if (textField_2 == null) {
+			textField_2 = new JTextField();
+			textField_2.setOpaque(false);
+			textField_2.setColumns(10);
+			textField_2.setBorder(new EmptyBorder(0, 0, 0, 0));
+			textField_2.setBounds(125, 186, 253, 20);
+		}
+		return textField_2;
+	}
+	private JSeparator getSeparator_4_2_1() {
+		if (separator_4_2_1 == null) {
+			separator_4_2_1 = new JSeparator();
+			separator_4_2_1.setForeground(Color.BLACK);
+			separator_4_2_1.setBounds(125, 207, 253, 2);
+		}
+		return separator_4_2_1;
+	}
+	private JLabel getLbNombreCarrera_1() {
+		if (lbNombreCarrera_1 == null) {
+			lbNombreCarrera_1 = new JLabel("Nombre:");
+			lbNombreCarrera_1.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 12));
+			lbNombreCarrera_1.setBounds(25, 186, 61, 20);
+		}
+		return lbNombreCarrera_1;
+	}
+	private JTextField getTextField_3() {
+		if (textField_3 == null) {
+			textField_3 = new JTextField();
+			textField_3.setOpaque(false);
+			textField_3.setColumns(10);
+			textField_3.setBorder(new EmptyBorder(0, 0, 0, 0));
+			textField_3.setBounds(125, 208, 253, 20);
+		}
+		return textField_3;
+	}
+	private JSeparator getSeparator_4_2_1_1() {
+		if (separator_4_2_1_1 == null) {
+			separator_4_2_1_1 = new JSeparator();
+			separator_4_2_1_1.setForeground(Color.BLACK);
+			separator_4_2_1_1.setBounds(125, 226, 253, 2);
+		}
+		return separator_4_2_1_1;
+	}
+	private JLabel getLblAo() {
+		if (lblAo == null) {
+			lblAo = new JLabel("Cantidad:");
+			lblAo.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 12));
+			lblAo.setBounds(25, 262, 61, 20);
+		}
+		return lblAo;
+	}
+	private JComboBox<String> getCBoxAnnosCarrera_1() {
+		if (cBoxAnnosCarrera_1 == null) {
+			cBoxAnnosCarrera_1 = new JComboBox<String>();
+			cBoxAnnosCarrera_1.setOpaque(false);
+			cBoxAnnosCarrera_1.setBackground(Color.WHITE);
+			cBoxAnnosCarrera_1.setBounds(125, 263, 253, 20);
+		}
+		return cBoxAnnosCarrera_1;
+	}
+	private JLabel getLbIDCarrera_1_1() {
+		if (lbIDCarrera_1_1 == null) {
+			lbIDCarrera_1_1 = new JLabel("ID:");
+			lbIDCarrera_1_1.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 12));
+			lbIDCarrera_1_1.setBounds(23, 293, 61, 20);
+		}
+		return lbIDCarrera_1_1;
+	}
+	private JTextField getTextField_4() {
+		if (textField == null) {
+			textField = new JTextField();
+			textField.setOpaque(false);
+			textField.setColumns(10);
+			textField.setBorder(new EmptyBorder(0, 0, 0, 0));
+			textField.setBounds(123, 294, 255, 20);
+		}
+		return textField;
+	}
+	private JSeparator getSeparator_4_2_2() {
+		if (separator_4_2_2 == null) {
+			separator_4_2_2 = new JSeparator();
+			separator_4_2_2.setForeground(Color.BLACK);
+			separator_4_2_2.setBounds(125, 313, 253, 0);
+		}
+		return separator_4_2_2;
+	}
+	private JLabel getLblNewLabel_3_2_1() {
+		if (lblNewLabel_3_2_1 == null) {
+			lblNewLabel_3_2_1 = new JLabel("Material:");
+			lblNewLabel_3_2_1.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 17));
+			lblNewLabel_3_2_1.setBounds(15, 313, 88, 38);
+		}
+		return lblNewLabel_3_2_1;
+	}
+	private JLabel getLbNombreCarrera_1_1() {
+		if (lbNombreCarrera_1_1 == null) {
+			lbNombreCarrera_1_1 = new JLabel("Título:");
+			lbNombreCarrera_1_1.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 12));
+			lbNombreCarrera_1_1.setBounds(23, 344, 61, 20);
+		}
+		return lbNombreCarrera_1_1;
+	}
+	private JLabel getLbNombreCarrera_1_2() {
+		if (lbNombreCarrera_1_2 == null) {
+			lbNombreCarrera_1_2 = new JLabel("Autor:");
+			lbNombreCarrera_1_2.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 12));
+			lbNombreCarrera_1_2.setBounds(23, 368, 61, 20);
+		}
+		return lbNombreCarrera_1_2;
+	}
+	private JLabel getLbNombreCarrera_1_3() {
+		if (lbNombreCarrera_1_3 == null) {
+			lbNombreCarrera_1_3 = new JLabel("Fecha:");
+			lbNombreCarrera_1_3.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 12));
+			lbNombreCarrera_1_3.setBounds(23, 391, 61, 20);
+		}
+		return lbNombreCarrera_1_3;
+	}
+	
+
+	private JTextField getTextField_1() {
+		if (textField_1 == null) {
+			textField_1 = new JTextField();
+			textField_1.setOpaque(false);
+			textField_1.setColumns(10);
+			textField_1.setBorder(new EmptyBorder(0, 0, 0, 0));
+			textField_1.setBounds(125, 345, 253, 20);
+		}
+		return textField_1;
+	}
+	private JTextField getTextField_4_1() {
+		if (textField_4 == null) {
+			textField_4 = new JTextField();
+			textField_4.setOpaque(false);
+			textField_4.setColumns(10);
+			textField_4.setBorder(new EmptyBorder(0, 0, 0, 0));
+			textField_4.setBounds(125, 369, 253, 20);
+		}
+		return textField_4;
+	}
+	private JSeparator getSeparator_4_2_2_1() {
+		if (separator_4_2_2_1 == null) {
+			separator_4_2_2_1 = new JSeparator();
+			separator_4_2_2_1.setForeground(Color.BLACK);
+			separator_4_2_2_1.setBounds(125, 364, 253, 2);
+		}
+		return separator_4_2_2_1;
+	}
+	private JSeparator getSeparator_4_2_2_2() {
+		if (separator_4_2_2_2 == null) {
+			separator_4_2_2_2 = new JSeparator();
+			separator_4_2_2_2.setForeground(Color.BLACK);
+			separator_4_2_2_2.setBounds(125, 388, 253, 1);
+		}
+		return separator_4_2_2_2;
 	}
 }
 
