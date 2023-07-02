@@ -63,6 +63,7 @@ public class Principal extends JFrame {
 	private JScrollPane scrollPaneMenu;
 	private JButton btnBusquedaAvanzada;
 	private JTextPane txtpnInformacionApp;
+	private JLabel lblImagenRaton;
 
 	/**
 	 * Launch the application.
@@ -107,6 +108,7 @@ public class Principal extends JFrame {
 
 		contentPane.add(getBtnBusquedaAvanzada());
 		contentPane.add(getTxtpnInformacionApp());
+		contentPane.add(getLblImagenRaton());
 		
 	}
 
@@ -269,7 +271,7 @@ public class Principal extends JFrame {
 	private JLabel getLblBookcase() {
 		if (lblBookcase == null) {
 			lblBookcase = new JLabel("Bookcase");
-			lblBookcase.setBounds(356, 140, 224, 89);
+			lblBookcase.setBounds(328, 140, 224, 89);
 			lblBookcase.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 45));
 		}
 		return lblBookcase;
@@ -278,7 +280,7 @@ public class Principal extends JFrame {
 	private JLabel getLblFotoLibro() {
 		if (lblFotoLibro == null) {
 			lblFotoLibro = new JLabel("");
-			lblFotoLibro.setBounds(590, 140, 77, 89);
+			lblFotoLibro.setBounds(562, 140, 77, 89);
 			lblFotoLibro.setIcon(
 					new ImageIcon(Principal.class.getResource("/icons/icons8-book-64 (2).png")));
 		}
@@ -650,8 +652,16 @@ public class Principal extends JFrame {
 		if (txtpnInformacionApp == null) {
 			txtpnInformacionApp = new JTextPane();
 			txtpnInformacionApp.setText("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-			txtpnInformacionApp.setBounds(573, 298, 156, 123);
+			txtpnInformacionApp.setBounds(286, 298, 398, 180);
 		}
 		return txtpnInformacionApp;
+	}
+	private JLabel getLblImagenRaton() {
+		if (lblImagenRaton == null) {
+			lblImagenRaton = new JLabel("");
+			lblImagenRaton.setIcon(new ImageIcon(Principal.class.getResource("/icons/ratonCHico.png")));
+			lblImagenRaton.setBounds(705, 140, 213, 338);
+		}
+		return lblImagenRaton;
 	}
 }
