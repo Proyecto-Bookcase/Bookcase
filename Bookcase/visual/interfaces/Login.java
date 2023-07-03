@@ -24,23 +24,28 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.Toolkit;
 import javax.swing.JSeparator;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Login extends JFrame {
 
 	private JPanel contentPane;
-	private JLabel lblLibrera;
+	private JLabel lblIniciarSesion;
 	private JLabel lblImagenUsuario;
 	private JTextField txNombreUsuario;
 	private JPasswordField passwordField;
-	private JLabel lbl;
-	private JLabel lblNewLabel_1_1;
+	private JLabel lblIconUSuarioNombre;
+	private JLabel lblLogoCOntrasennaOculta;
 	private JButton btnCerrar;
 	private JButton btnAcceder;
 	private JSeparator separator;
 	private JSeparator separator_1;
 	private Validacion validaciones;
 	private JLabel lblErrorUserPasword;
-	private JLabel lblNewLabel_1;
+	private JLabel lblLogoContrasennaVer;
+	private JLabel lblFondo;
 
 	/**
 	 * Launch the application.
@@ -73,27 +78,28 @@ public class Login extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/icons/icons8-book-64 (2).png")));	
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		contentPane.add(getLblLibrera());
+		contentPane.add(getLblIniciarSesion());
 		contentPane.add(getLblImagenUsuario());
 		contentPane.add(getTxNombreUsuario());
 		contentPane.add(getPasswordField());
-		contentPane.add(getLbl());
-		contentPane.add(getLblNewLabel_1_1());
+		contentPane.add(getLblIconUSuarioNombre());
+		contentPane.add(getLblLogoCOntrasennaOculta());
 		contentPane.add(getBtnCerrar());
 		contentPane.add(getBtnAcceder());
 		contentPane.add(getSeparator());
 		contentPane.add(getSeparator_1());
 		contentPane.add(getLblErrorUserPasword());
-		contentPane.add(getLblNewLabel_1());
+		contentPane.add(getLabel_1());
+		contentPane.add(getLblFondo_1());
 		validaciones = new Validacion();
 	}
-	private JLabel getLblLibrera() {
-		if (lblLibrera == null) {
-			lblLibrera = new JLabel(" INICIAR SESIÓN");
-			lblLibrera.setFont(new Font("Yu Gothic UI Semilight", Font.PLAIN, 33));
-			lblLibrera.setBounds(43, 100, 245, 50);
+	private JLabel getLblIniciarSesion() {
+		if (lblIniciarSesion == null) {
+			lblIniciarSesion = new JLabel(" INICIAR SESIÓN");
+			lblIniciarSesion.setFont(new Font("Yu Gothic UI Semilight", Font.PLAIN, 33));
+			lblIniciarSesion.setBounds(43, 100, 245, 50);
 		}
-		return lblLibrera;
+		return lblIniciarSesion;
 	}
 	private JLabel getLblImagenUsuario() {
 		if (lblImagenUsuario == null) {
@@ -106,6 +112,7 @@ public class Login extends JFrame {
 	private JTextField getTxNombreUsuario() {
 		if (txNombreUsuario == null) {
 			txNombreUsuario = new JTextField();
+			txNombreUsuario.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			txNombreUsuario.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 			txNombreUsuario.setBorder(new EmptyBorder(0, 0, 0, 0));
 			txNombreUsuario.setOpaque(false);
@@ -117,29 +124,40 @@ public class Login extends JFrame {
 	private JPasswordField getPasswordField() {
 		if (passwordField == null) {
 			passwordField = new JPasswordField();
+			passwordField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			passwordField.setOpaque(false);
 			passwordField.setBorder(new EmptyBorder(0, 0, 0, 0));
 			passwordField.setBounds(78, 215, 210, 20);
 		}
 		return passwordField;
 	}
-	private JLabel getLbl() {
-		if (lbl == null) {
-			lbl = new JLabel("");
-			lbl.setIcon(new ImageIcon(Login.class.getResource("/icons/icons8-user-16.png")));
-			lbl.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 12));
-			lbl.setBounds(43, 160, 26, 39);
+	private JLabel getLblIconUSuarioNombre() {
+		if (lblIconUSuarioNombre == null) {
+			lblIconUSuarioNombre = new JLabel("");
+			lblIconUSuarioNombre.setIcon(new ImageIcon(Login.class.getResource("/icons/icons8-user-16.png")));
+			lblIconUSuarioNombre.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 12));
+			lblIconUSuarioNombre.setBounds(43, 160, 26, 39);
 		}
-		return lbl;
+		return lblIconUSuarioNombre;
 	}
-	private JLabel getLblNewLabel_1_1() {
-		if (lblNewLabel_1_1 == null) {
-			lblNewLabel_1_1 = new JLabel("");
-			lblNewLabel_1_1.setIcon(new ImageIcon(Login.class.getResource("/icons/icons8_hide_20px.png")));
-			lblNewLabel_1_1.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 12));
-			lblNewLabel_1_1.setBounds(43, 221, 25, 20);
+	private JLabel getLblLogoCOntrasennaOculta() {
+		if (lblLogoCOntrasennaOculta == null) {
+			lblLogoCOntrasennaOculta = new JLabel("");
+			lblLogoCOntrasennaOculta.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					lblLogoContrasennaVer.setVisible(true);
+					lblLogoCOntrasennaOculta.setVisible(false);
+					passwordField.setEchoChar((char)0);
+				
+				}
+			});
+			
+			lblLogoCOntrasennaOculta.setIcon(new ImageIcon(Login.class.getResource("/icons/icons8_hide_20px.png")));
+			lblLogoCOntrasennaOculta.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 12));
+			lblLogoCOntrasennaOculta.setBounds(43, 221, 25, 20);
 		}
-		return lblNewLabel_1_1;
+		return lblLogoCOntrasennaOculta;
 	}
 	private JButton getBtnCerrar() {
 		if (btnCerrar == null) {
@@ -184,6 +202,8 @@ public class Login extends JFrame {
 						dispose();	
 					}else {
 						lblErrorUserPasword.setVisible(true);
+						txNombreUsuario.setText(null);
+						passwordField.setText(null);
 					}
 					
 				}
@@ -227,13 +247,30 @@ public class Login extends JFrame {
 		}
 		return lblErrorUserPasword;
 	}
-	private JLabel getLblNewLabel_1() {
-		if (lblNewLabel_1 == null) {
-			lblNewLabel_1 = new JLabel("");
-			lblNewLabel_1.setIcon(new ImageIcon(Login.class.getResource("/icons/Fondo de textura de acuarela amarilla brillante _ Vector Gratis.jpg")));
-			lblNewLabel_1.setBounds(0, 0, 314, 365);
+	private JLabel getLabel_1() {
+		if (lblLogoContrasennaVer == null) {
+			lblLogoContrasennaVer = new JLabel("");
+			lblLogoContrasennaVer.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					passwordField.setEchoChar('●');
+					lblLogoCOntrasennaOculta.setVisible(true);
+					lblLogoContrasennaVer.setVisible(false);
+				}
+			});
+			lblLogoContrasennaVer.setVisible(false);
+			lblLogoContrasennaVer.setIcon(new ImageIcon(Login.class.getResource("/icons/icons8_eye_20px.png")));
+			lblLogoContrasennaVer.setBounds(43, 221, 25, 20);
 		}
-		return lblNewLabel_1;
+		return lblLogoContrasennaVer;
+	}
+	private JLabel getLblFondo_1() {
+		if (lblFondo == null) {
+			lblFondo = new JLabel("");
+			lblFondo.setIcon(new ImageIcon(Login.class.getResource("/icons/Fondo de textura de acuarela amarilla brillante _ Vector Gratis.jpg")));
+			lblFondo.setBounds(0, 0, 314, 365);
+		}
+		return lblFondo;
 	}
 }
 //jjj
