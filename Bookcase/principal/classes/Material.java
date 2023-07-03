@@ -19,7 +19,7 @@ public abstract class Material implements Serializable{
 		setDateCreation(dateCreation);
 	}
 
-	protected String getTittle() {
+	public String getTittle() {
 		return tittle;
 	}
 
@@ -27,7 +27,7 @@ public abstract class Material implements Serializable{
 		this.tittle = tittle;
 	}
 
-	protected String getAuthor() {
+	public String getAuthor() {
 		return author;
 	}
 
@@ -43,7 +43,7 @@ public abstract class Material implements Serializable{
 		this.author = author;
 	}
 
-	protected Calendar getDateCreation() {
+	public Calendar getDateCreation() {
 		return dateCreation;
 	}
 
