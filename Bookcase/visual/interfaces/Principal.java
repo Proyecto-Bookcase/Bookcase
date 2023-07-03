@@ -21,6 +21,9 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
+import javax.swing.border.LineBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.UIManager;
 
 public class Principal extends JFrame {
 
@@ -62,9 +65,10 @@ public class Principal extends JFrame {
 	private JLabel lblPAnelArriba;
 	private JScrollPane scrollPaneMenu;
 	private JButton btnBusquedaAvanzada;
-	private JTextPane txtpnInformacionApp;
 	private JLabel lblImagenRaton;
 	private JLabel lblFondoRaton;
+	private JLabel lblFondoMenuAnno;
+	private JTextArea textArea;
 
 	/**
 	 * Launch the application.
@@ -108,9 +112,9 @@ public class Principal extends JFrame {
 		contentPane.add(getPaneLarriba());
 
 		contentPane.add(getBtnBusquedaAvanzada());
-		contentPane.add(getTxtpnInformacionApp());
 		contentPane.add(getLblImagenRaton());
 		contentPane.add(getLblFondoRaton());
+		contentPane.add(getTextArea());
 		
 	}
 
@@ -155,7 +159,6 @@ public class Principal extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					lblBookcase.setVisible(true);
 					lblFotoLibro.setVisible(true);
-					txtpnInformacionApp.setVisible(true);
 					lblImagenRaton.setVisible(true);
 					lblFondoRaton.setVisible(true);
 					int x = 213;
@@ -213,7 +216,6 @@ public class Principal extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					lblBookcase.setVisible(false);
 					lblFotoLibro.setVisible(false);
-					txtpnInformacionApp.setVisible(false);
 					lblImagenRaton.setVisible(false);
 					lblFondoRaton.setVisible(false);
 					int x = 213;
@@ -256,7 +258,7 @@ public class Principal extends JFrame {
 			btnCerrar.setBorder(null);
 			btnCerrar.setContentAreaFilled(false);
 			btnCerrar.setFocusPainted(false);
-			btnCerrar.setToolTipText("Cerrar seccion");
+			btnCerrar.setToolTipText("Cerrar");
 			btnCerrar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					dispose();
@@ -280,7 +282,7 @@ public class Principal extends JFrame {
 	private JLabel getLblBookcase() {
 		if (lblBookcase == null) {
 			lblBookcase = new JLabel("Bookcase");
-			lblBookcase.setBounds(328, 140, 224, 89);
+			lblBookcase.setBounds(123, 88, 224, 89);
 			lblBookcase.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 45));
 		}
 		return lblBookcase;
@@ -289,7 +291,7 @@ public class Principal extends JFrame {
 	private JLabel getLblFotoLibro() {
 		if (lblFotoLibro == null) {
 			lblFotoLibro = new JLabel("");
-			lblFotoLibro.setBounds(562, 140, 77, 89);
+			lblFotoLibro.setBounds(357, 88, 77, 89);
 			lblFotoLibro.setIcon(
 					new ImageIcon(Principal.class.getResource("/icons/icons8-book-64 (2).png")));
 		}
@@ -437,6 +439,7 @@ public class Principal extends JFrame {
 			panelAnnos.add(getBtnAnno2());
 			panelAnnos.add(getBtnAnno3());
 			panelAnnos.add(getBtnAnno4());
+			panelAnnos.add(getLblFondoMenuAnno());
 			panelAnnos.setVisible(false);
 		}
 		return panelAnnos;
@@ -658,14 +661,6 @@ public class Principal extends JFrame {
 		}
 		return btnBusquedaAvanzada;
 	}
-	private JTextPane getTxtpnInformacionApp() {
-		if (txtpnInformacionApp == null) {
-			txtpnInformacionApp = new JTextPane();
-			txtpnInformacionApp.setText("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-			txtpnInformacionApp.setBounds(106, 298, 398, 180);
-		}
-		return txtpnInformacionApp;
-	}
 	private JLabel getLblImagenRaton() {
 		if (lblImagenRaton == null) {
 			lblImagenRaton = new JLabel("");
@@ -681,5 +676,19 @@ public class Principal extends JFrame {
 			lblFondoRaton.setBounds(0, 34, 1053, 566);
 		}
 		return lblFondoRaton;
+	}
+	private JLabel getLblFondoMenuAnno() {
+		if (lblFondoMenuAnno == null) {
+			lblFondoMenuAnno = new JLabel("");
+			lblFondoMenuAnno.setBounds(0, 0, 115, 600);
+		}
+		return lblFondoMenuAnno;
+	}
+	private JTextArea getTextArea() {
+		if (textArea == null) {
+			textArea = new JTextArea();
+			textArea.setBounds(223, 88, 144, 128);
+		}
+		return textArea;
 	}
 }
