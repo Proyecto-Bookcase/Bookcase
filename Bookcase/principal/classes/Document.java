@@ -4,19 +4,20 @@ import java.util.Calendar;
 
 public class Document extends Material {
 	
+	private static final long serialVersionUID = -2951714311121138460L;
 	private String typeDoc;
 	
-	public Document(String id, String tittle, String author, Calendar date_creation, String tipe_doc) {
-		super(id,tittle, author, date_creation);
-		this.typeDoc = tipe_doc;
+	public Document(String id, String tittle, String author, Calendar dateCreation, String typeDoc) {
+		super(id,tittle, author, dateCreation);
+		this.typeDoc = typeDoc;
 	}
 
 	public String getTypeDoc() {
 		return typeDoc;
 	}
 
-	public void setTypeDoc(String tipe_doc) {
-		this.typeDoc = tipe_doc;
+	public void setTypeDoc(String typeDoc) {
+		this.typeDoc = typeDoc;
 	}
 
 	
