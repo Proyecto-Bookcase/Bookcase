@@ -50,6 +50,18 @@ public class Bookcase {
 		if (instance == null) {
 			instance = new Bookcase();
 			instance.tree.setRoot(new BinaryTreeNode<>(new University("", "")));
+			instance.newCarreer("Informática", 4);
+			instance.newCarreer("Informáticb", 4);
+			instance.newCarreer("Informáticc", 4);
+			instance.newCarreer("Informáticd", 4);
+			instance.newCarreer("Informátice", 4);
+			instance.newCarreer("Informáticf", 4);
+			instance.newCarreer("Informáticg", 4);
+			instance.newCarreer("Informátich", 4);
+			instance.newCarreer("Informátici", 4);
+			instance.newCarreer("Informáticj", 4);
+			instance.newCarreer("Informátick", 4);
+			
 		}
 		return instance;
 	}
