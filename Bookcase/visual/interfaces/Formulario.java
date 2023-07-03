@@ -30,6 +30,8 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 
@@ -153,6 +155,16 @@ public class Formulario extends JFrame {
 	private JButton getBtnAnnadirMostrar() {
 		if (btnAnnadirMostrar == null) {
 			btnAnnadirMostrar = new JButton("Añadir");
+			btnAnnadirMostrar.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					btnAnnadirMostrar.setForeground(Color.yellow);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					btnAnnadirMostrar.setForeground(Color.black);
+				}
+			});
 			btnAnnadirMostrar.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 19));
 			btnAnnadirMostrar.setBounds(22, 105, 89, 41);
 			
@@ -219,6 +231,16 @@ public class Formulario extends JFrame {
 	private JButton getBtnNewButton_1_1() {
 		if (btnEditarMostrar == null) {
 			btnEditarMostrar = new JButton("Editar");
+			btnEditarMostrar.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					btnEditarMostrar.setForeground(Color.yellow);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					btnEditarMostrar.setForeground(Color.black);
+				}
+			});
 			btnEditarMostrar.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 18));
 			btnEditarMostrar.setBounds(22, 179, 89, 41);
 			
@@ -281,7 +303,19 @@ public class Formulario extends JFrame {
 	private JButton getBtnNewButton_2_1() {
 		if (btnEliminarMostrar == null) {
 			btnEliminarMostrar = new JButton("Eliminar");
-			btnEliminarMostrar.setBackground(new Color(255, 255, 255));
+
+			btnEliminarMostrar.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					btnEliminarMostrar.setForeground(Color.yellow);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					btnEliminarMostrar.setForeground(Color.black);
+				}
+			});
+			//btnEliminarMostrar.setBackground(new Color(255, 255, 255));
+
 			btnEliminarMostrar.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 18));
 			btnEliminarMostrar.setBounds(10, 253, 107, 41);
 			
@@ -393,6 +427,17 @@ public class Formulario extends JFrame {
 	private JButton getBtnAnnadirOcultar() {
 		if (btnAnnadirOcultar == null) {
 			btnAnnadirOcultar = new JButton("Añadir");
+			btnAnnadirOcultar.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					btnAnnadirOcultar.setForeground(Color.yellow);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					btnAnnadirOcultar.setForeground(Color.black);
+				}
+			});
+			
 			btnAnnadirOcultar.setOpaque(false);
 			btnAnnadirOcultar.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 19));
 			btnAnnadirOcultar.setFocusPainted(false);
@@ -436,6 +481,16 @@ public class Formulario extends JFrame {
 	private JButton getBtnEditarOcultar() {
 		if (btnEditarOcultar == null) {
 			btnEditarOcultar = new JButton("Editar");
+			btnEditarOcultar.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					btnEditarOcultar.setForeground(Color.yellow);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					btnEditarOcultar.setForeground(Color.black);
+				}
+			});
 			btnEditarOcultar.setOpaque(false);
 			btnEditarOcultar.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 18));
 			btnEditarOcultar.setFocusPainted(false);
@@ -536,6 +591,16 @@ public class Formulario extends JFrame {
 	private JButton getBtnEliminarOcultar() {
 		if (btnEliminarOcultar == null) {
 			btnEliminarOcultar = new JButton("Eliminar");
+			btnEliminarOcultar.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					btnEliminarOcultar.setForeground(Color.yellow);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					btnEliminarOcultar.setForeground(Color.black);
+				}
+			});
 			
 
 			btnEliminarOcultar.addActionListener(new ActionListener() {
@@ -773,7 +838,7 @@ public class Formulario extends JFrame {
 	private JSpinner getSpinnerCArrera() {
 		if (spinnerCArrera == null) {
 			spinnerCArrera = new JSpinner();
-			spinnerCArrera.setVisible(false);
+			spinnerCArrera.setFocusable(false);
 			spinnerCArrera.setModel(new SpinnerNumberModel(2, 2, 6, 1));
 			spinnerCArrera.setBounds(101, 113, 273, 23);
 
