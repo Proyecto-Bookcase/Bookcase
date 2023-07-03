@@ -4,8 +4,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -767,9 +765,12 @@ public class Bookcase {
 		tree.deleteNode(vertSubjetc);
 	}
 
+
 	// este metodo elimina un subject del grafo
 	// asume que si existe un material que solo se use en dicha asignatura entonces
 	// elimina el material tambien
+
+
 	public void deleteSubjectGraph(Subject subjectDelete) {
 		int subjcetIndex = Integer.parseInt(subjectDelete.getId());
 		int indexMaterialDelete = getVertexIndexById(subjectDelete.getId());
@@ -782,6 +783,7 @@ public class Bookcase {
 
 			Vertex vertIter = iterAdjacents.next();
 			int indexVert = vertList.indexOf(vertIter);
+
 			if (graph.degreeND(indexVert) == 1) {
 				graph.deleteVertex(indexVert);
 			}
@@ -804,10 +806,7 @@ public class Bookcase {
 		BinaryTreeNode<NodeInfo> carrerNode = getCarreerNode(carrer.getId());
 		
 		BinaryTreeNode<NodeInfo> year = carrerNode.getLeft();
-		
-		
-		
-		
+
 	}
 
 }
