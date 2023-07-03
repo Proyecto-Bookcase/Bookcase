@@ -1,38 +1,54 @@
 package classes;
 
-import java.util.Date;
+import java.io.Serializable;
+import java.util.Calendar;
 
-public abstract class Material {
+
+public abstract class Material implements Serializable{
 	
-	
+	private static final long serialVersionUID = 2510482433577051274L;
 	protected String tittle;
 	protected String author;
-	protected Date dateCreation;
-	
-	
-	protected Material(String tittle, String author, Date date_creation) {
-		this.tittle = tittle;
-		this.author = author;
-		this.dateCreation = date_creation;
+	protected Calendar dateCreation;
+	protected String id;
+
+	protected Material(String id, String tittle, String author, Calendar dateCreation) {
+		setId(id);
+		setTittle(tittle);
+		setAuthor(author);
+		setDateCreation(dateCreation);
 	}
+
 	protected String getTittle() {
 		return tittle;
 	}
+
 	protected void setTittle(String tittle) {
 		this.tittle = tittle;
 	}
+
 	protected String getAuthor() {
 		return author;
 	}
+
+	public String getId() {
+		return id;
+	}
+
+	private void setId(String id) {
+		this.id = id;
+	}
+
 	protected void setAuthor(String author) {
 		this.author = author;
 	}
-	protected Date getDateCreation() {
+
+	protected Calendar getDateCreation() {
 		return dateCreation;
 	}
-	protected void setDateCreation(Date date_creation) {
-		this.dateCreation = date_creation;
+
+	protected void setDateCreation(Calendar dateCreation) {
+		this.dateCreation = dateCreation;
 	}
-	
-	
+
 }

@@ -1,5 +1,7 @@
 package interfaces;
 
+//import javafx.scene.layout.Background;
+
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -16,11 +18,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 
-public class PrincipalProfesores extends JFrame {
+public class Principal extends JFrame {
 
 	/**
 	 * 
@@ -39,7 +41,7 @@ public class PrincipalProfesores extends JFrame {
 	private JButton btnInfo;
 	private JButton btnElectrica;
 	private JButton btnQuimica;
-	private JButton btnIndustrial;
+	private JButton BtnIndustrial;
 	private JButton btnMec;
 	private JButton btnBiomedica;
 	private JButton btnAut;
@@ -55,16 +57,14 @@ public class PrincipalProfesores extends JFrame {
 	private JButton btnTele;
 	private JLabel labelPanelMenu;
 	private JButton btnMinimizar;
-	private JButton btnOpcionesMostar;
-	private JPanel panelOpciones;
-	private JButton btnAnadir;
-	private JButton btnEliminar;
-	private JButton btnEditar;
-	private JButton btnOpcionesEsconder;
+	private JButton btnOpciones;
 	private JPanel paneLarriba;
 	private JLabel lblPAnelArriba;
 	private JScrollPane scrollPaneMenu;
-	private JLabel lblBusquedaAvansada;
+	private JButton btnBusquedaAvanzada;
+	private JTextPane txtpnInformacionApp;
+	private JLabel lblImagenRaton;
+	private JLabel lblFondoRaton;
 
 	/**
 	 * Launch the application.
@@ -73,7 +73,7 @@ public class PrincipalProfesores extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					PrincipalProfesores frame = new PrincipalProfesores();
+					Principal frame = new Principal();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -85,15 +85,15 @@ public class PrincipalProfesores extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public PrincipalProfesores() {
+	public Principal() {
 		setUndecorated(true);
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1053, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLocationRelativeTo(null);
 		setIconImage(Toolkit.getDefaultToolkit()
-				.getImage(PrincipalProfesores.class.getResource("/icons/icons8-book-64 (2).png")));
+				.getImage(Principal.class.getResource("/icons/icons8-book-64 (2).png")));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		contentPane.add(getPanel());
@@ -104,17 +104,14 @@ public class PrincipalProfesores extends JFrame {
 		contentPane.add(getPanelAnnos());
 		contentPane.add(getPanelAsignatura());
 		contentPane.add(getBtnMinimizar());
-		contentPane.add(getPanelOpciones());
-		contentPane.add(getBtnOpcionesEsconder());
-		contentPane.add(getBtnOpcionesMostar());
+		contentPane.add(getBtnOpciones());
 		contentPane.add(getPaneLarriba());
+
+		contentPane.add(getBtnBusquedaAvanzada());
+		contentPane.add(getTxtpnInformacionApp());
+		contentPane.add(getLblImagenRaton());
+		contentPane.add(getLblFondoRaton());
 		
-		JTextArea txtrHolaaaaaaaaAquiVa = new JTextArea();
-		txtrHolaaaaaaaaAquiVa.setText("Holaaaaaaaa aqui va inforamcion de la app");
-		txtrHolaaaaaaaaAquiVa.setBounds(279, 266, 486, 181);
-		contentPane.add(txtrHolaaaaaaaaAquiVa);
-		setTitle("Perfil de Profesor");
-		btnOpcionesEsconder.setVisible(false);
 	}
 
 	private JPanel getPanel() {
@@ -152,10 +149,15 @@ public class PrincipalProfesores extends JFrame {
 			btnEsconder.setContentAreaFilled(false);
 			btnEsconder.setFocusPainted(false);
 			btnEsconder
-					.setIcon(new ImageIcon(PrincipalProfesores.class.getResource("/icons/icons8-menu-24.png")));
+					.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-menu-24.png")));
 
 			btnEsconder.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					lblBookcase.setVisible(true);
+					lblFotoLibro.setVisible(true);
+					txtpnInformacionApp.setVisible(true);
+					lblImagenRaton.setVisible(true);
+					lblFondoRaton.setVisible(true);
 					int x = 213;
 					int y = 600;
 					btnMostrar.setVisible(true);
@@ -205,10 +207,15 @@ public class PrincipalProfesores extends JFrame {
 			btnMostrar.setBorder(null);
 			btnMostrar.setContentAreaFilled(false);
 			btnMostrar.setFocusPainted(false);
-			btnMostrar
-					.setIcon(new ImageIcon(PrincipalProfesores.class.getResource("/icons/icons8-menu-24.png")));
+			btnMostrar.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-menu-24.png")));	
 			btnMostrar.addActionListener(new ActionListener() {
+
 				public void actionPerformed(ActionEvent e) {
+					lblBookcase.setVisible(false);
+					lblFotoLibro.setVisible(false);
+					txtpnInformacionApp.setVisible(false);
+					lblImagenRaton.setVisible(false);
+					lblFondoRaton.setVisible(false);
 					int x = 213;
 					int y = 600;
 
@@ -256,7 +263,7 @@ public class PrincipalProfesores extends JFrame {
 				}
 			});
 			btnCerrar
-					.setIcon(new ImageIcon(PrincipalProfesores.class.getResource("/icons/icons8-x-32 (1).png")));
+					.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-x-32 (1).png")));
 		}
 		return btnCerrar;
 	}
@@ -273,7 +280,7 @@ public class PrincipalProfesores extends JFrame {
 	private JLabel getLblBookcase() {
 		if (lblBookcase == null) {
 			lblBookcase = new JLabel("Bookcase");
-			lblBookcase.setBounds(356, 140, 224, 89);
+			lblBookcase.setBounds(328, 140, 224, 89);
 			lblBookcase.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 45));
 		}
 		return lblBookcase;
@@ -282,9 +289,9 @@ public class PrincipalProfesores extends JFrame {
 	private JLabel getLblFotoLibro() {
 		if (lblFotoLibro == null) {
 			lblFotoLibro = new JLabel("");
-			lblFotoLibro.setBounds(590, 140, 77, 89);
+			lblFotoLibro.setBounds(562, 140, 77, 89);
 			lblFotoLibro.setIcon(
-					new ImageIcon(PrincipalProfesores.class.getResource("/icons/icons8-book-64 (2).png")));
+					new ImageIcon(Principal.class.getResource("/icons/icons8-book-64 (2).png")));
 		}
 		return lblFotoLibro;
 	}
@@ -356,15 +363,15 @@ public class PrincipalProfesores extends JFrame {
 	}
 
 	private JButton getBtnIndustrial() {
-		if (btnIndustrial == null) {
-			btnIndustrial = new JButton("Industrial");
-			btnIndustrial.setBounds(21, 345, 164, 23);
-			btnIndustrial.setOpaque(false);
-			btnIndustrial.setBorder(null);
-			btnIndustrial.setContentAreaFilled(false);
-			btnIndustrial.setFocusPainted(false);
+		if (BtnIndustrial == null) {
+			BtnIndustrial = new JButton("Industrial");
+			BtnIndustrial.setBounds(21, 345, 164, 23);
+			BtnIndustrial.setOpaque(false);
+			BtnIndustrial.setBorder(null);
+			BtnIndustrial.setContentAreaFilled(false);
+			BtnIndustrial.setFocusPainted(false);
 		}
-		return btnIndustrial;
+		return BtnIndustrial;
 	}
 
 	private JButton getBtnMec() {
@@ -554,7 +561,7 @@ public class PrincipalProfesores extends JFrame {
 	private JLabel getLabelPanelMenu() {
 		if (labelPanelMenu == null) {
 			labelPanelMenu = new JLabel("");
-			labelPanelMenu.setIcon(new ImageIcon(PrincipalProfesores.class.getResource("/icons/Fondo de textura de acuarela amarilla brillante _ Vector Gratis.jpg")));
+			labelPanelMenu.setIcon(new ImageIcon(Principal.class.getResource("/icons/Fondo de textura de acuarela amarilla brillante _ Vector Gratis.jpg")));
 			labelPanelMenu.setBounds(0, 0, 213, 600);
 		}
 		return labelPanelMenu;
@@ -571,12 +578,13 @@ public class PrincipalProfesores extends JFrame {
 			btnMinimizar.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
+//					setExtendedState(contentP);
 					setExtendedState(JFrame.CROSSHAIR_CURSOR);
 
 				}
 			});
 			btnMinimizar.setIcon(
-					new ImageIcon(PrincipalProfesores.class.getResource("/icons/icons8_subtract_32px.png")));
+					new ImageIcon(Principal.class.getResource("/icons/icons8_subtract_32px.png")));
 			btnMinimizar.setOpaque(false);
 			btnMinimizar.setFocusPainted(false);
 			btnMinimizar.setContentAreaFilled(false);
@@ -587,161 +595,28 @@ public class PrincipalProfesores extends JFrame {
 		return btnMinimizar;
 	}
 
-	private JButton getBtnOpcionesMostar() {
-		if (btnOpcionesMostar == null) {
-			btnOpcionesMostar = new JButton("");
-			btnOpcionesMostar.setBounds(976, 550, 77, 50);
-			btnOpcionesMostar.addActionListener(new ActionListener() {
+	public JButton getBtnOpciones() {
+		if (btnOpciones == null) {
+			btnOpciones = new JButton("");
+			btnOpciones.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					int x = 77;
-					int y = 255;
-					panelOpciones.setVisible(true);
-					btnOpcionesMostar.setVisible(false);
-					btnOpcionesEsconder.setVisible(true);
-					if (y == 255) {
-						panelOpciones.show();
-						panelOpciones.setSize(77, y);
-						Thread th = new Thread() {
-							@Override
-							public void run() {
-								try {
-									int y = 255;
-									for (int i = 0; i <= y; i++) {
-										Thread.sleep(3);
-										panelOpciones.setSize(77, i);
-									}
-								} catch (Exception e) {
-									JOptionPane.showMessageDialog(null, e);
-								}
-							}
-						};
-						th.start();
-						x = 77;
-					}
+					Formulario f = new Formulario();
+					f.setVisible(true);
 				}
 			});
-			btnOpcionesMostar.setIcon(
-					new ImageIcon(PrincipalProfesores.class.getResource("/icons/icons8-setting-48.png")));
-			btnOpcionesMostar.setFont(new Font("Tahoma", Font.PLAIN, 18));
-			btnOpcionesMostar.setBorder(null);
-			btnOpcionesMostar.setOpaque(false);
-			btnOpcionesMostar.setContentAreaFilled(false);
-			btnOpcionesMostar.setFocusPainted(false);
-			btnOpcionesMostar.setToolTipText("Opciones");
-
+			btnOpciones.setVisible(false);
+			btnOpciones.setBounds(991, 489, 56, 50);
+			btnOpciones.setIcon(
+					new ImageIcon(Principal.class.getResource("/icons/icons8-setting-48.png")));
+						
+			btnOpciones.setToolTipText("Opciones");
+			btnOpciones.setOpaque(false);
+			btnOpciones.setFont(new Font("Tahoma", Font.PLAIN, 18));
+			btnOpciones.setFocusPainted(false);
+			btnOpciones.setContentAreaFilled(false);
+			btnOpciones.setBorder(null);
 		}
-		return btnOpcionesMostar;
-	}
-
-	private JPanel getPanelOpciones() {
-		if (panelOpciones == null) {
-			panelOpciones = new JPanel();
-			panelOpciones.setBounds(976, 299, 77, 251);
-			panelOpciones.setBackground(new Color(240, 240, 240));
-			panelOpciones.setLayout(null);
-			panelOpciones.add(getBtnAnadir());
-			panelOpciones.add(getBtnEliminar());
-			panelOpciones.add(getBtnEditar());
-			panelOpciones.add(getLblBusquedaAvansada());
-			panelOpciones.setVisible(false);
-		}
-		return panelOpciones;
-	}
-
-	private JButton getBtnAnadir() {
-		if (btnAnadir == null) {
-			btnAnadir = new JButton("");
-			
-			btnAnadir.setBounds(0, 125, 77, 50);
-			btnAnadir
-					.setIcon(new ImageIcon(PrincipalProfesores.class.getResource("/icons/icons8_add_45px.png")));
-			btnAnadir.setBorder(null);
-			btnAnadir.setOpaque(false);
-			btnAnadir.setContentAreaFilled(false);
-			btnAnadir.setFocusPainted(false);
-			btnAnadir.setToolTipText("Nuevo Elemento");
-
-		}
-		return btnAnadir;
-	}
-
-	private JButton getBtnEliminar() {
-		if (btnEliminar == null) {
-			btnEliminar = new JButton("");
-			btnEliminar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-				}
-			});
-			btnEliminar.setBounds(0, 64, 77, 50);
-			btnEliminar.setIcon(
-					new ImageIcon(PrincipalProfesores.class.getResource("/icons/icons8_empty_trash_45px.png")));
-			btnEliminar.setBorder(null);
-			btnEliminar.setOpaque(false);
-			btnEliminar.setContentAreaFilled(false);
-			btnEliminar.setFocusPainted(false);
-			btnEliminar.setToolTipText("Eliminar Elemento");
-
-		}
-		return btnEliminar;
-	}
-
-	private JButton getBtnEditar() {
-		if (btnEditar == null) {
-			btnEditar = new JButton("");
-			
-			btnEditar.setBounds(0, 0, 77, 50);
-			btnEditar.setIcon(
-					new ImageIcon(PrincipalProfesores.class.getResource("/icons/icons8_map_editing_45px.png")));
-			btnEditar.setBorder(null);
-			btnEditar.setOpaque(false);
-			btnEditar.setContentAreaFilled(false);
-			btnEditar.setFocusPainted(false);
-			btnEditar.setToolTipText("Editar Elemento");
-		}
-		return btnEditar;
-	}
-
-	public JButton getBtnOpcionesEsconder() {
-		if (btnOpcionesEsconder == null) {
-			btnOpcionesEsconder = new JButton("");
-			btnOpcionesEsconder.setBounds(976, 550, 77, 50);
-			btnOpcionesEsconder.setIcon(
-					new ImageIcon(PrincipalProfesores.class.getResource("/icons/icons8-setting-48.png")));
-			btnOpcionesEsconder.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					int x = 77;
-					int y = 255;
-					btnOpcionesEsconder.setVisible(false);
-					btnOpcionesMostar.setVisible(true);
-					if (y == 255) {
-						Thread th = new Thread() {
-							@Override
-							public void run() {
-								try {
-									for (int i = 255; i >= 0; i--) {
-										Thread.sleep(5);
-										panelOpciones.setSize(x, i);
-									}
-								} catch (Exception e) {
-									JOptionPane.showMessageDialog(null, e);
-								}
-							}
-
-						};
-						th.start();
-					}
-
-				}
-			});
-
-			btnOpcionesEsconder.setToolTipText("Opciones");
-			btnOpcionesEsconder.setOpaque(false);
-			btnOpcionesEsconder.setFont(new Font("Tahoma", Font.PLAIN, 18));
-			btnOpcionesEsconder.setFocusPainted(false);
-			btnOpcionesEsconder.setContentAreaFilled(false);
-			btnOpcionesEsconder.setBorder(null);
-		}
-		return btnOpcionesEsconder;
+		return btnOpciones;
 	}
 
 	private JPanel getPaneLarriba() {
@@ -758,7 +633,7 @@ public class PrincipalProfesores extends JFrame {
 	private JLabel getLblPAnelArriba() {
 		if (lblPAnelArriba == null) {
 			lblPAnelArriba = new JLabel("");
-			lblPAnelArriba.setIcon(new ImageIcon(PrincipalProfesores.class.getResource("/icons/Fondo de textura de acuarela amarilla brillante _ Vector Gratis - copia.jpg")));
+			lblPAnelArriba.setIcon(new ImageIcon(Principal.class.getResource("/icons/Fondo de textura de acuarela amarilla brillante _ Vector Gratis - copia.jpg")));
 			lblPAnelArriba.setBounds(0, 0, 1053, 38);
 		}
 		return lblPAnelArriba;
@@ -770,14 +645,41 @@ public class PrincipalProfesores extends JFrame {
 		}
 		return scrollPaneMenu;
 	}
-	private JLabel getLblBusquedaAvansada() {
-		if (lblBusquedaAvansada == null) {
-			lblBusquedaAvansada = new JLabel("");
-			lblBusquedaAvansada.setBounds(21, 190, 56, 50);
-			lblBusquedaAvansada.setIcon(new ImageIcon(PrincipalProfesores.class.getResource("/icons/icons8_Search_45px_1.png")));
-			lblBusquedaAvansada.setToolTipText("Busqueda Avansada esto es un label no un boton");
-
+	private JButton getBtnBusquedaAvanzada() {
+		if (btnBusquedaAvanzada == null) {
+			btnBusquedaAvanzada = new JButton("");
+			btnBusquedaAvanzada.setToolTipText("Búsqueda Avanzadas");
+			btnBusquedaAvanzada.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8_slider_45px_1.png")));
+			btnBusquedaAvanzada.setBounds(991, 550, 56, 50);
+			btnBusquedaAvanzada.setOpaque(false);
+			btnBusquedaAvanzada.setFocusPainted(false);
+			btnBusquedaAvanzada.setContentAreaFilled(false);
+			btnBusquedaAvanzada.setBorder(null);
 		}
-		return lblBusquedaAvansada;
+		return btnBusquedaAvanzada;
+	}
+	private JTextPane getTxtpnInformacionApp() {
+		if (txtpnInformacionApp == null) {
+			txtpnInformacionApp = new JTextPane();
+			txtpnInformacionApp.setText("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+			txtpnInformacionApp.setBounds(106, 298, 398, 180);
+		}
+		return txtpnInformacionApp;
+	}
+	private JLabel getLblImagenRaton() {
+		if (lblImagenRaton == null) {
+			lblImagenRaton = new JLabel("");
+			lblImagenRaton.setIcon(new ImageIcon(Principal.class.getResource("/icons/ratonCHico.png")));
+			lblImagenRaton.setBounds(705, 140, 213, 338);
+		}
+		return lblImagenRaton;
+	}
+	private JLabel getLblFondoRaton() {
+		if (lblFondoRaton == null) {
+			lblFondoRaton = new JLabel("");
+			lblFondoRaton.setIcon(new ImageIcon(Principal.class.getResource("/icons/FondoPrincipal.png")));
+			lblFondoRaton.setBounds(0, 34, 1053, 566);
+		}
+		return lblFondoRaton;
 	}
 }

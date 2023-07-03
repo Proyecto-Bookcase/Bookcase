@@ -1,7 +1,11 @@
 package classes;
 
+import interfaces.NodeInfo;
+
 public class Subject implements NodeInfo {
 	
+	
+	private static final long serialVersionUID = -4449467141033612499L;
 	private String name;
 	private String id;
 	

@@ -1,7 +1,7 @@
-package AuxiliaryClass;
+package auxiliary_classes;
 
-import classes.NodeInfo;
 import cu.edu.cujae.ceis.tree.binary.BinaryTreeNode;
+import interfaces.NodeInfo;
 
 public class Auxiliary {
 	private BinaryTreeNode<NodeInfo> carrerNode;
