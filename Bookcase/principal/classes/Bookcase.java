@@ -706,7 +706,8 @@ public class Bookcase {
 		while (!find && iter.hasNext()) {
 			Vertex vertIter = iter.next();
 			Object vertInfo = vertIter.getInfo();
-			if (vertInfo instanceof Material) {
+			if (vertInfo instanceof Material && ((Material)vertInfo).getId().equals(material.getId())) {
+				find = true;
 				LinkedList<Edge> edgeList = vertIter.getEdgeList();
 				Iterator<Edge> iterEdge = edgeList.iterator();
 				while (iterEdge.hasNext()) {
@@ -721,7 +722,7 @@ public class Bookcase {
 	// eliminar material
 	public void deleteMaterial(Material materialDlete) {
 
-		int materialIndex = Integer.parseInt(materialDlete.getId());
+		
 		int indexMaterialDelete = getVertexIndexById(materialDlete.getId());
 		graph.deleteVertex(indexMaterialDelete);
 	}
@@ -769,7 +770,7 @@ public class Bookcase {
 
 
 	public void deleteSubjectGraph(Subject subjectDelete) {
-		int subjcetIndex = Integer.parseInt(subjectDelete.getId());
+		
 		int indexMaterialDelete = getVertexIndexById(subjectDelete.getId());
 		LinkedList<Vertex> vertList = graph.getVerticesList();
 		Vertex vertSubjectDelete = vertList.get(indexMaterialDelete);
@@ -800,7 +801,6 @@ public class Bookcase {
 	//materiales que tiene esa carrera
 	public void deleteCarrer(Carreer carrer)
 	{
-		InDepthIterator<NodeInfo> iterTree = tree.inDepthIterator();
 		
 		BinaryTreeNode<NodeInfo> carrerNode = getCarreerNode(carrer.getId());
 		
