@@ -21,9 +21,9 @@ import cu.edu.cujae.ceis.graph.vertex.Vertex;
 import cu.edu.cujae.ceis.tree.binary.BinaryTreeNode;
 import cu.edu.cujae.ceis.tree.general.GeneralTree;
 import cu.edu.cujae.ceis.tree.iterators.general.BreadthNode;
-import cu.edu.cujae.ceis.tree.iterators.general.InBreadthIterator;
 import cu.edu.cujae.ceis.tree.iterators.general.InBreadthIteratorWithLevels;
 import cu.edu.cujae.ceis.tree.iterators.general.InDepthIterator;
+import exceptions.ExistingElementException;
 import interfaces.NodeInfo;
 
 public class Bookcase {
@@ -57,9 +57,9 @@ public class Bookcase {
 			instance.tree.setRoot(new BinaryTreeNode<>(new University("", "")));
 			instance.newCarreer("Informática", 4);
 			instance.newSubject("001", "Matemática");
-			instance.newSubject("002", "Matemáticb");
-			instance.newSubject("003", "Matemáticc");
-			instance.newSubject("004", "Matemáticd");
+			instance.newSubject("001", "Matemáticb");
+			instance.newSubject("001", "Matemáticc");
+			instance.newSubject("001", "Matemáticd");
 
 		}
 		return instance;
@@ -169,6 +169,7 @@ public class Bookcase {
 		arg.addAll(Arrays.asList(args));
 		args = arg.toArray();
 
+		@SuppressWarnings("rawtypes")
 		Class[] parameterTypes = new Class[args.length];
 		for (int i = 0; i < args.length; i++) {
 			parameterTypes[i] = args[i].getClass();
@@ -190,7 +191,7 @@ public class Bookcase {
 			if (vertexInfo instanceof Material material && material.getAuthor().equalsIgnoreCase(info.getAuthor())
 					&& material.getTittle().equalsIgnoreCase(info.getTittle())
 					&& material.getDateCreation().equals(info.getDateCreation()))
-				throw new RuntimeException("Ya existe el Material: " + info.getTittle());
+				throw new ExistingElementException("Ya existe el Material: " + info.getTittle());
 		}
 
 		graph.insertVertex(info);
@@ -545,8 +546,8 @@ public class Bookcase {
 	// es decir devuelve cada material la cantidad de veces que se utiliza en la
 	// carrera
 	// para cada subject diferente
-	public List<AuxiliarInfo> getAllMaterialOfCarrer1(Carreer carreer) {
-		List<AuxiliarInfo> escList = new LinkedList<AuxiliarInfo>();
+	public List<AuxiliarInfo> getAllMaterialAndUseCountOfOneCarrer(Carreer carreer) {
+		List<AuxiliarInfo> escList = new LinkedList<>();
 
 		LinkedList<Vertex> vertList = graph.getVerticesList();
 		Iterator<Vertex> iter = vertList.iterator();
@@ -576,8 +577,8 @@ public class Bookcase {
 	}
 
 	// este metodo solo devuelve los materiales de una carrera en especifico
-	public List<Material> getAllMaterialOfCarrer2(Carreer carreer) {
-		List<Material> escList = new LinkedList<Material>();
+	public List<Material> getAllMaterialOfOneCarreer(Carreer carreer) {
+		List<Material> escList = new LinkedList<>();
 
 		LinkedList<Vertex> vertList = graph.getVerticesList();
 		Iterator<Vertex> iter = vertList.iterator();
@@ -609,7 +610,6 @@ public class Bookcase {
 	// tengo que modificar este metodo
 	public List<Material> getAllMaterialOfCarrerAndYear(Carreer carreer, Year year) {
 		List<Material> escList = new LinkedList<>();
-
 		LinkedList<Vertex> vertList = graph.getVerticesList();
 		Iterator<Vertex> iter = vertList.iterator();
 		while (iter.hasNext()) {
@@ -663,7 +663,7 @@ public class Bookcase {
 
 	// este metodo devuelve todos los subjects que utilizan un material
 	public List<Subject> getAllSubjectOfMaterial(Material material) {
-		List<Subject> escList = new LinkedList<Subject>();
+		List<Subject> escList = new LinkedList<>();
 		LinkedList<Vertex> vertList = graph.getVerticesList();
 		Iterator<Vertex> iter = vertList.iterator();
 
