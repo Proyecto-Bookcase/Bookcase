@@ -171,6 +171,7 @@ public class Login extends JFrame {
 					boolean validoUser = validaciones.isCorrectUsername(usuario) ;
 					boolean validoPasword = validaciones.isCorrectPasword(usuario, contrasena);
 					if(validoUser && validoPasword) {
+						lblErrorUserPasword.setVisible(false);
 						boolean isProfesor = validaciones.isProfesor(usuario);
 						Principal p = new Principal();
 						p.setVisible(true);
@@ -180,9 +181,9 @@ public class Login extends JFrame {
 						}else {
 							p.setTitle("Perfil del Estudiante");
 						}
-						dispose();
-						
-						
+						dispose();	
+					}else {
+						lblErrorUserPasword.setVisible(true);
 					}
 					
 				}
