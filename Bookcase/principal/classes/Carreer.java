@@ -11,7 +11,7 @@ public class Carreer implements NodeInfo {
 	private int duration;
 	boolean[] years;
 	
-	protected Carreer(String id, String name, int duration) {
+	public Carreer(String id, String name, int duration) {
 		setId(id);
 		setName(name);
 		setDuration(duration);
