@@ -228,6 +228,7 @@ public class BusquedaAvanzada extends JFrame {
 					btn1Mostrar.setVisible(true);
 					btn5Mostrar.setVisible(true);
 					 scrollPane_3.setVisible(false);
+					 scrollPane.setVisible(false);
 
 				//	btnEditarMostrar.setVisible(true);
 
