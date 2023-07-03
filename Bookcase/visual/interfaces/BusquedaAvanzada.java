@@ -81,6 +81,7 @@ public class BusquedaAvanzada extends JFrame {
 		setBounds(100, 100, 625, 464);
 		contentPane = new JPanel();
 		contentPane.setBorder(new LineBorder(new Color(0, 0, 0)));
+		setLocationRelativeTo(null);
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -124,7 +125,7 @@ public class BusquedaAvanzada extends JFrame {
 		if (btnCerrar == null) {
 			btnCerrar = new JButton("");
 			btnCerrar.setIcon(new ImageIcon(BusquedaAvanzada.class.getResource("/icons/icons8-x-24.png")));
-			btnCerrar.setBounds(543, 0, 70, 33);
+			btnCerrar.setBounds(570, 0, 55, 33);
 			
 			btnCerrar.setOpaque(false);
 			btnCerrar.setBorder(null);
