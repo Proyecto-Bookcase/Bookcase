@@ -796,6 +796,8 @@ public class Bookcase {
 
 	}
 
+	//para eliminar toda una carrera promero hay que eliminar todas las asignaturas y 
+	//materiales que tiene esa carrera
 	public void deleteCarrer(Carreer carrer)
 	{
 		InDepthIterator<NodeInfo> iterTree = tree.inDepthIterator();
@@ -803,6 +805,16 @@ public class Bookcase {
 		BinaryTreeNode<NodeInfo> carrerNode = getCarreerNode(carrer.getId());
 		
 		BinaryTreeNode<NodeInfo> year = carrerNode.getLeft();
+		
+		while(year!= null)
+		{
+			BinaryTreeNode<NodeInfo> subject = year.getLeft();
+			while (subject != null) {
+				deleteSubjectGraph((Subject)subject.getInfo());
+				
+			}
+		}
+		tree.deleteNode(carrerNode);
 
 	}
 
