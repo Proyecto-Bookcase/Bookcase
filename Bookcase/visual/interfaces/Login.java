@@ -180,6 +180,9 @@ public class Login extends JFrame {
 						}else {
 							p.setTitle("Perfil del Estudiante");
 						}
+						dispose();
+						
+						
 					}
 					
 				}

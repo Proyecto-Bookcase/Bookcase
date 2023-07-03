@@ -28,8 +28,8 @@ public class Validacion {
 		{
 			esc = false;
 		}
-		else if ( user.substring(0, 2).equals("pr")
-				|| user.substring(0, 2).equals("ce")) {
+		else if ( !user.substring(0, 2).equals("pr")
+				&& !user.substring(0, 2).equals("ce")) {
 			esc = false;
 			
 		}
