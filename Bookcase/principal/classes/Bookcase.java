@@ -1,7 +1,6 @@
 package classes;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
@@ -171,18 +170,16 @@ public class Bookcase {
 			constructor = typeMaterial.getConstructor(parameterTypes);
 			info = constructor.newInstance(args);
 
-		} catch (NoSuchMethodException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+		}
+
+		for (Vertex vertex : graph.getVerticesList()) {
+			Object vertexInfo = vertex.getInfo();
+			if (vertexInfo instanceof Material && ((Material) vertexInfo).getAuthor().equalsIgnoreCase(info.getAuthor())
+					&& ((Material) vertexInfo).getTittle().equalsIgnoreCase(info.getTittle())
+					&& ((Material) vertexInfo).getDateCreation().equals(info.getDateCreation()))
+				throw new RuntimeException("Ya existe el Material: " + info.getTittle());
 		}
 
 		graph.insertVertex(info);
@@ -726,15 +723,6 @@ public class Bookcase {
 
 		int materialIndex = Integer.parseInt(materialDlete.getId());
 		int indexMaterialDelete = getVertexIndexById(materialDlete.getId());
-		LinkedList<Vertex> vertList = graph.getVerticesList();
-		Vertex vertMaterialDelete = vertList.get(indexMaterialDelete);
-		LinkedList<Vertex> adjacentsList = vertMaterialDelete.getAdjacents();
-		Iterator<Vertex> iterAdjacents = adjacentsList.iterator();
-		while (iterAdjacents.hasNext()) {
-			Vertex vertIter = iterAdjacents.next();
-			int indexVert = vertList.indexOf(vertIter);
-			graph.deleteEdgeND(materialIndex, indexVert);
-		}
 		graph.deleteVertex(indexMaterialDelete);
 	}
 
@@ -774,6 +762,12 @@ public class Bookcase {
 		tree.deleteNode(vertSubjetc);
 	}
 
+
+	// este metodo elimina un subject del grafo
+	// asume que si existe un material que solo se use en dicha asignatura entonces
+	// elimina el material tambien
+
+
 	public void deleteSubjectGraph(Subject subjectDelete) {
 		int subjcetIndex = Integer.parseInt(subjectDelete.getId());
 		int indexMaterialDelete = getVertexIndexById(subjectDelete.getId());
@@ -786,10 +780,41 @@ public class Bookcase {
 
 			Vertex vertIter = iterAdjacents.next();
 			int indexVert = vertList.indexOf(vertIter);
-			graph.deleteEdgeND(subjcetIndex, indexVert);
+
+			if (graph.degreeND(indexVert) == 1) {
+				graph.deleteVertex(indexVert);
+			}
 
 		}
 		graph.deleteVertex(indexMaterialDelete);
+
+	}
+
+	// este metodo para eliminar un año determinado para una carrera determinada
+	// tengo dudas de como implementaro
+	public void deleteYearCarrear() {
+
+	}
+
+	//para eliminar toda una carrera promero hay que eliminar todas las asignaturas y 
+	//materiales que tiene esa carrera
+	public void deleteCarrer(Carreer carrer)
+	{
+		InDepthIterator<NodeInfo> iterTree = tree.inDepthIterator();
+		
+		BinaryTreeNode<NodeInfo> carrerNode = getCarreerNode(carrer.getId());
+		
+		BinaryTreeNode<NodeInfo> year = carrerNode.getLeft();
+		
+		while(year!= null)
+		{
+			BinaryTreeNode<NodeInfo> subject = year.getLeft();
+			while (subject != null) {
+				deleteSubjectGraph((Subject)subject.getInfo());
+				
+			}
+		}
+		tree.deleteNode(carrerNode);
 
 	}
 

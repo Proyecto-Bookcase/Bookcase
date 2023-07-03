@@ -571,7 +571,7 @@ public class Formulario extends JFrame {
 	private JLabel getLblFondo() {
 		if (lblFondo == null) {
 			lblFondo = new JLabel("");
-			lblFondo.setIcon(new ImageIcon(Formulario.class.getResource("/icons/Fondo de textura de acuarela amarilla brillante _ Vector Gratis.jpg")));
+			lblFondo.setIcon(new ImageIcon(Formulario.class.getResource("/icons/export202307021531574067.png")));
 			lblFondo.setBounds(0, 0, 603, 527);
 		}
 		return lblFondo;
@@ -589,7 +589,6 @@ public class Formulario extends JFrame {
 	private JLabel getLblNombreCarrera() {
 		if (lblNombreCarrera == null) {
 			lblNombreCarrera = new JLabel("Nombre:");
-			lblNombreCarrera.setVisible(false);
 			lblNombreCarrera.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 			lblNombreCarrera.setBounds(18, 57, 73, 14);
 		}
@@ -598,6 +597,7 @@ public class Formulario extends JFrame {
 	private JRadioButton getRdbtnCarrera() {
 		if (rdbtnCarrera == null) {
 			rdbtnCarrera = new JRadioButton("Carrera");
+			rdbtnCarrera.setSelected(true);
 			rdbtnCarrera.setBackground(new Color(255, 255, 255));
 			rdbtnCarrera.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -753,7 +753,6 @@ public class Formulario extends JFrame {
 	private JTextField getTextFieldNombreCarrera() {
 		if (textFieldNombreCarrera == null) {
 			textFieldNombreCarrera = new JTextField();
-			textFieldNombreCarrera.setVisible(false);
 			textFieldNombreCarrera.setBounds(101, 55, 273, 23);
 			textFieldNombreCarrera.setColumns(10);
 			
@@ -766,7 +765,6 @@ public class Formulario extends JFrame {
 	private JLabel getLblDuracionCarrera() {
 		if (lblDuracionCarrera == null) {
 			lblDuracionCarrera = new JLabel("Duración");
-			lblDuracionCarrera.setVisible(false);
 			lblDuracionCarrera.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 			lblDuracionCarrera.setBounds(18, 116, 73, 14);
 		}
@@ -778,9 +776,14 @@ public class Formulario extends JFrame {
 			spinnerCArrera.setVisible(false);
 			spinnerCArrera.setModel(new SpinnerNumberModel(2, 2, 6, 1));
 			spinnerCArrera.setBounds(101, 113, 273, 23);
+
 			spinnerCArrera.setOpaque(false);
 			spinnerCArrera.setBorder(null);
 //			spinner.getT
+
+//			spinnerCArrera.
+			
+
 		}
 		return spinnerCArrera;
 	}
