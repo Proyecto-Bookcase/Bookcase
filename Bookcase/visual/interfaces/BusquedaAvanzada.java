@@ -133,7 +133,7 @@ public class BusquedaAvanzada extends JFrame {
 			btnCerrar.setFocusPainted(false);
 			btnCerrar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					System.exit(0);
+					dispose();
 				}
 			});
 		}
