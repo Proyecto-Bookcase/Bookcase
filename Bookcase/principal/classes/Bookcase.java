@@ -1,7 +1,6 @@
 package classes;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
@@ -171,18 +170,16 @@ public class Bookcase {
 			constructor = typeMaterial.getConstructor(parameterTypes);
 			info = constructor.newInstance(args);
 
-		} catch (NoSuchMethodException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+		}
+
+		for (Vertex vertex : graph.getVerticesList()) {
+			Object vertexInfo = vertex.getInfo();
+			if (vertexInfo instanceof Material && ((Material) vertexInfo).getAuthor().equalsIgnoreCase(info.getAuthor())
+					&& ((Material) vertexInfo).getTittle().equalsIgnoreCase(info.getTittle())
+					&& ((Material) vertexInfo).getDateCreation().equals(info.getDateCreation()))
+				throw new RuntimeException("Ya existe el Material: " + info.getTittle());
 		}
 
 		graph.insertVertex(info);
@@ -799,6 +796,8 @@ public class Bookcase {
 
 	}
 
+	//para eliminar toda una carrera promero hay que eliminar todas las asignaturas y 
+	//materiales que tiene esa carrera
 	public void deleteCarrer(Carreer carrer)
 	{
 		InDepthIterator<NodeInfo> iterTree = tree.inDepthIterator();
@@ -806,6 +805,16 @@ public class Bookcase {
 		BinaryTreeNode<NodeInfo> carrerNode = getCarreerNode(carrer.getId());
 		
 		BinaryTreeNode<NodeInfo> year = carrerNode.getLeft();
+		
+		while(year!= null)
+		{
+			BinaryTreeNode<NodeInfo> subject = year.getLeft();
+			while (subject != null) {
+				deleteSubjectGraph((Subject)subject.getInfo());
+				
+			}
+		}
+		tree.deleteNode(carrerNode);
 
 	}
 
