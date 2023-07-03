@@ -767,8 +767,9 @@ public class Bookcase {
 		tree.deleteNode(vertSubjetc);
 	}
 
-	//este metodo elimina un subject del grafo
-	//asume que si existe un material que solo se use en dicha asignatura entonces elimina el material tambien
+	// este metodo elimina un subject del grafo
+	// asume que si existe un material que solo se use en dicha asignatura entonces
+	// elimina el material tambien
 	public void deleteSubjectGraph(Subject subjectDelete) {
 		int subjcetIndex = Integer.parseInt(subjectDelete.getId());
 		int indexMaterialDelete = getVertexIndexById(subjectDelete.getId());
@@ -777,19 +778,36 @@ public class Bookcase {
 		LinkedList<Vertex> adjacentsList = vertSubjectDelete.getAdjacents();
 		Iterator<Vertex> iterAdjacents = adjacentsList.iterator();
 
-		while (iterAdjacents.hasNext()) 
-		{
+		while (iterAdjacents.hasNext()) {
 
 			Vertex vertIter = iterAdjacents.next();
 			int indexVert = vertList.indexOf(vertIter);
-			if(graph.degreeND(indexVert)==1)
-			{
+			if (graph.degreeND(indexVert) == 1) {
 				graph.deleteVertex(indexVert);
 			}
 
 		}
 		graph.deleteVertex(indexMaterialDelete);
 
+	}
+
+	// este metodo para eliminar un año determinado para una carrera determinada
+	// tengo dudas de como implementaro
+	public void deleteYearCarrear() {
+
+	}
+
+	public void deleteCarrer(Carreer carrer)
+	{
+		InDepthIterator<NodeInfo> iterTree = tree.inDepthIterator();
+		
+		BinaryTreeNode<NodeInfo> carrerNode = getCarreerNode(carrer.getId());
+		
+		BinaryTreeNode<NodeInfo> year = carrerNode.getLeft();
+		
+		
+		
+		
 	}
 
 }
