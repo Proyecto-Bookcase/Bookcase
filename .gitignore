@@ -25,3 +25,6 @@ replay_pid*
 #Visual Paradigm backup files
 *.lck
 Bookcase/.vscode/settings.json
+
+#Ignire bin folder
+Bookcase/bin/

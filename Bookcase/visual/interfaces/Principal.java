@@ -1,8 +1,8 @@
 package interfaces;
 
-//import javafx.scene.layout.Background;
-
+import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,58 +18,62 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JTextArea;
-import javax.swing.JTextPane;
 import javax.swing.border.LineBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.UIManager;
+
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.FormSpecs;
+import com.jgoodies.forms.layout.RowSpec;
+
+import classes.Bookcase;
+import classes.Carreer;
+import classes.Subject;
+import classes.Year;
+import cu.edu.cujae.ceis.tree.binary.BinaryTreeNode;
+import cu.edu.cujae.ceis.tree.general.GeneralTree;
 
 public class Principal extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 4588383233881937941L;
+	private final String SPECS_ROW_CARREER = "max(28dlu;default)";
+	private final String SPECS_ROW_YEAR = "max(36dlu;default)";
+	private final String SPECS_ROW_SUBJECT = "max(36dlu;default)";
 	private JPanel contentPane;
 	private JPanel panel;
-	private JButton btnEsconder;
 	private JButton btnMostrar;
 	private JButton btnCerrar;
 	private JLabel lblCarreras;
 	private JLabel lblBookcase;
 	private JLabel lblFotoLibro;
-	private JButton btnArq;
-	private JButton btnCivil;
-	private JButton btnInfo;
-	private JButton btnElectrica;
-	private JButton btnQuimica;
-	private JButton BtnIndustrial;
-	private JButton btnMec;
-	private JButton btnBiomedica;
-	private JButton btnAut;
-	private JButton btnHidraulica;
 	private JPanel panelAnnos;
 	private JLabel lblAnnos;
-	private JButton btnAnno1;
-	private JButton btnAnno2;
-	private JButton btnAnno3;
-	private JButton btnAnno4;
 	private JPanel panelAsignatura;
 	private JLabel lblAsignatura;
-	private JButton btnTele;
 	private JLabel labelPanelMenu;
 	private JButton btnMinimizar;
 	private JButton btnOpciones;
 	private JPanel paneLarriba;
 	private JLabel lblPAnelArriba;
-	private JScrollPane scrollPaneMenu;
 	private JButton btnBusquedaAvanzada;
 	private JLabel lblImagenRaton;
 	private JLabel lblFondoRaton;
-	private JLabel lblFondoMenuAnno;
-	private JTextArea textArea;
+	private JPanel panelCarreers;
+	private JScrollPane scrollPane;
+	private Bookcase instance;
+	private GeneralTree<NodeInfo> tree;
+	private JPanel panelYears;
+	private CardLayout yearsLayout;
+	private JPanel subjectPanel;
+	private JScrollPane scrollPane_1;
+	private CardLayout subjectLayout;
+	private boolean showned = false;
 
 	/**
 	 * Launch the application.
@@ -90,32 +95,142 @@ public class Principal extends JFrame {
 	 * Create the frame.
 	 */
 	public Principal() {
+		instance = Bookcase.getInstance();
+		tree = instance.getTree();
 		setUndecorated(true);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1053, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLocationRelativeTo(null);
-		setIconImage(Toolkit.getDefaultToolkit()
-				.getImage(Principal.class.getResource("/icons/icons8-book-64 (2).png")));
+		setIconImage(
+				Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/icons/icons8-book-64 (2).png")));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		contentPane.add(getPanel());
-		contentPane.add(getBtnCerrar());
+		contentPane.add(getBtnMinimizar());
 		contentPane.add(getBtnMostrar());
-		contentPane.add(getLblBookcase());
+		contentPane.add(getBtnCerrar());
+		contentPane.add(getPaneLarriba());
+		contentPane.add(getPanelAsignatura());
+		contentPane.add(getPanel());
 		contentPane.add(getLblFotoLibro());
 		contentPane.add(getPanelAnnos());
-		contentPane.add(getPanelAsignatura());
-		contentPane.add(getBtnMinimizar());
 		contentPane.add(getBtnOpciones());
-		contentPane.add(getPaneLarriba());
 
 		contentPane.add(getBtnBusquedaAvanzada());
 		contentPane.add(getLblImagenRaton());
+		contentPane.add(getLblBookcase());
 		contentPane.add(getLblFondoRaton());
-		contentPane.add(getTextArea());
-		
+
+		insertCarreers();
+
+	}
+
+	private void insertCarreers() {
+
+		List<BinaryTreeNode<NodeInfo>> carreers = tree.getSons((BinaryTreeNode<NodeInfo>) tree.getRoot());
+		for (BinaryTreeNode<NodeInfo> binaryTreeNode : carreers) {
+			insertCarreerComponent(binaryTreeNode);
+		}
+
+	}
+
+	private void insertCarreerComponent(BinaryTreeNode<NodeInfo> node) {
+
+		Carreer info = (Carreer) node.getInfo();
+		FormLayout layout = (FormLayout) getPanel_1_1().getLayout();
+		layout.appendRow(FormSpecs.RELATED_GAP_ROWSPEC);
+		layout.appendRow(RowSpec.decode(SPECS_ROW_CARREER));
+		JLabel label = new JLabel(info.getName());
+		label.setBorder(new LineBorder(new Color(0, 0, 0)));
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
+		int count = layout.getRowCount();
+		panelCarreers.add(label, "4, " + count);
+		insertYearPanel(node);
+		label.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				yearsLayout.show(panelYears, info.getId());
+				panelAnnos.setVisible(true);
+				panelAsignatura.setVisible(false);
+			}
+		});
+	}
+
+	private void insertYearPanel(BinaryTreeNode<NodeInfo> carreer) {
+		Carreer info = (Carreer) carreer.getInfo();
+		JPanel panel = new JPanel();
+		FormLayout layout = new FormLayout(new ColumnSpec[] { FormSpecs.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(4dlu;default)"), FormSpecs.RELATED_GAP_COLSPEC, ColumnSpec.decode("40dlu"), },
+				new RowSpec[] {});
+		panel.setLayout(layout);
+		for (BinaryTreeNode<NodeInfo> year : tree.getSons(carreer)) {
+			insertYearComponent(year, panel);
+		}
+		panelYears.add(panel, info.getId());
+	}
+
+	private void insertYearComponent(BinaryTreeNode<NodeInfo> year, JPanel panel) {
+
+		Year info = (Year) year.getInfo();
+		FormLayout layout = (FormLayout) panel.getLayout();
+		layout.appendRow(FormSpecs.RELATED_GAP_ROWSPEC);
+		layout.appendRow(RowSpec.decode(SPECS_ROW_YEAR));
+		JLabel label = new JLabel(info.getNumberYear() + "");
+		label.setBorder(new LineBorder(new Color(0, 0, 0)));
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
+		int count = layout.getRowCount();
+		panel.add(label, "4, " + count);
+		insertSubjectPanel(year);
+		label.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				subjectLayout.show(subjectPanel, info.getId());
+				panelAsignatura.setVisible(true);
+			}
+		});
+
+	}
+
+	private void insertSubjectPanel(BinaryTreeNode<NodeInfo> year) {
+		Year info = (Year) year.getInfo();
+		JPanel panel = new JPanel();
+		FormLayout layout = new FormLayout(
+				new ColumnSpec[] { FormSpecs.RELATED_GAP_COLSPEC, ColumnSpec.decode("max(1dlu;default)"),
+						FormSpecs.RELATED_GAP_COLSPEC, ColumnSpec.decode("max(80dlu;default)"), },
+				new RowSpec[] {});
+		panel.setLayout(layout);
+		for (BinaryTreeNode<NodeInfo> subject : tree.getSons(year)) {
+			insertSubjectComponent(subject, panel);
+		}
+		subjectPanel.add(panel, info.getId());
+
+	}
+
+	private void insertSubjectComponent(BinaryTreeNode<NodeInfo> subject, JPanel panel) {
+
+		Subject info = (Subject) subject.getInfo();
+		FormLayout layout = (FormLayout) panel.getLayout();
+		layout.appendRow(FormSpecs.RELATED_GAP_ROWSPEC);
+		layout.appendRow(RowSpec.decode(SPECS_ROW_SUBJECT));
+		JLabel label = new JLabel(info.getName());
+		label.setBorder(new LineBorder(new Color(0, 0, 0)));
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
+		int count = layout.getRowCount();
+		panel.add(label, "4, " + count);
+		label.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				btnMostrar.doClick();
+			}
+		});
+
 	}
 
 	private JPanel getPanel() {
@@ -124,83 +239,13 @@ public class Principal extends JFrame {
 			panel.setBounds(0, 0, 213, 600);
 			panel.setBackground(new Color(255, 255, 255));
 			panel.setLayout(null);
-			panel.add(getBtnEsconder());
+			panel.add(getScrollPane_1());
 			panel.add(getLblCarreras());
-			panel.add(getBtnArq());
-			panel.add(getBtnCivil());
-			panel.add(getBtnInfo());
-			panel.add(getBtnElectrica());
-			panel.add(getBtnQuimica());
-			panel.add(getBtnIndustrial());
-			panel.add(getBtnMec());
-			panel.add(getBtnBiomedica());
-			panel.add(getBtnAut());
-			panel.add(getBtnHidraulica());
-			panel.add(getBtnTele());
 			panel.add(getLabelPanelMenu());
-			panel.add(getScrollPaneMenu());
 
 			panel.setVisible(false);
 		}
 		return panel;
-	}
-
-	private JButton getBtnEsconder() {
-		if (btnEsconder == null) {
-			btnEsconder = new JButton("");
-			btnEsconder.setBounds(0, 0, 43, 35);
-			btnEsconder.setBorder(null);
-			btnEsconder.setContentAreaFilled(false);
-			btnEsconder.setFocusPainted(false);
-			btnEsconder
-					.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-menu-24.png")));
-
-			btnEsconder.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					lblBookcase.setVisible(true);
-					lblFotoLibro.setVisible(true);
-					lblImagenRaton.setVisible(true);
-					lblFondoRaton.setVisible(true);
-					int x = 213;
-					int y = 600;
-					btnMostrar.setVisible(true);
-					btnEsconder.setVisible(false);
-					if (x == 213) {
-
-						Thread th = new Thread() {
-							@Override
-							public void run() {
-								try {
-									for (int i = 213; i >= 0; i--) {
-										Thread.sleep(1);
-										panel.setSize(i, 600);
-									}
-								} catch (Exception e) {
-									JOptionPane.showMessageDialog(null, e);
-								}
-							}
-
-						};
-						th.start();
-					}
-				}
-			});
-
-			btnEsconder.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					panelAnnos.setVisible(false);
-
-				}
-			});
-
-			btnEsconder.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					panelAsignatura.setVisible(false);
-
-				}
-			});
-		}
-		return btnEsconder;
 	}
 
 	private JButton getBtnMostrar() {
@@ -210,39 +255,58 @@ public class Principal extends JFrame {
 			btnMostrar.setBorder(null);
 			btnMostrar.setContentAreaFilled(false);
 			btnMostrar.setFocusPainted(false);
-			btnMostrar.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-menu-24.png")));	
+			btnMostrar.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-menu-24.png")));
 			btnMostrar.addActionListener(new ActionListener() {
 
 				public void actionPerformed(ActionEvent e) {
-					lblBookcase.setVisible(false);
-					lblFotoLibro.setVisible(false);
-					lblImagenRaton.setVisible(false);
-					lblFondoRaton.setVisible(false);
-					int x = 213;
-					int y = 600;
+					if (!showned) {
+						showned = true;
+						int x = 213;
+						int y = 600;
+						if (x == 213) {
+							panel.show();
+							Thread th = new Thread() {
+								@Override
+								public void run() {
+									int x = 213;
+									try {
+										for (int i = 0; i <= x; i+=2) {
 
-					btnEsconder.setVisible(true);
-					btnMostrar.setVisible(false);
-					if (x == 213) {
-						panel.show();
-						// panel.setSize(360,y);
-						Thread th = new Thread() {
-							@Override
-							public void run() {
-								int x = 213;
-								try {
-									for (int i = 0; i <= x; i++) {
-
-										Thread.sleep(1);
-										panel.setSize(i, 600);
+											Thread.sleep(1);
+											panel.setSize(i, 600);
+										}
+									} catch (Exception e) {
+										e.printStackTrace();
 									}
-								} catch (Exception e) {
-									JOptionPane.showMessageDialog(null, e);
 								}
-							}
-						};
-						th.start();
-						x = 0;
+							};
+							th.start();
+							x = 0;
+						}
+					} else {
+						showned = false;
+						panelAnnos.setVisible(false);
+						panelAsignatura.setVisible(false);
+						int x = 213;
+						int y = 600;
+						if (x == 213) {
+
+							Thread th = new Thread() {
+								@Override
+								public void run() {
+									try {
+										for (int i = 213; i >= 0; i-=2) {
+											Thread.sleep(1);
+											panel.setSize(i, 600);
+										}
+									} catch (Exception e) {
+										JOptionPane.showMessageDialog(null, e);
+									}
+								}
+
+							};
+							th.start();
+						}
 					}
 				}
 			});
@@ -264,8 +328,7 @@ public class Principal extends JFrame {
 					dispose();
 				}
 			});
-			btnCerrar
-					.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-x-32 (1).png")));
+			btnCerrar.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-x-32 (1).png")));
 		}
 		return btnCerrar;
 	}
@@ -274,7 +337,7 @@ public class Principal extends JFrame {
 		if (lblCarreras == null) {
 			lblCarreras = new JLabel("Carreras");
 			lblCarreras.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			lblCarreras.setBounds(63, 42, 87, 23);
+			lblCarreras.setBounds(62, 53, 87, 23);
 		}
 		return lblCarreras;
 	}
@@ -292,154 +355,19 @@ public class Principal extends JFrame {
 		if (lblFotoLibro == null) {
 			lblFotoLibro = new JLabel("");
 			lblFotoLibro.setBounds(357, 88, 77, 89);
-			lblFotoLibro.setIcon(
-					new ImageIcon(Principal.class.getResource("/icons/icons8-book-64 (2).png")));
+			lblFotoLibro.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-book-64 (2).png")));
 		}
 		return lblFotoLibro;
-	}
-
-	private JButton getBtnArq() {
-		if (btnArq == null) {
-			btnArq = new JButton("Arquitectura");
-
-			btnArq.setBounds(21, 99, 164, 23);
-			btnArq.setOpaque(false);
-			btnArq.setBorder(null);
-			btnArq.setContentAreaFilled(false);
-			btnArq.setFocusPainted(false);
-			btnArq.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					panelAnnos.setVisible(true);
-				}
-			});
-		}
-		return btnArq;
-	}
-
-	private JButton getBtnCivil() {
-		if (btnCivil == null) {
-			btnCivil = new JButton("Civil");
-			btnCivil.setBounds(21, 222, 164, 23);
-			btnCivil.setOpaque(false);
-			btnCivil.setBorder(null);
-			btnCivil.setContentAreaFilled(false);
-			btnCivil.setFocusPainted(false);
-		}
-		return btnCivil;
-	}
-
-	private JButton getBtnInfo() {
-		if (btnInfo == null) {
-			btnInfo = new JButton("Informática");
-			btnInfo.setBounds(21, 386, 164, 23);
-			btnInfo.setOpaque(false);
-			btnInfo.setBorder(null);
-			btnInfo.setContentAreaFilled(false);
-			btnInfo.setFocusPainted(false);
-		}
-		return btnInfo;
-	}
-
-	private JButton getBtnElectrica() {
-		if (btnElectrica == null) {
-			btnElectrica = new JButton("Eléctrica");
-			btnElectrica.setBounds(21, 263, 164, 23);
-			btnElectrica.setOpaque(false);
-			btnElectrica.setBorder(null);
-			btnElectrica.setContentAreaFilled(false);
-			btnElectrica.setFocusPainted(false);
-		}
-		return btnElectrica;
-	}
-
-	private JButton getBtnQuimica() {
-		if (btnQuimica == null) {
-			btnQuimica = new JButton("Química");
-			btnQuimica.setBounds(21, 468, 164, 23);
-			btnQuimica.setOpaque(false);
-			btnQuimica.setBorder(null);
-			btnQuimica.setContentAreaFilled(false);
-			btnQuimica.setFocusPainted(false);
-		}
-		return btnQuimica;
-	}
-
-	private JButton getBtnIndustrial() {
-		if (BtnIndustrial == null) {
-			BtnIndustrial = new JButton("Industrial");
-			BtnIndustrial.setBounds(21, 345, 164, 23);
-			BtnIndustrial.setOpaque(false);
-			BtnIndustrial.setBorder(null);
-			BtnIndustrial.setContentAreaFilled(false);
-			BtnIndustrial.setFocusPainted(false);
-		}
-		return BtnIndustrial;
-	}
-
-	private JButton getBtnMec() {
-		if (btnMec == null) {
-			btnMec = new JButton("Mecánica");
-			btnMec.setBounds(21, 427, 164, 23);
-			btnMec.setOpaque(false);
-			btnMec.setBorder(null);
-			btnMec.setContentAreaFilled(false);
-			btnMec.setFocusPainted(false);
-		}
-		return btnMec;
-	}
-
-	private JButton getBtnBiomedica() {
-		if (btnBiomedica == null) {
-			btnBiomedica = new JButton("Biomédica");
-			btnBiomedica.setBounds(21, 181, 164, 23);
-			btnBiomedica.setOpaque(false);
-			btnBiomedica.setBorder(null);
-			btnBiomedica.setContentAreaFilled(false);
-			btnBiomedica.setFocusPainted(false);
-		}
-		return btnBiomedica;
-	}
-
-	private JButton getBtnAut() {
-		if (btnAut == null) {
-			btnAut = new JButton("Automática");
-			btnAut.setBounds(21, 140, 164, 23);
-			btnAut.setOpaque(false);
-			btnAut.setBorder(null);
-			btnAut.setContentAreaFilled(false);
-			btnAut.setFocusPainted(false);
-		}
-		return btnAut;
-	}
-
-	private JButton getBtnHidraulica() {
-		if (btnHidraulica == null) {
-			btnHidraulica = new JButton("Hidráulica");
-			btnHidraulica.setBounds(21, 304, 164, 23);
-			btnHidraulica.setOpaque(false);
-			btnHidraulica.setBorder(null);
-			btnHidraulica.setContentAreaFilled(false);
-			btnHidraulica.setFocusPainted(false);
-			btnHidraulica.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-				}
-			});
-		}
-		return btnHidraulica;
 	}
 
 	private JPanel getPanelAnnos() {
 		if (panelAnnos == null) {
 			panelAnnos = new JPanel();
-			panelAnnos.setBounds(213, 0, 115, 600);
-			panelAnnos.setBackground(new Color(255, 255, 255));
+			panelAnnos.setBounds(212, 0, 115, 600);
+			panelAnnos.setBackground(new Color(192, 192, 192));
 			panelAnnos.setLayout(null);
 			panelAnnos.add(getLblAnnos());
-			panelAnnos.add(getBtnAnno1());
-			panelAnnos.add(getBtnAnno2());
-			panelAnnos.add(getBtnAnno3());
-			panelAnnos.add(getBtnAnno4());
-			panelAnnos.add(getLblFondoMenuAnno());
+			panelAnnos.add(getPanelYears());
 			panelAnnos.setVisible(false);
 		}
 		return panelAnnos;
@@ -450,86 +378,19 @@ public class Principal extends JFrame {
 			lblAnnos = new JLabel("Años");
 			lblAnnos.setFont(new Font("Tahoma", Font.PLAIN, 20));
 
-			lblAnnos.setBounds(27, 42, 57, 23);
+			lblAnnos.setBounds(24, 55, 57, 23);
 		}
 		return lblAnnos;
-	}
-
-	private JButton getBtnAnno1() {
-		if (btnAnno1 == null) {
-			btnAnno1 = new JButton("1");
-			btnAnno1.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					panelAsignatura.setVisible(true);
-				}
-			});
-			btnAnno1.setOpaque(false);
-			btnAnno1.setBorder(null);
-			btnAnno1.setContentAreaFilled(false);
-			btnAnno1.setFocusPainted(false);
-			btnAnno1.setIcon(null);
-			btnAnno1.setBounds(10, 98, 89, 80);
-		}
-		return btnAnno1;
-	}
-
-	private JButton getBtnAnno2() {
-		if (btnAnno2 == null) {
-			btnAnno2 = new JButton("2");
-			btnAnno2.setOpaque(false);
-			btnAnno2.setBorder(null);
-			btnAnno2.setContentAreaFilled(false);
-			btnAnno2.setFocusPainted(false);
-			btnAnno2.setBounds(10, 219, 89, 80);
-			btnAnno2.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					panelAsignatura.setVisible(true);
-				}
-			});
-		}
-		return btnAnno2;
-	}
-
-	private JButton getBtnAnno3() {
-		if (btnAnno3 == null) {
-			btnAnno3 = new JButton("3");
-			btnAnno3.setOpaque(false);
-			btnAnno3.setBorder(null);
-			btnAnno3.setContentAreaFilled(false);
-			btnAnno3.setFocusPainted(false);
-			btnAnno3.setBounds(10, 340, 89, 80);
-			btnAnno3.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					panelAsignatura.setVisible(true);
-				}
-			});
-		}
-		return btnAnno3;
-	}
-
-	private JButton getBtnAnno4() {
-		if (btnAnno4 == null) {
-			btnAnno4 = new JButton("4");
-			btnAnno4.setOpaque(false);
-			btnAnno4.setBorder(null);
-			btnAnno4.setContentAreaFilled(false);
-			btnAnno4.setFocusPainted(false);
-			btnAnno4.setBounds(10, 461, 89, 80);
-			btnAnno4.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					panelAsignatura.setVisible(true);
-				}
-			});
-		}
-		return btnAnno4;
 	}
 
 	private JPanel getPanelAsignatura() {
 		if (panelAsignatura == null) {
 			panelAsignatura = new JPanel();
-			panelAsignatura.setBounds(328, 0, 175, 600);
+			panelAsignatura.setBackground(new Color(128, 128, 128));
+			panelAsignatura.setBounds(327, 0, 175, 600);
 			panelAsignatura.setLayout(null);
 			panelAsignatura.add(getLblAsignatura());
+			panelAsignatura.add(getScrollPane_1_1());
 
 			panelAsignatura.setVisible(false);
 		}
@@ -539,32 +400,17 @@ public class Principal extends JFrame {
 	private JLabel getLblAsignatura() {
 		if (lblAsignatura == null) {
 			lblAsignatura = new JLabel("Asignatura");
-			lblAsignatura.setBounds(34, 42, 131, 25);
+			lblAsignatura.setBounds(34, 53, 131, 25);
 			lblAsignatura.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		}
 		return lblAsignatura;
 	}
 
-	private JButton getBtnTele() {
-		if (btnTele == null) {
-			btnTele = new JButton("Telecomunicaciones");
-			btnTele.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-				}
-			});
-			btnTele.setBounds(21, 509, 164, 23);
-			btnTele.setOpaque(false);
-			btnTele.setBorder(null);
-			btnTele.setContentAreaFilled(false);
-			btnTele.setFocusPainted(false);
-		}
-		return btnTele;
-	}
-
 	private JLabel getLabelPanelMenu() {
 		if (labelPanelMenu == null) {
 			labelPanelMenu = new JLabel("");
-			labelPanelMenu.setIcon(new ImageIcon(Principal.class.getResource("/icons/Fondo de textura de acuarela amarilla brillante _ Vector Gratis.jpg")));
+			labelPanelMenu.setIcon(new ImageIcon(Principal.class
+					.getResource("/icons/Fondo de textura de acuarela amarilla brillante _ Vector Gratis.jpg")));
 			labelPanelMenu.setBounds(0, 0, 213, 600);
 		}
 		return labelPanelMenu;
@@ -576,18 +422,10 @@ public class Principal extends JFrame {
 			btnMinimizar.setBounds(968, 0, 40, 33);
 			btnMinimizar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-				}
-			});
-			btnMinimizar.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-//					setExtendedState(contentP);
 					setExtendedState(JFrame.CROSSHAIR_CURSOR);
-
 				}
 			});
-			btnMinimizar.setIcon(
-					new ImageIcon(Principal.class.getResource("/icons/icons8_subtract_32px.png")));
+			btnMinimizar.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8_subtract_32px.png")));
 			btnMinimizar.setOpaque(false);
 			btnMinimizar.setFocusPainted(false);
 			btnMinimizar.setContentAreaFilled(false);
@@ -609,9 +447,8 @@ public class Principal extends JFrame {
 			});
 			btnOpciones.setVisible(false);
 			btnOpciones.setBounds(991, 489, 56, 50);
-			btnOpciones.setIcon(
-					new ImageIcon(Principal.class.getResource("/icons/icons8-setting-48.png")));
-						
+			btnOpciones.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-setting-48.png")));
+
 			btnOpciones.setToolTipText("Opciones");
 			btnOpciones.setOpaque(false);
 			btnOpciones.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -636,18 +473,13 @@ public class Principal extends JFrame {
 	private JLabel getLblPAnelArriba() {
 		if (lblPAnelArriba == null) {
 			lblPAnelArriba = new JLabel("");
-			lblPAnelArriba.setIcon(new ImageIcon(Principal.class.getResource("/icons/Fondo de textura de acuarela amarilla brillante _ Vector Gratis - copia.jpg")));
+			lblPAnelArriba.setIcon(new ImageIcon(Principal.class.getResource(
+					"/icons/Fondo de textura de acuarela amarilla brillante _ Vector Gratis - copia.jpg")));
 			lblPAnelArriba.setBounds(0, 0, 1053, 38);
 		}
 		return lblPAnelArriba;
 	}
-	private JScrollPane getScrollPaneMenu() {
-		if (scrollPaneMenu == null) {
-			scrollPaneMenu = new JScrollPane();
-			scrollPaneMenu.setBounds(0, 0, 213, 600);
-		}
-		return scrollPaneMenu;
-	}
+
 	private JButton getBtnBusquedaAvanzada() {
 		if (btnBusquedaAvanzada == null) {
 			btnBusquedaAvanzada = new JButton("");
@@ -667,34 +499,89 @@ public class Principal extends JFrame {
 		}
 		return btnBusquedaAvanzada;
 	}
+
 	private JLabel getLblImagenRaton() {
 		if (lblImagenRaton == null) {
 			lblImagenRaton = new JLabel("");
 			lblImagenRaton.setIcon(new ImageIcon(Principal.class.getResource("/icons/ratonCHico.png")));
-			lblImagenRaton.setBounds(705, 140, 213, 338);
+			lblImagenRaton.setBounds(795, 163, 213, 338);
 		}
 		return lblImagenRaton;
 	}
+
 	private JLabel getLblFondoRaton() {
 		if (lblFondoRaton == null) {
 			lblFondoRaton = new JLabel("");
 			lblFondoRaton.setIcon(new ImageIcon(Principal.class.getResource("/icons/FondoPrincipal.png")));
-			lblFondoRaton.setBounds(0, 34, 1053, 566);
+			lblFondoRaton.setBounds(0, 0, 1134, 705);
 		}
 		return lblFondoRaton;
 	}
-	private JLabel getLblFondoMenuAnno() {
-		if (lblFondoMenuAnno == null) {
-			lblFondoMenuAnno = new JLabel("");
-			lblFondoMenuAnno.setBounds(0, 0, 115, 600);
+
+	private JPanel getPanel_1_1() {
+		if (panelCarreers == null) {
+			panelCarreers = new JPanel();
+			panelCarreers.setBorder(null);
+			panelCarreers.setOpaque(false);
+			FormLayout fl_panelCarreers = new FormLayout();
+			fl_panelCarreers.appendColumn(FormSpecs.RELATED_GAP_COLSPEC);
+			fl_panelCarreers.appendColumn(FormSpecs.DEFAULT_COLSPEC);
+			fl_panelCarreers.appendColumn(FormSpecs.RELATED_GAP_COLSPEC);
+			fl_panelCarreers.appendColumn(ColumnSpec.decode("max(101dlu;default)"));
+			panelCarreers.setLayout(fl_panelCarreers);
 		}
-		return lblFondoMenuAnno;
+		return panelCarreers;
 	}
-	private JTextArea getTextArea() {
-		if (textArea == null) {
-			textArea = new JTextArea();
-			textArea.setBounds(223, 88, 144, 128);
+
+	private JScrollPane getScrollPane_1() {
+		if (scrollPane == null) {
+			scrollPane = new JScrollPane();
+			scrollPane.setBorder(null);
+			scrollPane.setOpaque(false);
+			scrollPane.setBounds(0, 102, 213, 498);
+			scrollPane.setViewportView(getPanel_1_1());
+			scrollPane.getViewport().setOpaque(false);
+			JScrollBar scrollBar = scrollPane.getVerticalScrollBar();
+			scrollBar.setPreferredSize(new Dimension(20, 0));
+			Border margin = new EmptyBorder(4, 4, 4, 4); // crear un margen vacío
+			Border compound = new CompoundBorder(null, margin);
+			scrollBar.setBorder(compound);
+			scrollBar.setOpaque(false);
+			scrollBar.setUI(new ScrollBarWithoutArrows());
+
 		}
-		return textArea;
+		return scrollPane;
+	}
+
+	private JPanel getPanelYears() {
+		if (panelYears == null) {
+			panelYears = new JPanel();
+			panelYears.setBorder(new LineBorder(new Color(192, 192, 192)));
+			panelYears.setBackground(new Color(192, 192, 192));
+			panelYears.setBounds(0, 103, 115, 497);
+			yearsLayout = new CardLayout(0, 0);
+			panelYears.setLayout(yearsLayout);
+		}
+		return panelYears;
+	}
+
+	private JPanel getSubjectPanel() {
+		if (subjectPanel == null) {
+			subjectPanel = new JPanel();
+			subjectPanel.setBorder(new LineBorder(new Color(128, 128, 128)));
+			subjectLayout = new CardLayout(0, 0);
+			subjectPanel.setLayout(subjectLayout);
+		}
+		return subjectPanel;
+	}
+
+	private JScrollPane getScrollPane_1_1() {
+		if (scrollPane_1 == null) {
+			scrollPane_1 = new JScrollPane();
+			scrollPane_1.setBorder(null);
+			scrollPane_1.setBounds(0, 103, 175, 497);
+			scrollPane_1.setViewportView(getSubjectPanel());
+		}
+		return scrollPane_1;
 	}
 }
