@@ -651,6 +651,12 @@ public class Principal extends JFrame {
 	private JButton getBtnBusquedaAvanzada() {
 		if (btnBusquedaAvanzada == null) {
 			btnBusquedaAvanzada = new JButton("");
+			btnBusquedaAvanzada.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					BusquedaAvanzada ba = new BusquedaAvanzada();
+					ba.setVisible(true);
+				}
+			});
 			btnBusquedaAvanzada.setToolTipText("Búsqueda Avanzadas");
 			btnBusquedaAvanzada.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8_slider_45px_1.png")));
 			btnBusquedaAvanzada.setBounds(991, 550, 56, 50);
