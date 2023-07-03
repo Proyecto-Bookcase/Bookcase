@@ -170,7 +170,7 @@ public class Login extends JFrame {
 					String contrasena = passwordField.getText();
 					boolean validoUser = validaciones.isCorrectUsername(usuario) ;
 					boolean validoPasword = validaciones.isCorrectPasword(usuario, contrasena);
-					if(validoUser) {
+					if(validoUser && validoPasword) {
 						boolean isProfesor = validaciones.isProfesor(usuario);
 						Principal p = new Principal();
 						p.setVisible(true);

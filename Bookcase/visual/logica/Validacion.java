@@ -30,6 +30,7 @@ public class Validacion {
 		}
 		else if ( user.substring(0, 2).equals("pr")
 				|| user.substring(0, 2).equals("ce")) {
+			esc = false;
 			
 		}
 		
