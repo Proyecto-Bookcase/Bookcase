@@ -1,7 +1,6 @@
 package classes;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
@@ -171,18 +170,16 @@ public class Bookcase {
 			constructor = typeMaterial.getConstructor(parameterTypes);
 			info = constructor.newInstance(args);
 
-		} catch (NoSuchMethodException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+		}
+
+		for (Vertex vertex : graph.getVerticesList()) {
+			Object vertexInfo = vertex.getInfo();
+			if (vertexInfo instanceof Material && ((Material) vertexInfo).getAuthor().equalsIgnoreCase(info.getAuthor())
+					&& ((Material) vertexInfo).getTittle().equalsIgnoreCase(info.getTittle())
+					&& ((Material) vertexInfo).getDateCreation().equals(info.getDateCreation()))
+				throw new RuntimeException("Ya existe el Material: " + info.getTittle());
 		}
 
 		graph.insertVertex(info);
