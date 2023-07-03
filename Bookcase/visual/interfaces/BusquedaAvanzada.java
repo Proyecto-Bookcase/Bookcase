@@ -11,11 +11,19 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.MatteBorder;
+
+import classes.Bookcase;
+import classes.Carreer;
+import classes.Material;
+import logica.TableModelMostUseMaterial;
+
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import javax.swing.JTextPane;
@@ -24,6 +32,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 public class BusquedaAvanzada extends JFrame {
 
@@ -35,7 +46,7 @@ public class BusquedaAvanzada extends JFrame {
 	private JButton btn1Mostrar;
 	private JButton btn2Mostrar;
 	private JButton btn5Mostrar;
-	private JPanel panelMasUsado;
+	private JPanel panelMaterialesMasUsado;
 	private JScrollPane scrollPane;
 	private JLabel lblNewLabel_1_1;
 	private JButton btn1Ocultar;
@@ -55,6 +66,11 @@ public class BusquedaAvanzada extends JFrame {
 	private JComboBox comboBox;
 	private JLabel lblNewLabel_1_5_1_1;
 	private JComboBox comboBox_1;
+	//private TableModel model;
+	private TableModelMostUseMaterial tableModel;
+	//instancia de bookcase
+	Bookcase bookcase;
+	private JTable tablaMaterialesMasUsados;
 
 	/**
 	 * Launch the application.
@@ -82,7 +98,10 @@ public class BusquedaAvanzada extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new LineBorder(new Color(0, 0, 0)));
 		setLocationRelativeTo(null);
-
+		//model = new 
+		
+		tableModel = new TableModelMostUseMaterial();
+		
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		contentPane.add(getScrollPane_3());
@@ -93,6 +112,12 @@ public class BusquedaAvanzada extends JFrame {
 		contentPane.add(getBtnCerrar());
 		contentPane.add(getLblNewLabel_2());
 		contentPane.add(getLblNewLabel_3());
+		
+		
+		//agregado por diefo hoy 3/7/23 11:09 am
+		//agregado el contrusctor 
+		this.bookcase = Bookcase.getInstance();
+		
 	}
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {
@@ -169,14 +194,16 @@ public class BusquedaAvanzada extends JFrame {
 					panelMyorCantidadMat.setVisible(false);
 					btn2Mostrar.setVisible(true);
 					btn5Mostrar.setVisible(true);
-					 scrollPane_3.setVisible(false);
+					scrollPane_3.setVisible(false);
 
-
+					
+					
 
 
 				//	btnEditarMostrar.setVisible(true);
                  //   btnAnnadirMostrar.setVisible(true);
                  //   panelAnnadir.setVisible(false);
+					List<Material> a = bookcase.mostUseMaterial();
 					
 					
 				     
@@ -192,7 +219,7 @@ public class BusquedaAvanzada extends JFrame {
 				                	   
 				                       Thread.sleep(1);
 										scrollPane.setSize(i,365);
-										panelMasUsado.setSize(i, 365);				                       
+										panelMaterialesMasUsado.setSize(i, 365);				                       
 				                   }  
 				                 }catch(Exception e){
 				                     JOptionPane.showMessageDialog(null, e);
@@ -337,23 +364,24 @@ public class BusquedaAvanzada extends JFrame {
 		}
 		return btn5Mostrar;
 	}
-	private JPanel getPanelMasUsado() {
-		if (panelMasUsado == null) {
-			panelMasUsado = new JPanel();
-			panelMasUsado.setBorder(new LineBorder(new Color(0, 0, 0)));
-			panelMasUsado.setBackground(new Color(255, 255, 255));
-			panelMasUsado.setPreferredSize(new Dimension(0, 10000));
-			panelMasUsado.setLayout(null);
-			panelMasUsado.add(getLblNewLabel_1_1());
+	private JPanel getPanelMaterialesMasUsado() {
+		if (panelMaterialesMasUsado == null) {
+			panelMaterialesMasUsado = new JPanel();
+			panelMaterialesMasUsado.setBorder(new LineBorder(new Color(0, 0, 0)));
+			panelMaterialesMasUsado.setBackground(new Color(255, 255, 255));
+			panelMaterialesMasUsado.setPreferredSize(new Dimension(0, 10000));
+			panelMaterialesMasUsado.setLayout(null);
+			panelMaterialesMasUsado.add(getLblNewLabel_1_1());
+			panelMaterialesMasUsado.add(getTablaMaterialesMasUsados());
 
 		}
-		return panelMasUsado;
+		return panelMaterialesMasUsado;
 	}
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
 			scrollPane.setBounds(217, 56, 371, 365);
-			scrollPane.setViewportView(getPanelMasUsado());
+			scrollPane.setViewportView(getPanelMaterialesMasUsado());
 			
 			scrollPane.setVisible(false);
 
@@ -556,5 +584,17 @@ public class BusquedaAvanzada extends JFrame {
 			comboBox_1.setBounds(77, 200, 190, 38);
 		}
 		return comboBox_1;
+	}
+	private JTable getTablaMaterialesMasUsados() {
+		if (tablaMaterialesMasUsados == null) {
+			tablaMaterialesMasUsados = new JTable();
+			//nuevo
+			tablaMaterialesMasUsados.setModel(tableModel);
+			tableModel.actualizar(bookcase.mostUsedMaterialOfCarrer(new Carreer("1","info",2) ));
+			
+			//
+			tablaMaterialesMasUsados.setBounds(0, 86, 352, 278);
+		}
+		return tablaMaterialesMasUsados;
 	}
 }
