@@ -15,7 +15,7 @@ class InsertToGraphAndTreeTest {
 	
 	
 	@BeforeAll
-	static void setUpBeforeClass() throws Exception {
+	static void setUpBeforeClass() {
 		instance = Bookcase.getInstance();
 		
 		instance.newCarreer("Informática", 4);
