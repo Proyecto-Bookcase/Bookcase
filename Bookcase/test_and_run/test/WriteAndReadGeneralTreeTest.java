@@ -16,7 +16,7 @@ class WriteAndReadGeneralTreeTest {
     private File filePath;
 
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         filePath = new File("Tree.DATA");
         tree = new GeneralTree<>();
 
@@ -27,7 +27,6 @@ class WriteAndReadGeneralTreeTest {
         BinaryTreeNode<String> e = new BinaryTreeNode<String>("E");
         BinaryTreeNode<String> f = new BinaryTreeNode<String>("F");
         BinaryTreeNode<String> g = new BinaryTreeNode<String>("G");
-        BinaryTreeNode<String> h = new BinaryTreeNode<String>("H");
         BinaryTreeNode<String> i = new BinaryTreeNode<String>("I");
         BinaryTreeNode<String> j = new BinaryTreeNode<String>("J");
         BinaryTreeNode<String> k = new BinaryTreeNode<String>("K");
@@ -52,7 +51,7 @@ class WriteAndReadGeneralTreeTest {
     void test() {
         WriteGeneralTree<String> writer = new WriteGeneralTree<>(filePath, tree);
         writer.writeTree();
-        ReadGeneralTree<String> reader = new ReadGeneralTree<>(filePath);
+        new ReadGeneralTree<>(filePath);
     }
 
 }
