@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -46,7 +47,6 @@ public class Principal extends JFrame {
 	private final String SPECS_ROW_SUBJECT = "max(36dlu;default)";
 	private JPanel contentPane;
 	private JPanel panel;
-	private JButton btnEsconder;
 	private JButton btnMostrar;
 	private JButton btnCerrar;
 	private JLabel lblCarreras;
@@ -73,6 +73,7 @@ public class Principal extends JFrame {
 	private JPanel subjectPanel;
 	private JScrollPane scrollPane_1;
 	private CardLayout subjectLayout;
+	private boolean showned = false;
 
 	/**
 	 * Launch the application.
@@ -97,7 +98,7 @@ public class Principal extends JFrame {
 		instance = Bookcase.getInstance();
 		tree = instance.getTree();
 		setUndecorated(true);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1053, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -106,15 +107,15 @@ public class Principal extends JFrame {
 				Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/icons/icons8-book-64 (2).png")));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		contentPane.add(getBtnMinimizar());
+		contentPane.add(getBtnMostrar());
+		contentPane.add(getBtnCerrar());
+		contentPane.add(getPaneLarriba());
 		contentPane.add(getPanelAsignatura());
 		contentPane.add(getPanel());
-		contentPane.add(getBtnCerrar());
-		contentPane.add(getBtnMostrar());
 		contentPane.add(getLblFotoLibro());
 		contentPane.add(getPanelAnnos());
-		contentPane.add(getBtnMinimizar());
 		contentPane.add(getBtnOpciones());
-		contentPane.add(getPaneLarriba());
 
 		contentPane.add(getBtnBusquedaAvanzada());
 		contentPane.add(getLblImagenRaton());
@@ -152,6 +153,8 @@ public class Principal extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				yearsLayout.show(panelYears, info.getId());
+				panelAnnos.setVisible(true);
+				panelAsignatura.setVisible(false);
 			}
 		});
 	}
@@ -159,11 +162,9 @@ public class Principal extends JFrame {
 	private void insertYearPanel(BinaryTreeNode<NodeInfo> carreer) {
 		Carreer info = (Carreer) carreer.getInfo();
 		JPanel panel = new JPanel();
-		FormLayout layout = new FormLayout();
-		layout.appendColumn(FormSpecs.RELATED_GAP_COLSPEC);
-		layout.appendColumn(ColumnSpec.decode("max(6dlu;default)"));
-		layout.appendColumn(FormSpecs.LABEL_COMPONENT_GAP_COLSPEC);
-		layout.appendColumn(ColumnSpec.decode("left:49dlu"));
+		FormLayout layout = new FormLayout(new ColumnSpec[] { FormSpecs.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(4dlu;default)"), FormSpecs.RELATED_GAP_COLSPEC, ColumnSpec.decode("40dlu"), },
+				new RowSpec[] {});
 		panel.setLayout(layout);
 		for (BinaryTreeNode<NodeInfo> year : tree.getSons(carreer)) {
 			insertYearComponent(year, panel);
@@ -188,7 +189,8 @@ public class Principal extends JFrame {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				((CardLayout) panel.getLayout()).show(panel, info.getId());
+				subjectLayout.show(subjectPanel, info.getId());
+				panelAsignatura.setVisible(true);
 			}
 		});
 
@@ -198,14 +200,14 @@ public class Principal extends JFrame {
 		Year info = (Year) year.getInfo();
 		JPanel panel = new JPanel();
 		FormLayout layout = new FormLayout(
-				new ColumnSpec[] { FormSpecs.RELATED_GAP_COLSPEC, ColumnSpec.decode("max(6dlu;default)"),
-						FormSpecs.RELATED_GAP_COLSPEC, ColumnSpec.decode("max(92dlu;default)"), },
+				new ColumnSpec[] { FormSpecs.RELATED_GAP_COLSPEC, ColumnSpec.decode("max(1dlu;default)"),
+						FormSpecs.RELATED_GAP_COLSPEC, ColumnSpec.decode("max(80dlu;default)"), },
 				new RowSpec[] {});
 		panel.setLayout(layout);
 		for (BinaryTreeNode<NodeInfo> subject : tree.getSons(year)) {
 			insertSubjectComponent(subject, panel);
 		}
-		panelYears.add(panel, info.getId());
+		subjectPanel.add(panel, info.getId());
 
 	}
 
@@ -225,7 +227,7 @@ public class Principal extends JFrame {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				btnEsconder.doClick();
+				btnMostrar.doClick();
 			}
 		});
 
@@ -238,70 +240,12 @@ public class Principal extends JFrame {
 			panel.setBackground(new Color(255, 255, 255));
 			panel.setLayout(null);
 			panel.add(getScrollPane_1());
-			panel.add(getBtnEsconder());
 			panel.add(getLblCarreras());
 			panel.add(getLabelPanelMenu());
 
 			panel.setVisible(false);
 		}
 		return panel;
-	}
-
-	private JButton getBtnEsconder() {
-		if (btnEsconder == null) {
-			btnEsconder = new JButton("");
-			btnEsconder.setBounds(0, 0, 43, 35);
-			btnEsconder.setBorder(null);
-			btnEsconder.setContentAreaFilled(false);
-			btnEsconder.setFocusPainted(false);
-			btnEsconder.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8-menu-24.png")));
-
-			btnEsconder.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					lblBookcase.setVisible(true);
-					lblFotoLibro.setVisible(true);
-					lblImagenRaton.setVisible(true);
-					lblFondoRaton.setVisible(true);
-					int x = 213;
-					int y = 600;
-					btnMostrar.setVisible(true);
-					btnEsconder.setVisible(false);
-					if (x == 213) {
-
-						Thread th = new Thread() {
-							@Override
-							public void run() {
-								try {
-									for (int i = 213; i >= 0; i--) {
-										Thread.sleep(1);
-										panel.setSize(i, 600);
-									}
-								} catch (Exception e) {
-									JOptionPane.showMessageDialog(null, e);
-								}
-							}
-
-						};
-						th.start();
-					}
-				}
-			});
-
-			btnEsconder.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					panelAnnos.setVisible(false);
-
-				}
-			});
-
-			btnEsconder.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					panelAsignatura.setVisible(false);
-
-				}
-			});
-		}
-		return btnEsconder;
 	}
 
 	private JButton getBtnMostrar() {
@@ -315,35 +259,54 @@ public class Principal extends JFrame {
 			btnMostrar.addActionListener(new ActionListener() {
 
 				public void actionPerformed(ActionEvent e) {
-					lblBookcase.setVisible(false);
-					lblFotoLibro.setVisible(false);
-					lblImagenRaton.setVisible(false);
-					lblFondoRaton.setVisible(false);
-					int x = 213;
-					int y = 600;
+					if (!showned) {
+						showned = true;
+						int x = 213;
+						int y = 600;
+						if (x == 213) {
+							panel.show();
+							Thread th = new Thread() {
+								@Override
+								public void run() {
+									int x = 213;
+									try {
+										for (int i = 0; i <= x; i+=2) {
 
-					btnEsconder.setVisible(true);
-					btnMostrar.setVisible(false);
-					if (x == 213) {
-						panel.show();
-						// panel.setSize(360,y);
-						Thread th = new Thread() {
-							@Override
-							public void run() {
-								int x = 213;
-								try {
-									for (int i = 0; i <= x; i++) {
-
-										Thread.sleep(1);
-										panel.setSize(i, 600);
+											Thread.sleep(1);
+											panel.setSize(i, 600);
+										}
+									} catch (Exception e) {
+										e.printStackTrace();
 									}
-								} catch (Exception e) {
-									JOptionPane.showMessageDialog(null, e);
 								}
-							}
-						};
-						th.start();
-						x = 0;
+							};
+							th.start();
+							x = 0;
+						}
+					} else {
+						showned = false;
+						panelAnnos.setVisible(false);
+						panelAsignatura.setVisible(false);
+						int x = 213;
+						int y = 600;
+						if (x == 213) {
+
+							Thread th = new Thread() {
+								@Override
+								public void run() {
+									try {
+										for (int i = 213; i >= 0; i-=2) {
+											Thread.sleep(1);
+											panel.setSize(i, 600);
+										}
+									} catch (Exception e) {
+										JOptionPane.showMessageDialog(null, e);
+									}
+								}
+
+							};
+							th.start();
+						}
 					}
 				}
 			});
@@ -374,7 +337,7 @@ public class Principal extends JFrame {
 		if (lblCarreras == null) {
 			lblCarreras = new JLabel("Carreras");
 			lblCarreras.setFont(new Font("Tahoma", Font.PLAIN, 20));
-			lblCarreras.setBounds(63, 42, 87, 23);
+			lblCarreras.setBounds(62, 53, 87, 23);
 		}
 		return lblCarreras;
 	}
@@ -400,8 +363,8 @@ public class Principal extends JFrame {
 	private JPanel getPanelAnnos() {
 		if (panelAnnos == null) {
 			panelAnnos = new JPanel();
-			panelAnnos.setBounds(213, 0, 115, 600);
-			panelAnnos.setBackground(new Color(255, 255, 255));
+			panelAnnos.setBounds(212, 0, 115, 600);
+			panelAnnos.setBackground(new Color(192, 192, 192));
 			panelAnnos.setLayout(null);
 			panelAnnos.add(getLblAnnos());
 			panelAnnos.add(getPanelYears());
@@ -415,7 +378,7 @@ public class Principal extends JFrame {
 			lblAnnos = new JLabel("Años");
 			lblAnnos.setFont(new Font("Tahoma", Font.PLAIN, 20));
 
-			lblAnnos.setBounds(27, 42, 57, 23);
+			lblAnnos.setBounds(24, 55, 57, 23);
 		}
 		return lblAnnos;
 	}
@@ -423,7 +386,8 @@ public class Principal extends JFrame {
 	private JPanel getPanelAsignatura() {
 		if (panelAsignatura == null) {
 			panelAsignatura = new JPanel();
-			panelAsignatura.setBounds(328, 0, 175, 600);
+			panelAsignatura.setBackground(new Color(128, 128, 128));
+			panelAsignatura.setBounds(327, 0, 175, 600);
 			panelAsignatura.setLayout(null);
 			panelAsignatura.add(getLblAsignatura());
 			panelAsignatura.add(getScrollPane_1_1());
@@ -436,7 +400,7 @@ public class Principal extends JFrame {
 	private JLabel getLblAsignatura() {
 		if (lblAsignatura == null) {
 			lblAsignatura = new JLabel("Asignatura");
-			lblAsignatura.setBounds(34, 42, 131, 25);
+			lblAsignatura.setBounds(34, 53, 131, 25);
 			lblAsignatura.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		}
 		return lblAsignatura;
@@ -458,14 +422,7 @@ public class Principal extends JFrame {
 			btnMinimizar.setBounds(968, 0, 40, 33);
 			btnMinimizar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-				}
-			});
-			btnMinimizar.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-//					setExtendedState(contentP);
 					setExtendedState(JFrame.CROSSHAIR_CURSOR);
-
 				}
 			});
 			btnMinimizar.setIcon(new ImageIcon(Principal.class.getResource("/icons/icons8_subtract_32px.png")));
@@ -547,7 +504,7 @@ public class Principal extends JFrame {
 		if (lblImagenRaton == null) {
 			lblImagenRaton = new JLabel("");
 			lblImagenRaton.setIcon(new ImageIcon(Principal.class.getResource("/icons/ratonCHico.png")));
-			lblImagenRaton.setBounds(705, 140, 213, 338);
+			lblImagenRaton.setBounds(795, 163, 213, 338);
 		}
 		return lblImagenRaton;
 	}
@@ -556,7 +513,7 @@ public class Principal extends JFrame {
 		if (lblFondoRaton == null) {
 			lblFondoRaton = new JLabel("");
 			lblFondoRaton.setIcon(new ImageIcon(Principal.class.getResource("/icons/FondoPrincipal.png")));
-			lblFondoRaton.setBounds(0, 34, 1053, 566);
+			lblFondoRaton.setBounds(0, 0, 1134, 705);
 		}
 		return lblFondoRaton;
 	}
@@ -599,7 +556,8 @@ public class Principal extends JFrame {
 	private JPanel getPanelYears() {
 		if (panelYears == null) {
 			panelYears = new JPanel();
-			panelYears.setOpaque(false);
+			panelYears.setBorder(new LineBorder(new Color(192, 192, 192)));
+			panelYears.setBackground(new Color(192, 192, 192));
 			panelYears.setBounds(0, 103, 115, 497);
 			yearsLayout = new CardLayout(0, 0);
 			panelYears.setLayout(yearsLayout);
@@ -610,6 +568,7 @@ public class Principal extends JFrame {
 	private JPanel getSubjectPanel() {
 		if (subjectPanel == null) {
 			subjectPanel = new JPanel();
+			subjectPanel.setBorder(new LineBorder(new Color(128, 128, 128)));
 			subjectLayout = new CardLayout(0, 0);
 			subjectPanel.setLayout(subjectLayout);
 		}
@@ -619,6 +578,7 @@ public class Principal extends JFrame {
 	private JScrollPane getScrollPane_1_1() {
 		if (scrollPane_1 == null) {
 			scrollPane_1 = new JScrollPane();
+			scrollPane_1.setBorder(null);
 			scrollPane_1.setBounds(0, 103, 175, 497);
 			scrollPane_1.setViewportView(getSubjectPanel());
 		}
