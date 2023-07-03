@@ -26,7 +26,7 @@ public class TableModelMostUseMaterial extends DefaultTableModel {
 
 	public TableModelMostUseMaterial() {
 		super(new Object[][] {}, new String[] { "Tipo de Material", "ID ","Titulo", "Autor",
-				"Fehca de Creación","Nombre del Libro", " Cantidad de Ejercicios", "tipo de ejercicios", "Tipo de documento" });
+				"Fehca de Creación", " Cantidad de Ejercicios", "tipo de ejercicios", "Tipo de documento" });
 	}
 
 	@Override
@@ -56,9 +56,9 @@ public class TableModelMostUseMaterial extends DefaultTableModel {
 		for (Material material : lista) {
 			if (material instanceof Book) {
 //				 new String[] { "Tipo de Material", "ID ","Nombre", "Autor",
-//							"Fehca de Creación","Nombre del Libro", " Cantidad de Ejercicios", "tipo de ejercicios", "Tipo de documento" }
+//							"Fehca de Creación", " Cantidad de Ejercicios", "tipo de ejercicios", "Tipo de documento" }
 				addRow(new Object[] { Book.class,material.getId(),material.getTittle(), material.getAuthor(), material.getDateCreation(),
-						((Book)material). });
+						"null","null","null"});
 			}
 		}
 
