@@ -671,7 +671,7 @@ public class Bookcase {
 		while (!find && iter.hasNext()) {
 			Vertex vertIter = iter.next();
 			Object vertInfo = vertIter.getInfo();
-			if (vertInfo instanceof Material && ((Material)vertInfo).getId().equals(material.getId())) {
+			if (vertInfo instanceof Material mater && mater.getId().equals(material.getId())) {
 				find = true;
 				LinkedList<Edge> edgeList = vertIter.getEdgeList();
 				Iterator<Edge> iterEdge = edgeList.iterator();
@@ -757,7 +757,7 @@ public class Bookcase {
 	// este metodo para eliminar un año determinado para una carrera determinada
 	// tengo dudas de como implementaro
 	public void deleteYearCarrear() {
-
+		//TODO falta por hacer
 	}
 
 
