@@ -14,9 +14,12 @@ import classes.Material;
 public class TableModelMostUseMaterial extends DefaultTableModel {
 
 	private static final long serialVersionUID = 7853621716070275671L;
+
 	Class[] columnTypes = new Class[] { String.class, String.class, String.class, String.class, String.class,
 			String.class, String.class, Integer.class, Integer.class, String.class, String.class };
-	boolean[] columnEditables = new boolean[] { false, false, false, false };
+
+	boolean[] columnEditables = new boolean[] { false, false, false, false, false, false, false, false, false, false,
+			false };
 
 	public TableModelMostUseMaterial() {
 		super(new Object[][] {}, new String[] { "ID", "Tipo de Material", "Titulo", "Autor", "Fehca de Creación",
