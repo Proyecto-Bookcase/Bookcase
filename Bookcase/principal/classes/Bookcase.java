@@ -15,6 +15,7 @@ import java.util.Random;
 import auxiliary_classes.AuxiliarInfo;
 import auxiliary_classes.Auxiliary;
 import auxiliary_classes.AuxiliarySubjectMostMaterialUse;
+import auxiliary_classes.SubAuxiliary;
 import cu.edu.cujae.ceis.graph.LinkedGraph;
 import cu.edu.cujae.ceis.graph.edge.Edge;
 import cu.edu.cujae.ceis.graph.interfaces.ILinkedNotDirectedGraph;
@@ -395,11 +396,12 @@ public class Bookcase {
 	// este metodo devuekve las asignaturas que usan mayor cantidad de materiales
 	public AuxiliarySubjectMostMaterialUse subjectsMostMaterialUse() {
 		// aqui se crea la lista de salida
-		List<Subject> escLits = new LinkedList<>();
+		List<SubAuxiliary> escLits = new LinkedList<SubAuxiliary>();
 		// se obtiene la lisat de vertices del ggrafo
 		LinkedList<Vertex> vertList = graph.getVerticesList();
 		// se inicializa el iterador
 		Iterator<Vertex> iter = vertList.iterator();
+		
 
 		// se inicializa la cantidad de materiales
 		int max = 0;
@@ -417,11 +419,15 @@ public class Bookcase {
 					// si es mayor se reinicia la lista se añade el subject
 					// y se actualiza la cantidad de materiales
 					max = grade;
+					Auxiliary aux = findInfoSubjcetId(((Subject)help).getId());
 					escLits.clear();
-					escLits.add(subject);
+					escLits.add(new SubAuxiliary(subject,(Carreer) aux.getCarrerNode().getInfo(),(Year) aux.getYearNode().getInfo()));
+					
 				} else if (grade == max) {
 					// si es igual se añade el subject a la lista
-					escLits.add(subject);
+					Auxiliary aux = findInfoSubjcetId(((Subject)help).getId());
+					
+					escLits.add(new SubAuxiliary(subject,(Carreer)aux.getCarrerNode().getInfo(),(Year)aux.getYearNode().getInfo()));
 				}
 
 			}
@@ -757,10 +763,15 @@ public class Bookcase {
 
 	// este metodo para eliminar un año determinado para una carrera determinada
 	// tengo dudas de como implementaro
-	public void deleteYearCarrear() {
-		//TODO falta por hacer
-	}
+	public void deleteYearCarrear(Year year) {
+		BinaryTreeNode<NodeInfo> yearNode = getYearNode(year.getId());
+		BinaryTreeNode<NodeInfo> subject = yearNode.getLeft();
+		while (subject != null) {
+			deleteSubjectGraph((Subject) subject.getInfo());
+			subject = subject.getRight();
 
+		}
+	}
 
 	//para eliminar toda una carrera promero hay que eliminar todas las asignaturas y 
 	//materiales que tiene esa carrera
@@ -774,10 +785,8 @@ public class Bookcase {
 
 		while (year != null) {
 			BinaryTreeNode<NodeInfo> subject = year.getLeft();
-			while (subject != null) {
-				deleteSubjectGraph((Subject) subject.getInfo());
-
-			}
+			deleteYearCarrear((Year)year.getInfo());
+			year = year.getRight();
 		}
 		tree.deleteNode(carrerNode);
 
