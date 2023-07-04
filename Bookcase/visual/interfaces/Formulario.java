@@ -4,36 +4,38 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.GregorianCalendar;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.text.ParseException;
 
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JSpinner;
+import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.Timer;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.JFormattedTextField.AbstractFormatter;
+import javax.swing.JFormattedTextField.AbstractFormatterFactory;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.event.DocumentEvent;
+import javax.swing.text.MaskFormatter;
 
-import java.awt.Toolkit;
-import javax.swing.JRadioButton;
-import javax.swing.ButtonGroup;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
-import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
-
+import logica.DeleteTableModel;
+import logica.TextPrompt;
 
 public class Formulario extends JFrame {
 
@@ -88,8 +90,11 @@ public class Formulario extends JFrame {
 	private JScrollPane scrollPane;
 	private JLabel lblNewLabel;
 	private JScrollPane scrollPane_1;
-	
-	/** 
+	private JTable table;
+	private JScrollPane scrollPane_2;
+	private JFormattedTextField textField;
+
+	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
@@ -109,7 +114,8 @@ public class Formulario extends JFrame {
 	 * Create the frame.
 	 */
 	public Formulario() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(Formulario.class.getResource("/icons/icons8-book-64 (2).png")));
+		setIconImage(
+				Toolkit.getDefaultToolkit().getImage(Formulario.class.getResource("/icons/icons8-book-64 (2).png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 603, 527);
 		contentPane = new JPanel();
@@ -125,6 +131,7 @@ public class Formulario extends JFrame {
 		contentPane.add(getLblNewLabelLibro());
 		contentPane.add(getLblFondo());
 	}
+
 	private JPanel getPanel() {
 		if (panel == null) {
 			panel = new JPanel();
@@ -144,6 +151,7 @@ public class Formulario extends JFrame {
 		}
 		return panel;
 	}
+
 	private JLabel getLblNewLabelLibro() {
 		if (lblNewLabelLibro == null) {
 			lblNewLabelLibro = new JLabel("");
@@ -152,6 +160,7 @@ public class Formulario extends JFrame {
 		}
 		return lblNewLabelLibro;
 	}
+
 	private JButton getBtnAnnadirMostrar() {
 		if (btnAnnadirMostrar == null) {
 			btnAnnadirMostrar = new JButton("Añadir");
@@ -160,6 +169,7 @@ public class Formulario extends JFrame {
 				public void mouseEntered(MouseEvent e) {
 					btnAnnadirMostrar.setForeground(Color.yellow);
 				}
+
 				@Override
 				public void mouseExited(MouseEvent e) {
 					btnAnnadirMostrar.setForeground(Color.black);
@@ -167,67 +177,58 @@ public class Formulario extends JFrame {
 			});
 			btnAnnadirMostrar.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 19));
 			btnAnnadirMostrar.setBounds(22, 105, 89, 41);
-			
+
 			btnAnnadirMostrar.setOpaque(false);
 			btnAnnadirMostrar.setBorder(null);
 			btnAnnadirMostrar.setContentAreaFilled(false);
 			btnAnnadirMostrar.setFocusPainted(false);
-			
-			//aparecer pantalla Annadir
+
+			// aparecer pantalla Annadir
 			btnAnnadirMostrar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {	
-					
-					int x=438;
-					int y=422;
+				public void actionPerformed(ActionEvent e) {
+
+					int x = 438;
+					int y = 422;
 					btnAnnadirOcultar.setVisible(true);
 					btnAnnadirMostrar.setVisible(false);
-					
+
 					btnEditarMostrar.setVisible(true);
 					btnEliminarMostrar.setVisible(true);
 
-					
 					scrollPane_1.setVisible(false);
 
-					
-					
-					
+					if (x == 438) {
+						panelDeTrabajo.show();
+						scrollPane.getViewport().setVisible(false);
+						scrollPane.setVisible(false);
 
-					
-					
-				     
-				        if(x==438){
-				        	panelDeTrabajo.show();
-				        	scrollPane.getViewport().setVisible(false);
-							scrollPane.setVisible(false);
-				        	
-				        	
-								
-				            
-				         Thread th = new Thread(){
-				             @Override
-				             public void run(){
-				            	 int x=438;
-				                 try{
-				                   for(int i =0;i<=x;i++){
-				                	   
-				                       Thread.sleep(1);
-				                       panelDeTrabajo.setSize(i,422);
-				                       
-				                   }  
-				                 }catch(Exception e){
-				                     JOptionPane.showMessageDialog(null, e);
-				                 }
-				             }
-				         };th.start();
-				         x=438;
-				        
-				     }
+						Thread th = new Thread() {
+							@Override
+							public void run() {
+								int x = 438;
+								try {
+									for (int i = 0; i <= x; i++) {
+
+										Thread.sleep(1);
+										panelDeTrabajo.setSize(i, 422);
+
+									}
+								} catch (Exception e) {
+									JOptionPane.showMessageDialog(null, e);
+								}
+							}
+						};
+						th.start();
+						x = 438;
+
+					}
 				}
 			});
-			
+
 		}
 		return btnAnnadirMostrar;
 	}
+
 	private JButton getBtnNewButton_1_1() {
 		if (btnEditarMostrar == null) {
 			btnEditarMostrar = new JButton("Editar");
@@ -236,6 +237,7 @@ public class Formulario extends JFrame {
 				public void mouseEntered(MouseEvent e) {
 					btnEditarMostrar.setForeground(Color.yellow);
 				}
+
 				@Override
 				public void mouseExited(MouseEvent e) {
 					btnEditarMostrar.setForeground(Color.black);
@@ -243,63 +245,61 @@ public class Formulario extends JFrame {
 			});
 			btnEditarMostrar.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 18));
 			btnEditarMostrar.setBounds(22, 179, 89, 41);
-			
+
 			btnEditarMostrar.setOpaque(false);
 			btnEditarMostrar.setBorder(null);
 			btnEditarMostrar.setContentAreaFilled(false);
 			btnEditarMostrar.setFocusPainted(false);
-			
-		//	panelFormulario.setVisible(false);
-			
-			//No tocar aun
+
+			// panelFormulario.setVisible(false);
+
+			// No tocar aun
 			btnEditarMostrar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {	
-					
-					int x=438;
-					int y=422;
+				public void actionPerformed(ActionEvent e) {
+
+					int x = 438;
+					int y = 422;
 					btnEditarOcultar.setVisible(true);
 					btnEditarMostrar.setVisible(false);
-					
+
 					btnAnnadirMostrar.setVisible(true);
 
-					
 					scrollPane_1.setVisible(false);
-									
-				     
-				        if(x==438){
-				        	panelDeTrabajo.show();
-				        	scrollPane.getViewport().show();
-				        	scrollPane.show();
-				        	
-								
-				            
-				         Thread th = new Thread(){
-				             @Override
-				             public void run(){
-				            	 int x=438;
-				                 try{
-				                   for(int i =0;i<=x;i++){
-				                	   
-				                       Thread.sleep(1);
-				                       panelDeTrabajo.setSize(i,422);
-				                       scrollPane.setSize(i,422);
-				                      // scrollPane.setSize(i,422);
-				                       panelEditar.setSize(i,422);
 
-				                   }  
-				                 }catch(Exception e){
-				                     JOptionPane.showMessageDialog(null, e);
-				                 }
-				             }
-				         };th.start();
-				         x=438;
-				        
-				     }
+					if (x == 438) {
+						panelDeTrabajo.show();
+						scrollPane.getViewport().show();
+						scrollPane.show();
+
+						Thread th = new Thread() {
+							@Override
+							public void run() {
+								int x = 438;
+								try {
+									for (int i = 0; i <= x; i++) {
+
+										Thread.sleep(1);
+										panelDeTrabajo.setSize(i, 422);
+										scrollPane.setSize(i, 422);
+										// scrollPane.setSize(i,422);
+										panelEditar.setSize(i, 422);
+
+									}
+								} catch (Exception e) {
+									JOptionPane.showMessageDialog(null, e);
+								}
+							}
+						};
+						th.start();
+						x = 438;
+
+					}
 				}
 			});
 		}
 		return btnEditarMostrar;
 	}
+
 	private JButton getBtnNewButton_2_1() {
 		if (btnEliminarMostrar == null) {
 			btnEliminarMostrar = new JButton("Eliminar");
@@ -309,70 +309,68 @@ public class Formulario extends JFrame {
 				public void mouseEntered(MouseEvent e) {
 					btnEliminarMostrar.setForeground(Color.yellow);
 				}
+
 				@Override
 				public void mouseExited(MouseEvent e) {
 					btnEliminarMostrar.setForeground(Color.black);
 				}
 			});
-			//btnEliminarMostrar.setBackground(new Color(255, 255, 255));
+			// btnEliminarMostrar.setBackground(new Color(255, 255, 255));
 
 			btnEliminarMostrar.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 18));
 			btnEliminarMostrar.setBounds(10, 253, 107, 41);
-			
+
 			btnEliminarMostrar.setOpaque(false);
 			btnEliminarMostrar.setBorder(null);
 			btnEliminarMostrar.setContentAreaFilled(false);
 			btnEliminarMostrar.setFocusPainted(false);
-			
-		btnEliminarMostrar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {	
-					
-					int x=438;
-					int y=422;
+
+			btnEliminarMostrar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+
+					int x = 438;
+					int y = 422;
 					btnAnnadirOcultar.setVisible(true);
 					btnEliminarMostrar.setVisible(false);
-					
-					btnEditarMostrar.setVisible(true);
-
 
 					btnEditarMostrar.setVisible(true);
-                    btnAnnadirMostrar.setVisible(true);
-                   // panelDeTrabajo.setVisible(false);
-					
-					
-				     
-				        if(x==438){ 
-							scrollPane_1.show();
-							 panelDeTrabajo.show();
-		   
-				         Thread th = new Thread(){
-				             @Override
-				             public void run(){
-				            	 int x=438;
-				                 try{
-				                   for(int i =0;i<=x;i++){
-				                	   
-				                       Thread.sleep(1);
-										scrollPane_1.setSize(i,422);
+
+					btnEditarMostrar.setVisible(true);
+					btnAnnadirMostrar.setVisible(true);
+					// panelDeTrabajo.setVisible(false);
+
+					if (x == 438) {
+						scrollPane_1.show();
+						panelDeTrabajo.show();
+
+						Thread th = new Thread() {
+							@Override
+							public void run() {
+								int x = 438;
+								try {
+									for (int i = 0; i <= x; i++) {
+
+										Thread.sleep(1);
+										scrollPane_1.setSize(i, 422);
 										panelEliminar.setSize(i, 422);
-										 panelDeTrabajo.setSize(i, 422);
-				                   }  
-				                 }catch(Exception e){
-				                     JOptionPane.showMessageDialog(null, e);
-				                 }
-				             }
-				         };th.start();
-				         x=438;
-				        
-				     }
+										panelDeTrabajo.setSize(i, 422);
+									}
+								} catch (Exception e) {
+									JOptionPane.showMessageDialog(null, e);
+								}
+							}
+						};
+						th.start();
+						x = 438;
+
+					}
 				}
 			});
-		
-		
-		
+
 		}
 		return btnEliminarMostrar;
 	}
+
 	private JPanel getPanelDeTrabajo() {
 		if (panelDeTrabajo == null) {
 			panelDeTrabajo = new JPanel();
@@ -383,7 +381,7 @@ public class Formulario extends JFrame {
 			panelDeTrabajo.add(getScrollPane_1());
 			panelDeTrabajo.add(getScrollPane_2());
 			panelDeTrabajo.add(getLblAñadir());
-			
+
 			panelFormulario = new JPanel();
 			panelFormulario.setBackground(new Color(255, 255, 255));
 			panelFormulario.setBounds(10, 72, 405, 199);
@@ -416,6 +414,7 @@ public class Formulario extends JFrame {
 		}
 		return panelDeTrabajo;
 	}
+
 	private JLabel getLblAñadir() {
 		if (lblAñadir == null) {
 			lblAñadir = new JLabel("Añadir");
@@ -424,6 +423,7 @@ public class Formulario extends JFrame {
 		}
 		return lblAñadir;
 	}
+
 	private JButton getBtnAnnadirOcultar() {
 		if (btnAnnadirOcultar == null) {
 			btnAnnadirOcultar = new JButton("Añadir");
@@ -432,52 +432,51 @@ public class Formulario extends JFrame {
 				public void mouseEntered(MouseEvent e) {
 					btnAnnadirOcultar.setForeground(Color.yellow);
 				}
+
 				@Override
 				public void mouseExited(MouseEvent e) {
 					btnAnnadirOcultar.setForeground(Color.black);
 				}
 			});
-			
+
 			btnAnnadirOcultar.setOpaque(false);
 			btnAnnadirOcultar.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 19));
 			btnAnnadirOcultar.setFocusPainted(false);
 			btnAnnadirOcultar.setContentAreaFilled(false);
 			btnAnnadirOcultar.setBorder(null);
 			btnAnnadirOcultar.setBounds(22, 105, 89, 41);
-			
-			
+
 			btnAnnadirOcultar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					int x=438;
-					int y=422;
+					int x = 438;
+					int y = 422;
 					btnAnnadirMostrar.setVisible(true);
 					btnAnnadirOcultar.setVisible(false);
-					
-					
-					
-					
-				        if(x==438){
-				        	
-				           Thread th = new Thread(){
-				               @Override
-				               public void run(){
-				                   try{
-				                       for(int i=438;i>=0;i--){
-				                           Thread.sleep(1);
-				                           panelDeTrabajo.setSize(i,422);
-				                       }
-				                   }catch(Exception e){
-				                       JOptionPane.showMessageDialog(null,e);
-				                   }
-				               }
-				               
-				       };th.start();
-				       }
+
+					if (x == 438) {
+
+						Thread th = new Thread() {
+							@Override
+							public void run() {
+								try {
+									for (int i = 438; i >= 0; i--) {
+										Thread.sleep(1);
+										panelDeTrabajo.setSize(i, 422);
+									}
+								} catch (Exception e) {
+									JOptionPane.showMessageDialog(null, e);
+								}
+							}
+
+						};
+						th.start();
+					}
 				}
 			});
 		}
 		return btnAnnadirOcultar;
 	}
+
 	private JButton getBtnEditarOcultar() {
 		if (btnEditarOcultar == null) {
 			btnEditarOcultar = new JButton("Editar");
@@ -486,6 +485,7 @@ public class Formulario extends JFrame {
 				public void mouseEntered(MouseEvent e) {
 					btnEditarOcultar.setForeground(Color.yellow);
 				}
+
 				@Override
 				public void mouseExited(MouseEvent e) {
 					btnEditarOcultar.setForeground(Color.black);
@@ -497,30 +497,30 @@ public class Formulario extends JFrame {
 			btnEditarOcultar.setContentAreaFilled(false);
 			btnEditarOcultar.setBorder(null);
 			btnEditarOcultar.setBounds(22, 179, 89, 41);
-			
-			//no tocar aun
+
+			// no tocar aun
 			btnEditarOcultar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-				
+
 					btnEditarMostrar.setVisible(true);
 					btnEditarOcultar.setVisible(false);
-					
+
 					btnAnnadirMostrar.setVisible(true);
 
 					panelDeTrabajo.setVisible(false);
-					
-					
+
 				}
 			});
 		}
 		return btnEditarOcultar;
 	}
+
 	private JButton getBtnCerrar() {
 		if (btnCerrar == null) {
 			btnCerrar = new JButton("");
 			btnCerrar.setBounds(555, 0, 48, 35);
 			btnCerrar.setIcon(new ImageIcon(Formulario.class.getResource("/icons/icons8-x-24.png")));
-			
+
 			btnCerrar.setOpaque(false);
 			btnCerrar.setBorder(null);
 			btnCerrar.setContentAreaFilled(false);
@@ -533,6 +533,7 @@ public class Formulario extends JFrame {
 		}
 		return btnCerrar;
 	}
+
 	private JSeparator getSeparator_2() {
 		if (separator_2 == null) {
 			separator_2 = new JSeparator();
@@ -540,6 +541,7 @@ public class Formulario extends JFrame {
 		}
 		return separator_2;
 	}
+
 	private JSeparator getSeparator_3() {
 		if (separator_3 == null) {
 			separator_3 = new JSeparator();
@@ -547,6 +549,7 @@ public class Formulario extends JFrame {
 		}
 		return separator_3;
 	}
+
 	private JSeparator getSeparator_3_1() {
 		if (separator_3_1 == null) {
 			separator_3_1 = new JSeparator();
@@ -554,20 +557,22 @@ public class Formulario extends JFrame {
 		}
 		return separator_3_1;
 	}
+
 	private JButton getBtnAnnadirInterior() {
 		if (btnAnnadirInterior == null) {
 			btnAnnadirInterior = new JButton("");
 			btnAnnadirInterior.setVisible(false);
 			btnAnnadirInterior.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if(rdbtnMaterial.isSelected()) {
-						 JOptionPane.showMessageDialog(null,"Faltan cosas con el material" );
+					if (rdbtnMaterial.isSelected()) {
+						JOptionPane.showMessageDialog(null, "Faltan cosas con el material");
 					}
 				}
 			});
 			btnAnnadirInterior.setBounds(366, 161, 42, 38);
-			btnAnnadirInterior.setIcon(new ImageIcon(Formulario.class.getResource("/icons/icons8-add-properties-24.png")));
-			
+			btnAnnadirInterior
+					.setIcon(new ImageIcon(Formulario.class.getResource("/icons/icons8-add-properties-24.png")));
+
 			btnAnnadirInterior.setOpaque(false);
 			btnAnnadirInterior.setBorder(null);
 			btnAnnadirInterior.setContentAreaFilled(false);
@@ -575,19 +580,20 @@ public class Formulario extends JFrame {
 		}
 		return btnAnnadirInterior;
 	}
+
 	private JPanel getPanelEliminar() {
 		if (panelEliminar == null) {
 			panelEliminar = new JPanel();
 			panelEliminar.setBackground(new Color(255, 255, 255));
-			
-			panelEliminar.setPreferredSize(new Dimension(0, 10000));
 			panelEliminar.setLayout(null);
 			panelEliminar.add(getLblNewLabel_2());
-			
+			panelEliminar.add(getScrollPane_2_1());
+			panelEliminar.add(getTextField());
 
 		}
 		return panelEliminar;
 	}
+
 	private JButton getBtnEliminarOcultar() {
 		if (btnEliminarOcultar == null) {
 			btnEliminarOcultar = new JButton("Eliminar");
@@ -596,12 +602,12 @@ public class Formulario extends JFrame {
 				public void mouseEntered(MouseEvent e) {
 					btnEliminarOcultar.setForeground(Color.yellow);
 				}
+
 				@Override
 				public void mouseExited(MouseEvent e) {
 					btnEliminarOcultar.setForeground(Color.black);
 				}
 			});
-			
 
 			btnEliminarOcultar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -611,9 +617,7 @@ public class Formulario extends JFrame {
 
 					btnAnnadirMostrar.setVisible(true);
 					btnEditarMostrar.setVisible(true);
-					
 
-					
 				}
 			});
 			btnEliminarOcultar.setOpaque(false);
@@ -625,6 +629,7 @@ public class Formulario extends JFrame {
 		}
 		return btnEliminarOcultar;
 	}
+
 	private JLabel getLblNewLabel_2() {
 		if (lblNewLabel_2 == null) {
 			lblNewLabel_2 = new JLabel("Eliminar:");
@@ -633,6 +638,7 @@ public class Formulario extends JFrame {
 		}
 		return lblNewLabel_2;
 	}
+
 	private JLabel getLblFondo() {
 		if (lblFondo == null) {
 			lblFondo = new JLabel("");
@@ -641,16 +647,18 @@ public class Formulario extends JFrame {
 		}
 		return lblFondo;
 	}
+
 	private JSeparator getSepaNombreCarrera() {
 		if (sepaNombreCarrera == null) {
 			sepaNombreCarrera = new JSeparator();
 			sepaNombreCarrera.setBounds(101, 76, 273, 2);
 			sepaNombreCarrera.setForeground(Color.BLACK);
-			
+
 			sepaNombreCarrera.setVisible(false);
 		}
 		return sepaNombreCarrera;
 	}
+
 	private JLabel getLblNombreCarrera() {
 		if (lblNombreCarrera == null) {
 			lblNombreCarrera = new JLabel("Nombre:");
@@ -659,6 +667,7 @@ public class Formulario extends JFrame {
 		}
 		return lblNombreCarrera;
 	}
+
 	private JRadioButton getRdbtnCarrera() {
 		if (rdbtnCarrera == null) {
 			rdbtnCarrera = new JRadioButton("Carrera");
@@ -686,11 +695,6 @@ public class Formulario extends JFrame {
 					separatorTituloMaterial.setVisible(false);
 					separatorAutor.setVisible(false);
 
-
-
-
-
-					
 				}
 			});
 			buttonGroup.add(rdbtnCarrera);
@@ -698,11 +702,13 @@ public class Formulario extends JFrame {
 		}
 		return rdbtnCarrera;
 	}
+
 	private static class __Tmp {
 		private static void __tmp() {
-			  javax.swing.JPanel __wbp_panel = new javax.swing.JPanel();
+			javax.swing.JPanel __wbp_panel = new javax.swing.JPanel();
 		}
 	}
+
 	private JRadioButton getRdbtnAsignatura() {
 		if (rdbtnAsignatura == null) {
 			rdbtnAsignatura = new JRadioButton("Asignatura");
@@ -729,10 +735,6 @@ public class Formulario extends JFrame {
 					separatorTituloMaterial.setVisible(false);
 					separatorAutor.setVisible(false);
 
-
-
-
-
 				}
 			});
 			buttonGroup.add(rdbtnAsignatura);
@@ -740,6 +742,7 @@ public class Formulario extends JFrame {
 		}
 		return rdbtnAsignatura;
 	}
+
 	private JRadioButton getRdbtnMaterial() {
 		if (rdbtnMaterial == null) {
 			rdbtnMaterial = new JRadioButton("Material");
@@ -766,11 +769,6 @@ public class Formulario extends JFrame {
 					separatorNombreAsignatura.setVisible(false);
 					sepaNombreCarrera.setVisible(false);
 
-
-
-
-
-					
 				}
 			});
 			buttonGroup.add(rdbtnMaterial);
@@ -778,6 +776,7 @@ public class Formulario extends JFrame {
 		}
 		return rdbtnMaterial;
 	}
+
 	private JRadioButton getRdbtnAño() {
 		if (rdbtnAño == null) {
 			rdbtnAño = new JRadioButton("Año");
@@ -804,10 +803,6 @@ public class Formulario extends JFrame {
 					separatorNombreAsignatura.setVisible(false);
 					sepaNombreCarrera.setVisible(false);
 
-
-
-
-
 				}
 			});
 			buttonGroup.add(rdbtnAño);
@@ -815,18 +810,20 @@ public class Formulario extends JFrame {
 		}
 		return rdbtnAño;
 	}
+
 	private JTextField getTextFieldNombreCarrera() {
 		if (textFieldNombreCarrera == null) {
 			textFieldNombreCarrera = new JTextField();
 			textFieldNombreCarrera.setBounds(101, 55, 273, 23);
 			textFieldNombreCarrera.setColumns(10);
-			
+
 			textFieldNombreCarrera.setOpaque(false);
 			textFieldNombreCarrera.setBorder(null);
-		
+
 		}
 		return textFieldNombreCarrera;
 	}
+
 	private JLabel getLblDuracionCarrera() {
 		if (lblDuracionCarrera == null) {
 			lblDuracionCarrera = new JLabel("Duración");
@@ -835,6 +832,7 @@ public class Formulario extends JFrame {
 		}
 		return lblDuracionCarrera;
 	}
+
 	private JSpinner getSpinnerCArrera() {
 		if (spinnerCArrera == null) {
 			spinnerCArrera = new JSpinner();
@@ -844,14 +842,14 @@ public class Formulario extends JFrame {
 
 			spinnerCArrera.setOpaque(false);
 			spinnerCArrera.setBorder(null);
-//			spinner.getT
+			// spinner.getT
 
-//			spinnerCArrera.
-			
+			// spinnerCArrera.
 
 		}
 		return spinnerCArrera;
 	}
+
 	private JLabel getLblAnnoCant() {
 		if (lblAnnoCant == null) {
 			lblAnnoCant = new JLabel("Cantidad de años:");
@@ -861,6 +859,7 @@ public class Formulario extends JFrame {
 		}
 		return lblAnnoCant;
 	}
+
 	private JSpinner getSpinnerAnnoCant() {
 		if (spinnerAnnoCant == null) {
 			spinnerAnnoCant = new JSpinner();
@@ -872,6 +871,7 @@ public class Formulario extends JFrame {
 		}
 		return spinnerAnnoCant;
 	}
+
 	private JLabel getLblNombreAsignatura() {
 		if (lblNombreAsignatura == null) {
 			lblNombreAsignatura = new JLabel("Nombre:");
@@ -881,18 +881,20 @@ public class Formulario extends JFrame {
 		}
 		return lblNombreAsignatura;
 	}
+
 	private JTextField getTextNombreAsignatura() {
 		if (textNombreAsignatura == null) {
 			textNombreAsignatura = new JTextField();
 			textNombreAsignatura.setVisible(false);
 			textNombreAsignatura.setBounds(101, 82, 273, 23);
 			textNombreAsignatura.setColumns(10);
-			
+
 			textNombreAsignatura.setOpaque(false);
 			textNombreAsignatura.setBorder(null);
 		}
 		return textNombreAsignatura;
 	}
+
 	private JLabel getLblTituloMaterial() {
 		if (lblTituloMaterial == null) {
 			lblTituloMaterial = new JLabel("Título:");
@@ -902,18 +904,20 @@ public class Formulario extends JFrame {
 		}
 		return lblTituloMaterial;
 	}
+
 	private JTextField getTextTituloMaterial() {
 		if (textTituloMaterial == null) {
 			textTituloMaterial = new JTextField();
 			textTituloMaterial.setVisible(false);
 			textTituloMaterial.setBounds(101, 57, 273, 20);
 			textTituloMaterial.setColumns(10);
-			
+
 			textTituloMaterial.setOpaque(false);
 			textTituloMaterial.setBorder(null);
 		}
 		return textTituloMaterial;
 	}
+
 	private JLabel getLblautorMaterial() {
 		if (lblautorMaterial == null) {
 			lblautorMaterial = new JLabel("Autor:");
@@ -923,18 +927,20 @@ public class Formulario extends JFrame {
 		}
 		return lblautorMaterial;
 	}
+
 	private JTextField getTextAutorMaterial() {
 		if (textAutorMaterial == null) {
 			textAutorMaterial = new JTextField();
 			textAutorMaterial.setVisible(false);
 			textAutorMaterial.setBounds(101, 89, 273, 20);
 			textAutorMaterial.setColumns(10);
-			
+
 			textAutorMaterial.setOpaque(false);
 			textAutorMaterial.setBorder(null);
 		}
 		return textAutorMaterial;
 	}
+
 	private JDateChooser getDateChooserMaterial() {
 		if (dateChooserMaterial == null) {
 			dateChooserMaterial = new JDateChooser();
@@ -942,10 +948,11 @@ public class Formulario extends JFrame {
 			dateChooserMaterial.setBounds(154, 116, 220, 23);
 			dateChooserMaterial.setOpaque(false);
 			dateChooserMaterial.setBorder(null);
-	//		
+			//
 		}
 		return dateChooserMaterial;
 	}
+
 	private JLabel getLblFechaCreacionMaterial() {
 		if (lblFechaCreacionMaterial == null) {
 			lblFechaCreacionMaterial = new JLabel("Fecha de Creación:");
@@ -955,26 +962,29 @@ public class Formulario extends JFrame {
 		}
 		return lblFechaCreacionMaterial;
 	}
+
 	private JSeparator getSeparatorNombreAsignatura() {
 		if (separatorNombreAsignatura == null) {
 			separatorNombreAsignatura = new JSeparator();
 			separatorNombreAsignatura.setForeground(new Color(0, 0, 0));
 			separatorNombreAsignatura.setBounds(101, 100, 273, 2);
-			
+
 			separatorNombreAsignatura.setVisible(false);
 		}
 		return separatorNombreAsignatura;
 	}
+
 	private JSeparator getSeparatorTituloMaterial() {
 		if (separatorTituloMaterial == null) {
 			separatorTituloMaterial = new JSeparator();
 			separatorTituloMaterial.setForeground(new Color(0, 0, 0));
 			separatorTituloMaterial.setBounds(101, 76, 273, 2);
-			
+
 			separatorTituloMaterial.setVisible(false);
 		}
 		return separatorTituloMaterial;
 	}
+
 	private JSeparator getSeparatorAutor() {
 		if (separatorAutor == null) {
 			separatorAutor = new JSeparator();
@@ -985,6 +995,7 @@ public class Formulario extends JFrame {
 		}
 		return separatorAutor;
 	}
+
 	private JPanel getPanelEditar() {
 		if (panelEditar == null) {
 			panelEditar = new JPanel();
@@ -995,6 +1006,7 @@ public class Formulario extends JFrame {
 		}
 		return panelEditar;
 	}
+
 	private JScrollPane getScrollPane_2() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
@@ -1003,6 +1015,7 @@ public class Formulario extends JFrame {
 		}
 		return scrollPane;
 	}
+
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {
 			lblNewLabel = new JLabel("Editar:");
@@ -1011,15 +1024,45 @@ public class Formulario extends JFrame {
 		}
 		return lblNewLabel;
 	}
+
 	private JScrollPane getScrollPane_1() {
 		if (scrollPane_1 == null) {
 			scrollPane_1 = new JScrollPane();
 			scrollPane_1.setBackground(new Color(255, 255, 255));
-			scrollPane_1.setBounds(0, 0, 438, 10278);
+			scrollPane_1.setBounds(0, 0, 438, 423);
 			scrollPane_1.setViewportView(getPanelEliminar());
 		}
 		return scrollPane_1;
 	}
+
+	private JTable getTable() {
+		if (table == null) {
+			table = new JTable();
+			table.setModel(new DeleteTableModel());
+			table.getColumnModel().getColumn(0).setPreferredWidth(94);
+			table.getColumnModel().getColumn(1).setPreferredWidth(101);
+			table.getColumnModel().getColumn(3).setPreferredWidth(36);
+		}
+		return table;
+	}
+
+	private JScrollPane getScrollPane_2_1() {
+		if (scrollPane_2 == null) {
+			scrollPane_2 = new JScrollPane();
+			scrollPane_2.setBounds(9, 91, 405, 266);
+			scrollPane_2.setViewportView(getTable());
+		}
+		return scrollPane_2;
+	}
+
+	private JFormattedTextField getTextField() {
+		if (textField == null) {
+			textField = new JFormattedTextField();
+			textField.setBounds(10, 58, 404, 26);
+			textField.setColumns(10);
+			TextPrompt placeholder = new TextPrompt("Inserte título para filtrar", textField);
+			placeholder.changeAlpha(0.75f);
+		}
+		return textField;
+	}
 }
-
-
