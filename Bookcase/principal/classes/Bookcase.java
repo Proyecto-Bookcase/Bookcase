@@ -811,22 +811,28 @@ public class Bookcase {
 
 	public List<Year> getAllYearOfCarrer(Carreer carreer) {
 		List<Year> escList = new LinkedList<Year>();
-		BinaryTreeNode<NodeInfo> node = (BinaryTreeNode<NodeInfo>) tree.getRoot();
+		BinaryTreeNode<NodeInfo> node = getCarreerNode(carreer.getId());
 
 		node = node.getLeft();
 
 		while (node != null) {
-			BinaryTreeNode<NodeInfo> nodeYear = node.getLeft();
-			while (nodeYear != null) {
-				escList.add((Year) nodeYear.getInfo());
-				nodeYear = nodeYear.getRight();
-			}
+			escList.add((Year)node.getInfo());
+
 			node = node.getRight();
 
 		}
 
 		return escList;
 
+	}
+	public List<Subject> getALlYearOfYear(Year year)
+	{
+		BinaryTreeNode<NodeInfo> a = getYearNode(year.getId());
+		List<Subject> escList = new LinkedList<Subject>();
+		
+		
+		
+		return escList;
 	}
 //	public List<Subject> getAllSubjectOf()
 //	{
