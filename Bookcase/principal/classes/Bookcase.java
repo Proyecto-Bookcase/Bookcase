@@ -825,7 +825,7 @@ public class Bookcase {
 		return escList;
 
 	}
-	public List<Subject> getALlYearOfYear(Year year)
+	public List<Subject> getALlSubjectOfYear(Year year)
 	{
 		BinaryTreeNode<NodeInfo> a = getYearNode(year.getId());
 		List<Subject> escList = new LinkedList<Subject>();
