@@ -8,6 +8,8 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 import classes.Book;
+import classes.Document;
+import classes.Exercices;
 import classes.Material;
 
 
@@ -25,8 +27,10 @@ public class TableModelMostUseMaterial extends DefaultTableModel {
 	boolean[] columnEditables = new boolean[] { false, false, false, false };
 
 	public TableModelMostUseMaterial() {
-		super(new Object[][] {}, new String[] { "Tipo de Material", "ID ","Titulo", "Autor",
-				"Fehca de Creación", " Cantidad de Ejercicios", "tipo de ejercicios", "Tipo de documento" });
+		super(new Object[][] {}, new String[] { "Tipo de Material", "ID ","Titulo", "Autor","Fehca de Creación", 
+				"Editorial","Edición","Año de Publicación",
+				" Cantidad de Ejercicios", "tipo de ejercicios",
+				"Tipo de documento" });
 	}
 
 	@Override
@@ -43,22 +47,35 @@ public class TableModelMostUseMaterial extends DefaultTableModel {
 		AuxiliaryInterface.limpiar(this);
 	}
 
-	public void filtrar(String textFilter, int column) {
-		ArrayList<Material> lista = new ArrayList<Material>(
-				((FichaTecnica) Frame.getPosicionActual()[1]).getAfect().getListaInmuebles());
-		actualizar(lista);
-		Auxiliary.filtro(textFilter, this, column, lista.size());
-
-	}
+//	public void filtrar(String textFilter, int column) {
+//		ArrayList<Material> lista = new ArrayList<Material>(
+//				((FichaTecnica) Frame.getPosicionActual()[1]).getAfect().getListaInmuebles());
+//		actualizar(lista);
+//		Auxiliary.filtro(textFilter, this, column, lista.size());
+//
+//	}
 
 	public void actualizar(List<Material> lista) {
 		limpiar();
 		for (Material material : lista) {
 			if (material instanceof Book) {
-//				 new String[] { "Tipo de Material", "ID ","Nombre", "Autor",
-//							"Fehca de Creación", " Cantidad de Ejercicios", "tipo de ejercicios", "Tipo de documento" }
-				addRow(new Object[] { Book.class,material.getId(),material.getTittle(), material.getAuthor(), material.getDateCreation(),
-						"null","null","null"});
+				addRow(new Object[] { Book.class,material.getId(),material.getTittle(), material.getAuthor(), (material.getDateCreation()).toString(),
+						((Book)material).getEditorial(),((Book)material).getEdition(),((Book)material).getPublicationYear(),
+						"null","null",
+						"null"});
+			}
+			else if (material instanceof Exercices) {
+				addRow(new Object[] { Exercices.class,material.getId(),material.getTittle(), material.getAuthor(), (material.getDateCreation()).toString(),
+						"null","null","null",
+						Integer.toString( ((Exercices)material).getTotal() ),((Exercices)material).getTipe(),
+						"null"});
+			}
+			else if(material instanceof Document)
+			{
+				addRow(new Object[] { Document.class,material.getId(),material.getTittle(), material.getAuthor(), (material.getDateCreation()).toString(),
+						"null","null","null",
+						"null","null",
+						((Document)material).getTypeDoc()});
 			}
 		}
 

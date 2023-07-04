@@ -11,7 +11,10 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -19,8 +22,11 @@ import java.awt.Dimension;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.MatteBorder;
 
+import classes.Book;
 import classes.Bookcase;
 import classes.Carreer;
+import classes.Document;
+import classes.Exercices;
 import classes.Material;
 import logica.TableModelMostUseMaterial;
 
@@ -70,7 +76,7 @@ public class BusquedaAvanzada extends JFrame {
 	private TableModelMostUseMaterial tableModel;
 	//instancia de bookcase
 	Bookcase bookcase;
-	private JTable tablaMaterialesMasUsados;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -372,7 +378,11 @@ public class BusquedaAvanzada extends JFrame {
 			panelMaterialesMasUsado.setPreferredSize(new Dimension(0, 10000));
 			panelMaterialesMasUsado.setLayout(null);
 			panelMaterialesMasUsado.add(getLblNewLabel_1_1());
-			panelMaterialesMasUsado.add(getTablaMaterialesMasUsados());
+			
+			JScrollPane scrollPane_1 = new JScrollPane();
+			scrollPane_1.setBounds(0, 362, 342, -307);
+			panelMaterialesMasUsado.add(scrollPane_1);
+			panelMaterialesMasUsado.add(getTable());
 
 		}
 		return panelMaterialesMasUsado;
@@ -585,16 +595,11 @@ public class BusquedaAvanzada extends JFrame {
 		}
 		return comboBox_1;
 	}
-	private JTable getTablaMaterialesMasUsados() {
-		if (tablaMaterialesMasUsados == null) {
-			tablaMaterialesMasUsados = new JTable();
-			//nuevo
-			tablaMaterialesMasUsados.setModel(tableModel);
-			tableModel.actualizar(bookcase.mostUsedMaterialOfCarrer(new Carreer("1","info",2) ));
-			
-			//
-			tablaMaterialesMasUsados.setBounds(0, 86, 352, 278);
+	private JTable getTable() {
+		if (table == null) {
+			table = new JTable();
+			table.setBounds(0, 56, 352, 253);
 		}
-		return tablaMaterialesMasUsados;
+		return table;
 	}
 }
