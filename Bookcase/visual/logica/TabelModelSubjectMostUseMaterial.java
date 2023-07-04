@@ -50,7 +50,7 @@ public class TabelModelSubjectMostUseMaterial extends DefaultTableModel{
 
 			String id = item.getSubject().getId();
 			String name = item.getSubject().getName();
-			String carreString = item.getCarrer().getId();
+			String carreString = item.getCarrer().getName();
 			String yearString = Integer.toString(item.getYear().getNumberYear());
 			
 			addRow(new Object[] { id, name,carreString,yearString});
