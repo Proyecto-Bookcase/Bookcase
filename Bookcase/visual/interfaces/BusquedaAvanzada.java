@@ -43,6 +43,7 @@ import logica.TableModelMostUseMaterial;
 
 public class BusquedaAvanzada extends JFrame {
 
+	private static final long serialVersionUID = 7110767559273013188L;
 	private JPanel contentPane;
 	private JLabel lblNewLabel;
 	private JPanel panelOpcionesBusqueda;
