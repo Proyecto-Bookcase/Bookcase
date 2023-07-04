@@ -828,11 +828,11 @@ public class Bookcase {
 	public List<Subject> getALlSubjectOfYear(Year year)
 	{
 		BinaryTreeNode<NodeInfo> a = getYearNode(year.getId());
-		List<Subject> escList = new LinkedList<Subject>();
+		List<Subject> escLists = new LinkedList<Subject>();
 		
 		
 		
-		return escList;
+		return escLists;
 	}
 //	public List<Subject> getAllSubjectOf()
 //	{
