@@ -14,6 +14,8 @@ import java.util.Random;
 
 import auxiliary_classes.AuxiliarInfo;
 import auxiliary_classes.Auxiliary;
+import auxiliary_classes.AuxiliarySubjectMostMaterialUse;
+import auxiliary_classes.SubAuxiliary;
 import cu.edu.cujae.ceis.graph.LinkedGraph;
 import cu.edu.cujae.ceis.graph.edge.Edge;
 import cu.edu.cujae.ceis.graph.interfaces.ILinkedNotDirectedGraph;
@@ -36,7 +38,7 @@ public class Bookcase {
 
 	private HashMap<String, String> carreersIds;
 	private HashMap<String, HashSet<String>> subjectsIds;
-	
+
 	private Random random;
 
 	// Singleton
@@ -203,6 +205,7 @@ public class Bookcase {
 
 		return res;
 	}
+	
 
 	private boolean checkId(String id) {
 
@@ -355,7 +358,7 @@ public class Bookcase {
 	}
 
 	public BinaryTreeNode<NodeInfo> getSubjectNode(String id) {
-		
+
 		BinaryTreeNode<NodeInfo> res = null;
 		InBreadthIteratorWithLevels<NodeInfo> it = tree.inBreadthIteratorWithLevels();
 		while (res == null && it.hasNext()) {
@@ -392,9 +395,9 @@ public class Bookcase {
 	}
 
 	// este metodo devuekve las asignaturas que usan mayor cantidad de materiales
-	public List<Subject> subjectsMostMaterialUse() {
+	public AuxiliarySubjectMostMaterialUse subjectsMostMaterialUse() {
 		// aqui se crea la lista de salida
-		List<Subject> escLits = new LinkedList<>();
+		List<SubAuxiliary> escLits = new LinkedList<SubAuxiliary>();
 		// se obtiene la lisat de vertices del ggrafo
 		LinkedList<Vertex> vertList = graph.getVerticesList();
 		// se inicializa el iterador
@@ -416,18 +419,25 @@ public class Bookcase {
 					// si es mayor se reinicia la lista se añade el subject
 					// y se actualiza la cantidad de materiales
 					max = grade;
+					Auxiliary aux = findInfoSubjcetId(((Subject) help).getId());
 					escLits.clear();
-					escLits.add(subject);
+					escLits.add(new SubAuxiliary(subject, (Carreer) aux.getCarrerNode().getInfo(),
+							(Year) aux.getYearNode().getInfo()));
+
 				} else if (grade == max) {
 					// si es igual se añade el subject a la lista
-					escLits.add(subject);
+					
+					
+					Auxiliary aux = findInfoSubjcetId(((Subject) help).getId());
+					escLits.add(new SubAuxiliary(subject, (Carreer) aux.getCarrerNode().getInfo(),
+							(Year) aux.getYearNode().getInfo()));
 				}
 
 			}
 
 			cont++;
 		}
-		return escLits;
+		return new AuxiliarySubjectMostMaterialUse(escLits, max);
 	}
 
 	// metodo para encontrara los materiales mas utilizados
@@ -492,7 +502,8 @@ public class Bookcase {
 				while (iterEdge.hasNext()) {
 					Edge edge = iterEdge.next();
 
-					Auxiliary auxiliary = findInfoSubjcetId(((Subject) edge.getVertex().getInfo()).getId());
+					String test2 = ((Subject) edge.getVertex().getInfo()).getId();
+					Auxiliary auxiliary = findInfoSubjcetId(test2);
 					if (auxiliary.getCarrerNode().getInfo().getId().equals(carreer.getId())) {
 						useMaterial++;
 					}
@@ -514,7 +525,8 @@ public class Bookcase {
 	// metodo que tiene que hacer altro
 	public Auxiliary findInfoSubjcetId(String id) {
 		Auxiliary aux = new Auxiliary();
-		String carreer = id.substring(2);
+		//cambie aqui
+		String carreer = id.substring(0,2);
 		int year = Integer.parseInt(id.substring(2, 3));
 
 		List<BinaryTreeNode<NodeInfo>> list = instance.tree.getSons((BinaryTreeNode<NodeInfo>) instance.tree.getRoot());
@@ -527,7 +539,7 @@ public class Bookcase {
 				List<BinaryTreeNode<NodeInfo>> years = instance.tree.getSons(node);
 				ListIterator<BinaryTreeNode<NodeInfo>> iter = years.listIterator();
 				while (!found && iter.hasNext()) {
-					node = it.next();
+					node = iter.next();
 					int number = ((Year) node.getInfo()).getNumberYear();
 					if (number == year) {
 						aux.setYearNode(node);
@@ -687,7 +699,6 @@ public class Bookcase {
 	// eliminar material
 	public void deleteMaterial(Material materialDlete) {
 
-		
 		int indexMaterialDelete = getVertexIndexById(materialDlete.getId());
 		graph.deleteVertex(indexMaterialDelete);
 	}
@@ -733,7 +744,7 @@ public class Bookcase {
 	// elimina el material tambien
 
 	public void deleteSubjectGraph(Subject subjectDelete) {
-		
+
 		int indexMaterialDelete = getVertexIndexById(subjectDelete.getId());
 		LinkedList<Vertex> vertList = graph.getVerticesList();
 		Vertex vertSubjectDelete = vertList.get(indexMaterialDelete);
@@ -756,16 +767,20 @@ public class Bookcase {
 
 	// este metodo para eliminar un año determinado para una carrera determinada
 	// tengo dudas de como implementaro
-	public void deleteYearCarrear() {
-		//TODO falta por hacer
+	public void deleteYearCarrear(Year year) {
+		BinaryTreeNode<NodeInfo> yearNode = getYearNode(year.getId());
+		BinaryTreeNode<NodeInfo> subject = yearNode.getLeft();
+		while (subject != null) {
+			deleteSubjectGraph((Subject) subject.getInfo());
+			subject = subject.getRight();
+
+		}
 	}
 
-
-	//para eliminar toda una carrera promero hay que eliminar todas las asignaturas y 
-	//materiales que tiene esa carrera
-	public void deleteCarrer(Carreer carrer)
-	{
-		
+	// para eliminar toda una carrera promero hay que eliminar todas las asignaturas
+	// y
+	// materiales que tiene esa carrera
+	public void deleteCarrer(Carreer carrer) {
 
 		BinaryTreeNode<NodeInfo> carrerNode = getCarreerNode(carrer.getId());
 
@@ -773,13 +788,50 @@ public class Bookcase {
 
 		while (year != null) {
 			BinaryTreeNode<NodeInfo> subject = year.getLeft();
-			while (subject != null) {
-				deleteSubjectGraph((Subject) subject.getInfo());
-
-			}
+			deleteYearCarrear((Year) year.getInfo());
+			year = year.getRight();
 		}
 		tree.deleteNode(carrerNode);
 
 	}
+
+	public List<Carreer> getAllCarrer() {
+		BinaryTreeNode<NodeInfo> node = (BinaryTreeNode<NodeInfo>) tree.getRoot();
+		List<Carreer> escList = new LinkedList<Carreer>();
+		node = node.getLeft();
+
+		while (node != null) {
+			escList.add((Carreer) node.getInfo());
+			node = node.getRight();
+
+		}
+
+		return escList;
+	}
+
+	public List<Year> getAllYearOfCarrer(Carreer carreer) {
+		List<Year> escList = new LinkedList<Year>();
+		BinaryTreeNode<NodeInfo> node = (BinaryTreeNode<NodeInfo>) tree.getRoot();
+
+		node = node.getLeft();
+
+		while (node != null) {
+			BinaryTreeNode<NodeInfo> nodeYear = node.getLeft();
+			while (nodeYear != null) {
+				escList.add((Year) nodeYear.getInfo());
+				nodeYear = nodeYear.getRight();
+			}
+			node = node.getRight();
+
+		}
+
+		return escList;
+
+	}
+//	public List<Subject> getAllSubjectOf()
+//	{
+//		
+//		
+//	}
 
 }
