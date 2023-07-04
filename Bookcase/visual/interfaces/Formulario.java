@@ -172,16 +172,31 @@ public class Formulario extends JFrame {
 					
 					btnEditarMostrar.setVisible(true);
 					btnEliminarMostrar.setVisible(true);
+					
+					lblAnnoCant.setVisible(false);
+					spinnerAnnoCant.setVisible(false);
+					lblNombreAsignatura.setVisible(false);
+					textNombreAsignatura.setVisible(false);
+					lblautorMaterial.setVisible(false);
+					lblFechaCreacionMaterial.setVisible(false);
+					lblTituloMaterial.setVisible(false);
+					textAutorMaterial.setVisible(false);
+					textTituloMaterial.setVisible(false);
+					dateChooserMaterial.setVisible(false);
+					btnAnnadirInterior.setVisible(false);
+					sepaNombreCarrera.setVisible(false);
+					separatorNombreAsignatura.setVisible(false);
+					separatorTituloMaterial.setVisible(false);
+					separatorAutor.setVisible(false);
+					lblNombreCarrera.setVisible(false);
+					lblDuracionCarrera.setVisible(false);
+					spinnerCArrera.setVisible(false);
+					lblNombreCarrera.setVisible(false);
+
 
 					
 					scrollPane_1.setVisible(false);
-
-					
-					
-					
-
-					
-					
+		
 				     
 				        if(x==438){
 				        	panelDeTrabajo.show();
@@ -239,6 +254,7 @@ public class Formulario extends JFrame {
 					btnEditarMostrar.setVisible(false);
 					
 					btnAnnadirMostrar.setVisible(true);
+					buttonGroup.clearSelection();
 
 					
 					scrollPane_1.setVisible(false);
@@ -292,6 +308,12 @@ public class Formulario extends JFrame {
 			
 		btnEliminarMostrar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {	
+					rdbtnCarrera.setSelected(false);
+					rdbtnAño.setSelected(false);
+					rdbtnAsignatura.setSelected(false);
+					rdbtnMaterial.setSelected(false);
+
+
 					
 					int x=438;
 					int y=422;
@@ -303,10 +325,7 @@ public class Formulario extends JFrame {
 
 					btnEditarMostrar.setVisible(true);
                     btnAnnadirMostrar.setVisible(true);
-                   // panelDeTrabajo.setVisible(false);
-					
-					
-				     
+               			     
 				        if(x==438){ 
 							scrollPane_1.show();
 							 panelDeTrabajo.show();
@@ -379,6 +398,8 @@ public class Formulario extends JFrame {
 			panelFormulario.add(getSeparatorTituloMaterial());
 			panelFormulario.add(getSeparatorAutor());
 			panelDeTrabajo.setVisible(false);
+
+
 		}
 		return panelDeTrabajo;
 	}
@@ -403,31 +424,11 @@ public class Formulario extends JFrame {
 			
 			btnAnnadirOcultar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					int x=438;
-					int y=422;
+					
 					btnAnnadirMostrar.setVisible(true);
 					btnAnnadirOcultar.setVisible(false);
-					
-					
-					
-					
-				        if(x==438){
-				        	
-				           Thread th = new Thread(){
-				               @Override
-				               public void run(){
-				                   try{
-				                       for(int i=438;i>=0;i--){
-				                           Thread.sleep(1);
-				                           panelDeTrabajo.setSize(i,422);
-				                       }
-				                   }catch(Exception e){
-				                       JOptionPane.showMessageDialog(null,e);
-				                   }
-				               }
-				               
-				       };th.start();
-				       }
+				        
+					panelDeTrabajo.setVisible(false);
 				}
 			});
 		}
@@ -547,6 +548,7 @@ public class Formulario extends JFrame {
 					btnAnnadirMostrar.setVisible(true);
 					btnEditarMostrar.setVisible(true);
 					
+					
 
 					
 				}
@@ -591,16 +593,19 @@ public class Formulario extends JFrame {
 			lblNombreCarrera = new JLabel("Nombre:");
 			lblNombreCarrera.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 			lblNombreCarrera.setBounds(18, 57, 73, 14);
+			lblNombreCarrera.setVisible(false);
 		}
 		return lblNombreCarrera;
 	}
 	private JRadioButton getRdbtnCarrera() {
 		if (rdbtnCarrera == null) {
 			rdbtnCarrera = new JRadioButton("Carrera");
-			rdbtnCarrera.setSelected(true);
+			rdbtnCarrera.setSelected(false);
 			rdbtnCarrera.setBackground(new Color(255, 255, 255));
 			rdbtnCarrera.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					rdbtnCarrera.setSelected(true);
+
 					lblDuracionCarrera.setVisible(true);
 					lblNombreCarrera.setVisible(true);
 					textFieldNombreCarrera.setVisible(true);
@@ -767,21 +772,19 @@ public class Formulario extends JFrame {
 			lblDuracionCarrera = new JLabel("Duración");
 			lblDuracionCarrera.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 			lblDuracionCarrera.setBounds(18, 116, 73, 14);
+			lblDuracionCarrera.setVisible(false);
+
 		}
 		return lblDuracionCarrera;
 	}
 	private JSpinner getSpinnerCArrera() {
 		if (spinnerCArrera == null) {
 			spinnerCArrera = new JSpinner();
+			spinnerCArrera.setBorder(new LineBorder(new Color(0, 0, 0)));
 			spinnerCArrera.setVisible(false);
 			spinnerCArrera.setModel(new SpinnerNumberModel(2, 2, 6, 1));
 			spinnerCArrera.setBounds(101, 113, 273, 23);
 
-			spinnerCArrera.setOpaque(false);
-			spinnerCArrera.setBorder(null);
-//			spinner.getT
-
-//			spinnerCArrera.
 			
 
 		}
@@ -803,7 +806,7 @@ public class Formulario extends JFrame {
 			spinnerAnnoCant.setVisible(false);
 			spinnerAnnoCant.setBounds(144, 87, 229, 23);
 			spinnerAnnoCant.setOpaque(false);
-			spinnerAnnoCant.setBorder(null);
+			spinnerAnnoCant.setBorder(new LineBorder(new Color(0, 0, 0)));
 		}
 		return spinnerAnnoCant;
 	}

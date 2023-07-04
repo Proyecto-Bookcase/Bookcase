@@ -55,6 +55,7 @@ public class BusquedaAvanzada extends JFrame {
 	private JComboBox comboBox;
 	private JLabel lblNewLabel_1_5_1_1;
 	private JComboBox comboBox_1;
+	private JSeparator separator_2;
 
 	/**
 	 * Launch the application.
@@ -118,6 +119,7 @@ public class BusquedaAvanzada extends JFrame {
 			panelOpcionesBusqueda.add(getBtn5Ocultar());
 			panelOpcionesBusqueda.add(getSeparator());
 			panelOpcionesBusqueda.add(getSeparator_1());
+			panelOpcionesBusqueda.add(getSeparator_2());
 		}
 		return panelOpcionesBusqueda;
 	}
@@ -556,5 +558,12 @@ public class BusquedaAvanzada extends JFrame {
 			comboBox_1.setBounds(77, 200, 190, 38);
 		}
 		return comboBox_1;
+	}
+	private JSeparator getSeparator_2() {
+		if (separator_2 == null) {
+			separator_2 = new JSeparator();
+			separator_2.setBounds(33, 345, 152, 2);
+		}
+		return separator_2;
 	}
 }
