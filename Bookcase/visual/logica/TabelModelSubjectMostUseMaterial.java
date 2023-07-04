@@ -6,24 +6,27 @@ import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
+import auxiliary_classes.SubAuxiliary;
+import classes.Carreer;
 import classes.Document;
 import classes.Exercices;
 import classes.Material;
 import classes.Subject;
+import classes.Year;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class TabelModelSubjectMostUseMaterial extends DefaultTableModel{
 	private static final long serialVersionUID = 7853621716070275671L;
 
-	Class[] columnTypes = new Class[] { String.class, String.class, };
+	Class[] columnTypes = new Class[] { String.class, String.class,String.class, String.class };
 
-	boolean[] columnEditables = new boolean[] { false, false};
+	boolean[] columnEditables = new boolean[] { false, false, false, false};
 
 	
 	public TabelModelSubjectMostUseMaterial() {
 		// TODO Auto-generated constructor stub
 	
-		super(new Object[][] {}, new String[] { "ID","Nombre" });
+		super(new Object[][] {}, new String[] { "ID","Nombre","Carrera","Año" });
 	}
 
 	@Override
@@ -40,13 +43,17 @@ public class TabelModelSubjectMostUseMaterial extends DefaultTableModel{
 		AuxiliaryInterface.limpiar(this);
 	}
 	
-	public void actualizar(List<Subject> lista) {
+	public void actualizar(List<SubAuxiliary>list) {
 		limpiar();
-		for (Subject subject : lista) {
+		
+		for (SubAuxiliary item : list) {
 
-			String id = subject.getId();
-			String name = subject.getName();
-			addRow(new Object[] { id, name});
+			String id = item.getSubject().getId();
+			String name = item.getSubject().getName();
+			String carreString = item.getCarrer().getId();
+			String yearString = Integer.toString(item.getYear().getNumberYear());
+			
+			addRow(new Object[] { id, name,carreString,yearString});
 		}
 
 	}

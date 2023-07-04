@@ -1,59 +1,43 @@
 package interfaces;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-
+import java.util.LinkedList;
 import java.util.List;
-import java.awt.Color;
-import java.awt.Dimension;
 
-import javax.swing.border.EtchedBorder;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTable;
+import javax.swing.JTextPane;
+import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
-
 import auxiliary_classes.AuxiliarySubjectMostMaterialUse;
-
 import classes.Book;
 import classes.Bookcase;
 import classes.Carreer;
 import classes.Document;
 import classes.Exercices;
 import classes.Material;
-import classes.Subject;
-import classes.Year;
 import logica.ComboboxModelCarrer;
 import logica.TabelModelSubjectMostUseMaterial;
 import logica.TableModelMostUseMaterial;
-
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
-
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
-import javax.swing.JTextPane;
-import javax.swing.border.LineBorder;
-import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.ListSelectionModel;
 
 
 public class BusquedaAvanzada extends JFrame {
@@ -98,6 +82,7 @@ public class BusquedaAvanzada extends JFrame {
 	//instancia de bookcase
 	Bookcase bookcase;
 	private JTable tablaMaterialesMasUsados;
+	private JScrollPane scrollPaneMaterialesMasUsados;
 
 
 	/**
@@ -408,7 +393,7 @@ public class BusquedaAvanzada extends JFrame {
 			panelMaterialesMasUsado.setPreferredSize(new Dimension(0, 10000));
 			panelMaterialesMasUsado.setLayout(null);
 			panelMaterialesMasUsado.add(getLblNewLabel_1_1());
-			panelMaterialesMasUsado.add(getTablaMaterialesMasUsados());
+			panelMaterialesMasUsado.add(getScrollPaneMaterialesMasUsados());
 
 		}
 		return panelMaterialesMasUsado;
@@ -645,22 +630,10 @@ public class BusquedaAvanzada extends JFrame {
 		return comboBox_1;
 	}
 
-	private JTable getTable() {
-		if (table == null) {
-			table = new JTable(new TableModelMostUseMaterial());
-			//empieza
-
-			/*comboBox_1.setBounds(439, 63, 190, 20);
-		}
-		return comboBox_1;
-	}
 	private JTable getTablaMaterialesMasUsados() {
 		if (tablaMaterialesMasUsados == null) {
-			tablaMaterialesMasUsados = new JTable();
-			tablaMaterialesMasUsados.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			//nuevo
-			tablaMaterialesMasUsados.setModel(tableModel);*/
-
+			tablaMaterialesMasUsados = new JTable(new TableModelMostUseMaterial());
+			
 			ArrayList<Material> a_test = new ArrayList<Material>();
 			Calendar cal = Calendar.getInstance();
 			
@@ -681,25 +654,25 @@ public class BusquedaAvanzada extends JFrame {
 			a_test.add(new Document("24", "doc 4", "24", (GregorianCalendar) cal, "cp"));
 			
 
-			((TableModelMostUseMaterial)table.getModel()).actualizar(a_test);
-		}
-		return table;
-	}
-
-	private JScrollPane getScrollPane_1() {
-		if (scrollPane_1 == null) {
-			scrollPane_1 = new JScrollPane();
-			scrollPane_1.setBounds(0, 56, 352, 253);
-			scrollPane_1.setViewportView(getTable());
-
+			((TableModelMostUseMaterial)tablaMaterialesMasUsados.getModel()).actualizar(a_test);
 		}
 		return tablaMaterialesMasUsados;
 	}
+
+	/*private JScrollPane getScrollPane_() {
+		if (scrollPane_1 == null) {
+			scrollPane_1 = new JScrollPane();
+			scrollPane_1.setBounds(0, 56, 352, 253);
+			scrollPane_1.setViewportView(getTablaMaterialesMasUsados());
+
+		}
+		return tablaMaterialesMasUsados;
+	}*/
 	private JTable getTablePaneMayorCantidadMateriales() {
 		if (tablePaneMayorCantidadMateriales == null) {
 			tablePaneMayorCantidadMateriales = new JTable(new TabelModelSubjectMostUseMaterial());
 			AuxiliarySubjectMostMaterialUse subjectsMostMaterialUse = bookcase.subjectsMostMaterialUse();
-			((TabelModelSubjectMostUseMaterial)tablePaneMayorCantidadMateriales.getModel()).actualizar(subjectsMostMaterialUse.getSubjectList());
+			((TabelModelSubjectMostUseMaterial)tablePaneMayorCantidadMateriales.getModel()).actualizar(subjectsMostMaterialUse.getSub());
 			
 		}
 		return tablePaneMayorCantidadMateriales;
@@ -718,5 +691,13 @@ public class BusquedaAvanzada extends JFrame {
 			CantidadMateriales.setBounds(31, 27, 364, 33);
 		}
 		return CantidadMateriales;
+	}
+	private JScrollPane getScrollPaneMaterialesMasUsados() {
+		if (scrollPaneMaterialesMasUsados == null) {
+			scrollPaneMaterialesMasUsados = new JScrollPane();
+			scrollPaneMaterialesMasUsados.setBounds(0, 56, 742, 253);
+			scrollPaneMaterialesMasUsados.setViewportView(getTablaMaterialesMasUsados());
+		}
+		return scrollPaneMaterialesMasUsados;
 	}
 }
