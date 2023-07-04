@@ -6,6 +6,10 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -23,9 +27,21 @@ import javax.swing.WindowConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
+import auxiliary_classes.AuxiliarySubjectMostMaterialUse;
+import classes.Book;
 import classes.Bookcase;
+import classes.Carreer;
+import classes.Document;
+import classes.Exercices;
 import classes.Material;
+import classes.Subject;
+import classes.Year;
+import logica.ComboboxModelCarrer;
+import logica.TabelModelSubjectMostUseMaterial;
 import logica.TableModelMostUseMaterial;
+
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 
 public class BusquedaAvanzada extends JFrame {
 
@@ -51,7 +67,6 @@ public class BusquedaAvanzada extends JFrame {
 	private JPanel panel;
 	private JScrollPane scrollPane_3;
 	private JLabel lblNewLabel_1_5;
-	private JLabel lblNewLabel_2;
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_1_5_1;
 	private JComboBox comboBox;
@@ -62,6 +77,9 @@ public class BusquedaAvanzada extends JFrame {
 	private JTable table;
 	private JScrollPane scrollPane_1;
 	private TableModelMostUseMaterial tableModel;
+	private JTable tablePaneMayorCantidadMateriales;
+	private JScrollPane scrollPaneMayorCantidadMateriales;
+	private JLabel CantidadMateriales;
 
 	/**
 	 * Launch the application.
@@ -83,6 +101,7 @@ public class BusquedaAvanzada extends JFrame {
 	 * Create the frame.
 	 */
 	public BusquedaAvanzada() {
+		this.bookcase = Bookcase.getInstance();
 		setUndecorated(true);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 625, 464);
@@ -97,12 +116,10 @@ public class BusquedaAvanzada extends JFrame {
 		contentPane.add(getPanelOpcionesBusqueda());
 		contentPane.add(getLblNewLabel());
 		contentPane.add(getBtnCerrar());
-		contentPane.add(getLblNewLabel_2());
 		contentPane.add(getLblNewLabel_3());
 
 		// agregado por diefo hoy 3/7/23 11:09 am
 		// agregado el contrusctor
-		this.bookcase = Bookcase.getInstance();
 
 	}
 
@@ -465,7 +482,11 @@ public class BusquedaAvanzada extends JFrame {
 			panelMyorCantidadMat.setBounds(217, 56, 371, 365);
 			panelMyorCantidadMat.setLayout(null);
 			panelMyorCantidadMat.add(getLblNewLabel_1_2());
-			panelMyorCantidadMat.add(getTxtpnEnEstaPantalla());
+			
+			AuxiliarySubjectMostMaterialUse subjectsMostMaterialUse = bookcase.subjectsMostMaterialUse();
+			//panelMyorCantidadMat.add(getTxtpnEnEstaPantalla(subjectsMostMaterialUse.getCantdida()));
+			panelMyorCantidadMat.add(getScrollPaneMayorCantidadMateriales());
+			panelMyorCantidadMat.add(getLblNewLabel_2_1(subjectsMostMaterialUse.getCantdida()));
 
 			panelMyorCantidadMat.setVisible(false);
 		}
@@ -481,14 +502,15 @@ public class BusquedaAvanzada extends JFrame {
 		return lblNewLabel_1_2;
 	}
 
-	private JTextPane getTxtpnEnEstaPantalla() {
-		if (txtpnEnEstaPantalla == null) {
-			txtpnEnEstaPantalla = new JTextPane();
-			txtpnEnEstaPantalla.setText("En esta pantalla irian :\r\nAsignatura:\r\nCantidad:\r\n.\r\n.\r\n.\r\n.");
-			txtpnEnEstaPantalla.setBounds(74, 73, 260, 104);
-		}
-		return txtpnEnEstaPantalla;
-	}
+//	private JTextPane getTxtpnEnEstaPantalla(int cantidadMaxima) {
+//		if (txtpnEnEstaPantalla == null) {
+//			txtpnEnEstaPantalla = new JTextPane();
+//			//txtpnEnEstaPantalla.setText("En esta pantalla irian :\r\nAsignatura:\r\nCantidad:\r\n.\r\n.\r\n.\r\n.");
+//			txtpnEnEstaPantalla.setText("La mayor cantidad de materiales usado por una asignatura es : " + cantidadMaxima);
+//			txtpnEnEstaPantalla.setBounds(74, 73, 260, 104);
+//		}
+//		return txtpnEnEstaPantalla;
+//	}
 
 	private JPanel getPanel() {
 		if (panel == null) {
@@ -528,14 +550,6 @@ public class BusquedaAvanzada extends JFrame {
 		return lblNewLabel_1_5;
 	}
 
-	private JLabel getLblNewLabel_2() {
-		if (lblNewLabel_2 == null) {
-			lblNewLabel_2 = new JLabel("New label");
-			lblNewLabel_2.setBounds(0, 0, 680, 464);
-		}
-		return lblNewLabel_2;
-	}
-
 	private JLabel getLblNewLabel_3() {
 		if (lblNewLabel_3 == null) {
 			lblNewLabel_3 = new JLabel("New label");
@@ -558,6 +572,13 @@ public class BusquedaAvanzada extends JFrame {
 	private JComboBox getComboBox() {
 		if (comboBox == null) {
 			comboBox = new JComboBox();
+			//comboBox.setModel(new DefaultComboBoxModel(new String[] {"algo"}));
+			LinkedList<Carreer> a = (LinkedList<Carreer>) bookcase.getAllCarrer();
+			LinkedList<String> b = new LinkedList<String>();
+			for (Carreer val : a) {
+				b.add(val.getName());
+			}
+			comboBox.setModel(new ComboboxModelCarrer(b.toArray( new String[b.size()])));
 			comboBox.setBounds(77, 87, 190, 38);
 		}
 		return comboBox;
@@ -575,6 +596,13 @@ public class BusquedaAvanzada extends JFrame {
 	private JComboBox getComboBox_1() {
 		if (comboBox_1 == null) {
 			comboBox_1 = new JComboBox();
+			comboBox_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+				}
+			});
+			comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"algo"}));
+			
 			comboBox_1.setBounds(77, 200, 190, 38);
 		}
 		return comboBox_1;
@@ -583,6 +611,27 @@ public class BusquedaAvanzada extends JFrame {
 	private JTable getTable() {
 		if (table == null) {
 			table = new JTable(new TableModelMostUseMaterial());
+			//empieza
+			ArrayList<Material> a_test = new ArrayList<Material>();
+			Calendar cal = Calendar.getInstance();
+			
+			a_test.add(new Book("1","1ro", "1ro", (GregorianCalendar) cal, "1ra", "1ra", "2001"));
+			a_test.add(new Book("2","2do", "2do", (GregorianCalendar) cal, "2do", "2do", "2002"));
+			a_test.add(new Book("3","3ra", "3ra", (GregorianCalendar) cal, "3ra", "3ra", "2003"));
+			a_test.add(new Book("4","4ta", "4ta", (GregorianCalendar) cal, "4ta", "4ta", "2004"));
+			a_test.add(new Book("5","5ta", "5ta", (GregorianCalendar) cal, "5ta", "5ta", "2005"));
+			
+			a_test.add(new Exercices("11", "exercices 1", "11",(GregorianCalendar) cal ,11,"alegra1" ));
+			a_test.add(new Exercices("12", "exercices 2", "12",(GregorianCalendar) cal ,12,"alegra2" ));
+			a_test.add(new Exercices("13", "exercices 3", "11",(GregorianCalendar) cal ,13,"alegra3" ));
+			a_test.add(new Exercices("14", "exercices 3", "11",(GregorianCalendar) cal ,14,"alegra4" ));
+			
+			a_test.add(new Document("21", "doc 1", "21", (GregorianCalendar) cal, "conferencia"));
+			a_test.add(new Document("22", "doc 2", "22", (GregorianCalendar) cal, "cp"));
+			a_test.add(new Document("23", "doc 3", "23", (GregorianCalendar) cal, "conferencia"));
+			a_test.add(new Document("24", "doc 4", "24", (GregorianCalendar) cal, "cp"));
+			
+			((TableModelMostUseMaterial)table.getModel()).actualizar(a_test);
 		}
 		return table;
 	}
@@ -594,5 +643,29 @@ public class BusquedaAvanzada extends JFrame {
 			scrollPane_1.setViewportView(getTable());
 		}
 		return scrollPane_1;
+	}
+	private JTable getTablePaneMayorCantidadMateriales() {
+		if (tablePaneMayorCantidadMateriales == null) {
+			tablePaneMayorCantidadMateriales = new JTable(new TabelModelSubjectMostUseMaterial());
+			AuxiliarySubjectMostMaterialUse subjectsMostMaterialUse = bookcase.subjectsMostMaterialUse();
+			((TabelModelSubjectMostUseMaterial)tablePaneMayorCantidadMateriales.getModel()).actualizar(subjectsMostMaterialUse.getSubjectList());
+			
+		}
+		return tablePaneMayorCantidadMateriales;
+	}
+	private JScrollPane getScrollPaneMayorCantidadMateriales( ) {
+		if (scrollPaneMayorCantidadMateriales == null) {
+			scrollPaneMayorCantidadMateriales = new JScrollPane();
+			scrollPaneMayorCantidadMateriales.setBounds(0, 56, 352, 253);
+			scrollPaneMayorCantidadMateriales.setViewportView(getTablePaneMayorCantidadMateriales());
+		}
+		return scrollPaneMayorCantidadMateriales;
+	}
+	private JLabel getLblNewLabel_2_1(int cantidadMateriales) {
+		if (CantidadMateriales == null) {
+			CantidadMateriales = new JLabel("La cantidad de materiales es: "+cantidadMateriales );
+			CantidadMateriales.setBounds(31, 27, 364, 33);
+		}
+		return CantidadMateriales;
 	}
 }
