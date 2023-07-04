@@ -11,7 +11,7 @@ import classes.Exercices;
 import classes.Material;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
-public class TableModelMostUseMaterial extends DefaultTableModel {
+public class TableModelBusquedaAvanzada extends DefaultTableModel{
 
 	private static final long serialVersionUID = 7853621716070275671L;
 
@@ -21,7 +21,7 @@ public class TableModelMostUseMaterial extends DefaultTableModel {
 	boolean[] columnEditables = new boolean[] { false, false, false, false, false, false, false, false, false, false,
 			false };
 
-	public TableModelMostUseMaterial() {
+	public TableModelBusquedaAvanzada() {
 		super(new Object[][] {}, new String[] { "ID", "Tipo de Material", "Titulo", "Autor", "Fehca de Creación",
 				"Editorial", "Edición", "Año de Publicación",
 				" Cantidad de Ejercicios", "tipo de ejercicios",
@@ -99,5 +99,4 @@ public class TableModelMostUseMaterial extends DefaultTableModel {
 
 	}
 	
-
 }
