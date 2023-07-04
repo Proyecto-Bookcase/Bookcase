@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -29,6 +30,7 @@ import logica.TableModelMostUseMaterial;
 
 public class BusquedaAvanzada extends JFrame {
 
+	private static final long serialVersionUID = 7110767559273013188L;
 	private JPanel contentPane;
 	private JLabel lblNewLabel;
 	private JPanel panelOpcionesBusqueda;
@@ -583,6 +585,7 @@ public class BusquedaAvanzada extends JFrame {
 	private JTable getTable() {
 		if (table == null) {
 			table = new JTable(new TableModelMostUseMaterial());
+			((TableModelMostUseMaterial) table.getModel()).actualizar(Arrays.asList());
 		}
 		return table;
 	}
