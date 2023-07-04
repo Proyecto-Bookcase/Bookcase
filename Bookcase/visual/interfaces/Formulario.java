@@ -6,6 +6,8 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import javax.swing.ImageIcon;
@@ -30,8 +32,18 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
+
+import classes.Book;
+import classes.Document;
+import classes.Exercices;
+import classes.Material;
+import logica.TableModelMostUseMaterial;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.DefaultComboBoxModel;
 
 
 
@@ -88,6 +100,16 @@ public class Formulario extends JFrame {
 	private JScrollPane scrollPane;
 	private JLabel lblNewLabel;
 	private JScrollPane scrollPane_1;
+	private JTable tableEliminar;
+	private TableModelMostUseMaterial tableModel;
+	private JComboBox comboBoxEliminar;
+	private JLabel lblEliminarAnnoCarrera;
+	private JComboBox comboBoxEliminarAnnoCarrera;
+	private JLabel lblEliminarAsignaturaAnno;
+	private JComboBox comboBoxEliminarAsiganturaAnno;
+	private JLabel lblEliminarMaterialAsignatura;
+	private JComboBox comboBoxEliminarMaterialAsignaturas;
+
 	
 	/** 
 	 * Launch the application.
@@ -111,12 +133,12 @@ public class Formulario extends JFrame {
 	public Formulario() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Formulario.class.getResource("/icons/icons8-book-64 (2).png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 603, 527);
+		setBounds(100, 100,  1015, 554);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setUndecorated(true);
 		setLocationRelativeTo(null);
-
+		tableModel = new TableModelMostUseMaterial();
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		contentPane.add(getBtnCerrar());
@@ -130,7 +152,7 @@ public class Formulario extends JFrame {
 			panel = new JPanel();
 			panel.setBorder(new LineBorder(new Color(0, 0, 0)));
 			panel.setBackground(new Color(255, 255, 255));
-			panel.setBounds(0, 53, 139, 422);
+			panel.setBounds(0, 53, 139, 445);
 			panel.setLayout(null);
 			panel.add(getBtnAnnadirMostrar());
 			panel.add(getBtnNewButton_1_1());
@@ -178,7 +200,7 @@ public class Formulario extends JFrame {
 				public void actionPerformed(ActionEvent e) {	
 					
 					int x=438;
-					int y=422;
+					int y=445;
 					btnAnnadirOcultar.setVisible(true);
 					btnAnnadirMostrar.setVisible(false);
 					
@@ -211,7 +233,7 @@ public class Formulario extends JFrame {
 				                   for(int i =0;i<=x;i++){
 				                	   
 				                       Thread.sleep(1);
-				                       panelDeTrabajo.setSize(i,422);
+				                       panelDeTrabajo.setSize(i,445);
 				                       
 				                   }  
 				                 }catch(Exception e){
@@ -255,7 +277,7 @@ public class Formulario extends JFrame {
 			btnEditarMostrar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {	
 					
-					int x=438;
+					int x=886;
 					int y=422;
 					btnEditarOcultar.setVisible(true);
 					btnEditarMostrar.setVisible(false);
@@ -266,7 +288,7 @@ public class Formulario extends JFrame {
 					scrollPane_1.setVisible(false);
 									
 				     
-				        if(x==438){
+				        if(x==886){
 				        	panelDeTrabajo.show();
 				        	scrollPane.getViewport().show();
 				        	scrollPane.show();
@@ -276,15 +298,15 @@ public class Formulario extends JFrame {
 				         Thread th = new Thread(){
 				             @Override
 				             public void run(){
-				            	 int x=438;
+				            	 int x=886;
 				                 try{
-				                   for(int i =0;i<=x;i++){
+				                   for(int i =0;i<=x;i+=2){
 				                	   
 				                       Thread.sleep(1);
-				                       panelDeTrabajo.setSize(i,422);
-				                       scrollPane.setSize(i,422);
+				                       panelDeTrabajo.setSize(i,445);
+				                       scrollPane.setSize(i,445);
 				                      // scrollPane.setSize(i,422);
-				                       panelEditar.setSize(i,422);
+				                       panelEditar.setSize(i,445);
 
 				                   }  
 				                 }catch(Exception e){
@@ -292,7 +314,7 @@ public class Formulario extends JFrame {
 				                 }
 				             }
 				         };th.start();
-				         x=438;
+				         x=886;
 				        
 				     }
 				}
@@ -327,8 +349,8 @@ public class Formulario extends JFrame {
 		btnEliminarMostrar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {	
 					
-					int x=438;
-					int y=422;
+					int x=886;
+					int y=445;
 					btnAnnadirOcultar.setVisible(true);
 					btnEliminarMostrar.setVisible(false);
 					
@@ -341,28 +363,28 @@ public class Formulario extends JFrame {
 					
 					
 				     
-				        if(x==438){ 
+				        if(x==886){ 
 							scrollPane_1.show();
 							 panelDeTrabajo.show();
 		   
 				         Thread th = new Thread(){
 				             @Override
 				             public void run(){
-				            	 int x=438;
+				            	 int x=886;
 				                 try{
-				                   for(int i =0;i<=x;i++){
+				                   for(int i =0;i<=x;i+=2){
 				                	   
 				                       Thread.sleep(1);
-										scrollPane_1.setSize(i,422);
-										panelEliminar.setSize(i, 422);
-										 panelDeTrabajo.setSize(i, 422);
+										scrollPane_1.setSize(i,445);
+										panelEliminar.setSize(i, 445);
+										 panelDeTrabajo.setSize(i, 445);
 				                   }  
 				                 }catch(Exception e){
 				                     JOptionPane.showMessageDialog(null, e);
 				                 }
 				             }
 				         };th.start();
-				         x=438;
+				         x=886;
 				        
 				     }
 				}
@@ -378,7 +400,7 @@ public class Formulario extends JFrame {
 			panelDeTrabajo = new JPanel();
 			panelDeTrabajo.setBorder(new LineBorder(new Color(0, 0, 0)));
 			panelDeTrabajo.setBackground(new Color(255, 255, 255));
-			panelDeTrabajo.setBounds(137, 53, 438, 422);
+			panelDeTrabajo.setBounds(137, 53, 868, 445);
 			panelDeTrabajo.setLayout(null);
 			panelDeTrabajo.add(getScrollPane_1());
 			panelDeTrabajo.add(getScrollPane_2());
@@ -449,7 +471,7 @@ public class Formulario extends JFrame {
 			btnAnnadirOcultar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					int x=438;
-					int y=422;
+					int y=445;
 					btnAnnadirMostrar.setVisible(true);
 					btnAnnadirOcultar.setVisible(false);
 					
@@ -464,7 +486,7 @@ public class Formulario extends JFrame {
 				                   try{
 				                       for(int i=438;i>=0;i--){
 				                           Thread.sleep(1);
-				                           panelDeTrabajo.setSize(i,422);
+				                           panelDeTrabajo.setSize(i,445);
 				                       }
 				                   }catch(Exception e){
 				                       JOptionPane.showMessageDialog(null,e);
@@ -518,8 +540,8 @@ public class Formulario extends JFrame {
 	private JButton getBtnCerrar() {
 		if (btnCerrar == null) {
 			btnCerrar = new JButton("");
-			btnCerrar.setBounds(555, 0, 48, 35);
-			btnCerrar.setIcon(new ImageIcon(Formulario.class.getResource("/icons/icons8-x-24.png")));
+			btnCerrar.setBounds(977, 0, 38, 32);
+			btnCerrar.setIcon(new ImageIcon(Formulario.class.getResource("/icons/icons8-x-32 (1).png")));
 			
 			btnCerrar.setOpaque(false);
 			btnCerrar.setBorder(null);
@@ -557,7 +579,6 @@ public class Formulario extends JFrame {
 	private JButton getBtnAnnadirInterior() {
 		if (btnAnnadirInterior == null) {
 			btnAnnadirInterior = new JButton("");
-			btnAnnadirInterior.setVisible(false);
 			btnAnnadirInterior.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(rdbtnMaterial.isSelected()) {
@@ -583,6 +604,14 @@ public class Formulario extends JFrame {
 			panelEliminar.setPreferredSize(new Dimension(0, 10000));
 			panelEliminar.setLayout(null);
 			panelEliminar.add(getLblNewLabel_2());
+			panelEliminar.add(getTableEliminar());
+			panelEliminar.add(getComboBoxEliminar());
+			panelEliminar.add(getLblEliminarAnnoCarrera());
+			panelEliminar.add(getComboBoxEliminarAnnoCarrera());
+			panelEliminar.add(getLblEliminarAsignaturaAnno());
+			panelEliminar.add(getComboBoxEliminarAsiganturaAnno());
+			panelEliminar.add(getLblEliminarMaterialAsignatura());
+			panelEliminar.add(getComboBoxEliminarMaterialAsignaturas());
 			
 
 		}
@@ -629,7 +658,7 @@ public class Formulario extends JFrame {
 		if (lblNewLabel_2 == null) {
 			lblNewLabel_2 = new JLabel("Eliminar:");
 			lblNewLabel_2.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 19));
-			lblNewLabel_2.setBounds(125, 23, 133, 40);
+			lblNewLabel_2.setBounds(125, 11, 89, 40);
 		}
 		return lblNewLabel_2;
 	}
@@ -637,7 +666,7 @@ public class Formulario extends JFrame {
 		if (lblFondo == null) {
 			lblFondo = new JLabel("");
 			lblFondo.setIcon(new ImageIcon(Formulario.class.getResource("/icons/export202307021531574067.png")));
-			lblFondo.setBounds(0, 0, 603, 527);
+			lblFondo.setBounds(0, 0, 1015, 527);
 		}
 		return lblFondo;
 	}
@@ -646,8 +675,6 @@ public class Formulario extends JFrame {
 			sepaNombreCarrera = new JSeparator();
 			sepaNombreCarrera.setBounds(101, 76, 273, 2);
 			sepaNombreCarrera.setForeground(Color.BLACK);
-			
-			sepaNombreCarrera.setVisible(false);
 		}
 		return sepaNombreCarrera;
 	}
@@ -843,7 +870,6 @@ public class Formulario extends JFrame {
 			spinnerCArrera.setBounds(101, 113, 273, 23);
 
 			spinnerCArrera.setOpaque(false);
-			spinnerCArrera.setBorder(null);
 //			spinner.getT
 
 //			spinnerCArrera.
@@ -868,7 +894,6 @@ public class Formulario extends JFrame {
 			spinnerAnnoCant.setVisible(false);
 			spinnerAnnoCant.setBounds(144, 87, 229, 23);
 			spinnerAnnoCant.setOpaque(false);
-			spinnerAnnoCant.setBorder(null);
 		}
 		return spinnerAnnoCant;
 	}
@@ -998,7 +1023,7 @@ public class Formulario extends JFrame {
 	private JScrollPane getScrollPane_2() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
-			scrollPane.setBounds(0, 0, 438, 422);
+			scrollPane.setBounds(0, 0, 868, 668);
 			scrollPane.setViewportView(getPanelEditar());
 		}
 		return scrollPane;
@@ -1015,10 +1040,157 @@ public class Formulario extends JFrame {
 		if (scrollPane_1 == null) {
 			scrollPane_1 = new JScrollPane();
 			scrollPane_1.setBackground(new Color(255, 255, 255));
-			scrollPane_1.setBounds(0, 0, 438, 10278);
+			scrollPane_1.setBounds(0, 0, 846, 10278);
 			scrollPane_1.setViewportView(getPanelEliminar());
 		}
 		return scrollPane_1;
+	}
+	private JTable getTableEliminar() {
+		if (tableEliminar == null) {
+			tableEliminar = new JTable();
+			tableEliminar.setVisible(false);
+			tableEliminar.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			tableEliminar.setBounds(0, 133, 856, 356);
+			tableEliminar.setModel(tableModel);
+			
+			ArrayList<Material> a_test = new ArrayList<Material>();
+			Calendar cal = Calendar.getInstance();
+			
+			a_test.add(new Book("1","1ro", "1ro", (GregorianCalendar) cal, "1ra", "1ra", "2001"));
+			a_test.add(new Book("2","2do", "2do", (GregorianCalendar) cal, "2do", "2do", "2002"));
+			a_test.add(new Book("3","3ra", "3ra", (GregorianCalendar) cal, "3ra", "3ra", "2003"));
+			a_test.add(new Book("4","4ta", "4ta", (GregorianCalendar) cal, "4ta", "4ta", "2004"));
+			a_test.add(new Book("5","5ta", "5ta", (GregorianCalendar) cal, "5ta", "5ta", "2005"));
+			
+			a_test.add(new Exercices("11", "exercices 1", "11",(GregorianCalendar) cal ,11,"alegra1" ));
+			a_test.add(new Exercices("12", "exercices 2", "12",(GregorianCalendar) cal ,12,"alegra2" ));
+			a_test.add(new Exercices("13", "exercices 3", "11",(GregorianCalendar) cal ,13,"alegra3" ));
+			a_test.add(new Exercices("14", "exercices 3", "11",(GregorianCalendar) cal ,14,"alegra4" ));
+			
+			a_test.add(new Document("21", "doc 1", "21", (GregorianCalendar) cal, "conferencia"));
+			a_test.add(new Document("22", "doc 2", "22", (GregorianCalendar) cal, "cp"));
+			a_test.add(new Document("23", "doc 3", "23", (GregorianCalendar) cal, "conferencia"));
+			a_test.add(new Document("24", "doc 4", "24", (GregorianCalendar) cal, "cp"));
+			
+			tableModel.actualizar(a_test);
+		}
+		return tableEliminar;
+	}
+	private JComboBox getComboBoxEliminar() {
+		if (comboBoxEliminar == null) {
+			comboBoxEliminar = new JComboBox();
+			comboBoxEliminar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(comboBoxEliminar.getSelectedItem().equals("Carrera")) {
+						//mostrar la tabla con todas las carreras   TODO
+						tableEliminar.setVisible(true);
+						lblEliminarMaterialAsignatura.setVisible(false);
+						comboBoxEliminarMaterialAsignaturas.setVisible(false);
+						lblEliminarAsignaturaAnno.setVisible(false);
+						comboBoxEliminarAsiganturaAnno.setVisible(false);
+						lblEliminarAnnoCarrera.setVisible(false);
+						comboBoxEliminarAnnoCarrera.setVisible(false);
+						
+					}else if(comboBoxEliminar.getSelectedItem().equals("Año")) {
+						tableEliminar.setVisible(true);
+
+						lblEliminarAnnoCarrera.setVisible(true);
+						comboBoxEliminarAnnoCarrera.setVisible(true);
+						lblEliminarMaterialAsignatura.setVisible(false);
+						comboBoxEliminarMaterialAsignaturas.setVisible(false);
+						lblEliminarAsignaturaAnno.setVisible(false);
+						comboBoxEliminarAsiganturaAnno.setVisible(false);
+						//se va a mostrar en la tabla los annos de esa carrera TODO
+						
+						
+					}else if(comboBoxEliminar.getSelectedItem().equals("Asignatura")) {
+						tableEliminar.setVisible(true);
+						lblEliminarMaterialAsignatura.setVisible(false);
+						comboBoxEliminarMaterialAsignaturas.setVisible(false);
+						lblEliminarAsignaturaAnno.setVisible(true);
+						comboBoxEliminarAsiganturaAnno.setVisible(true);
+						lblEliminarAnnoCarrera.setVisible(true);
+						comboBoxEliminarAnnoCarrera.setVisible(true);
+						//mostrar la tabla de todas las asignaturas dado una carrera y u anno  TODO
+						
+					}else if(comboBoxEliminar.getSelectedItem().equals("Material")){
+						tableEliminar.setVisible(true);
+						lblEliminarMaterialAsignatura.setVisible(true);
+						comboBoxEliminarMaterialAsignaturas.setVisible(true);
+						lblEliminarAsignaturaAnno.setVisible(true);
+						comboBoxEliminarAsiganturaAnno.setVisible(true);
+						lblEliminarAnnoCarrera.setVisible(true);
+						comboBoxEliminarAnnoCarrera.setVisible(true);
+//						TODO
+					}else {
+						tableEliminar.setVisible(false);
+						lblEliminarMaterialAsignatura.setVisible(false);
+						comboBoxEliminarMaterialAsignaturas.setVisible(false);
+						lblEliminarAsignaturaAnno.setVisible(false);
+						comboBoxEliminarAsiganturaAnno.setVisible(false);
+						lblEliminarAnnoCarrera.setVisible(false);
+						comboBoxEliminarAnnoCarrera.setVisible(false);
+					}
+				}
+			});
+			comboBoxEliminar.setModel(new DefaultComboBoxModel(new String[] {"Seleccionar", "Carrera", "Año", "Asignatura", "Material"}));
+			comboBoxEliminar.setBounds(220, 20, 200, 22);
+		}
+		return comboBoxEliminar;
+	}
+	private JLabel getLblEliminarAnnoCarrera() {
+		if (lblEliminarAnnoCarrera == null) {
+			lblEliminarAnnoCarrera = new JLabel("Carrera:");
+			lblEliminarAnnoCarrera.setVisible(false);
+			lblEliminarAnnoCarrera.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 16));
+			lblEliminarAnnoCarrera.setBounds(523, 13, 66, 39);
+		}
+		return lblEliminarAnnoCarrera;
+	}
+	private JComboBox getComboBoxEliminarAnnoCarrera() {
+		if (comboBoxEliminarAnnoCarrera == null) {
+			comboBoxEliminarAnnoCarrera = new JComboBox();
+			comboBoxEliminarAnnoCarrera.setVisible(false);
+			comboBoxEliminarAnnoCarrera.setModel(new DefaultComboBoxModel(new String[] {"Todas las carreras"}));
+			comboBoxEliminarAnnoCarrera.setBounds(586, 24, 200, 22);
+		}
+		return comboBoxEliminarAnnoCarrera;
+	}
+	private JLabel getLblEliminarAsignaturaAnno() {
+		if (lblEliminarAsignaturaAnno == null) {
+			lblEliminarAsignaturaAnno = new JLabel("Año:");
+			lblEliminarAsignaturaAnno.setVisible(false);
+			lblEliminarAsignaturaAnno.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 16));
+			lblEliminarAsignaturaAnno.setBounds(523, 60, 66, 22);
+		}
+		return lblEliminarAsignaturaAnno;
+	}
+	private JComboBox getComboBoxEliminarAsiganturaAnno() {
+		if (comboBoxEliminarAsiganturaAnno == null) {
+			comboBoxEliminarAsiganturaAnno = new JComboBox();
+			comboBoxEliminarAsiganturaAnno.setVisible(false);
+			comboBoxEliminarAsiganturaAnno.setModel(new DefaultComboBoxModel(new String[] {"Todos los anno de esa carrera"}));
+			comboBoxEliminarAsiganturaAnno.setBounds(586, 60, 200, 22);
+		}
+		return comboBoxEliminarAsiganturaAnno;
+	}
+	private JLabel getLblEliminarMaterialAsignatura() {
+		if (lblEliminarMaterialAsignatura == null) {
+			lblEliminarMaterialAsignatura = new JLabel("Asignatura:");
+			lblEliminarMaterialAsignatura.setVisible(false);
+			lblEliminarMaterialAsignatura.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 16));
+			lblEliminarMaterialAsignatura.setBounds(495, 93, 94, 22);
+		}
+		return lblEliminarMaterialAsignatura;
+	}
+	private JComboBox getComboBoxEliminarMaterialAsignaturas() {
+		if (comboBoxEliminarMaterialAsignaturas == null) {
+			comboBoxEliminarMaterialAsignaturas = new JComboBox();
+			comboBoxEliminarMaterialAsignaturas.setVisible(false);
+			comboBoxEliminarMaterialAsignaturas.setModel(new DefaultComboBoxModel(new String[] {"Todas las asignaturas dada un anno y carrera"}));
+			comboBoxEliminarMaterialAsignaturas.setBounds(586, 93, 200, 22);
+		}
+		return comboBoxEliminarMaterialAsignaturas;
 	}
 }
 
