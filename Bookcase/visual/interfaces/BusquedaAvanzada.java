@@ -13,7 +13,6 @@ import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -36,7 +35,9 @@ import classes.Document;
 import classes.Exercices;
 import classes.Material;
 import logica.ComboboxModelCarrer;
+import logica.ComboboxModelYear;
 import logica.TabelModelSubjectMostUseMaterial;
+import logica.TableModelBusquedaAvanzada;
 import logica.TableModelMostUseMaterial;
 
 
@@ -68,9 +69,9 @@ public class BusquedaAvanzada extends JFrame {
 	private JLabel lblFondo;
 
   private JLabel lblNewLabel_1_5_1;
-	private JComboBox comboBox;
+	private JComboBox comboBoxCarrer;
 	private JLabel lblNewLabel_1_5_1_1;
-	private JComboBox comboBox_1;
+	private JComboBox comboBoxYear;
 	//private TableModel model;
 	private TableModelMostUseMaterial tableModel;
 
@@ -83,6 +84,9 @@ public class BusquedaAvanzada extends JFrame {
 	Bookcase bookcase;
 	private JTable tablaMaterialesMasUsados;
 	private JScrollPane scrollPaneMaterialesMasUsados;
+	//private JTable tableBusquedaAvanzada;
+	private JTable tableBusquedaAvanzada;
+	private JScrollPane scrollPaneBusquedaAvanzada;
 
 
 	/**
@@ -546,9 +550,15 @@ public class BusquedaAvanzada extends JFrame {
 			panel.setLayout(null);
 			panel.add(getLblNewLabel_1_5());
 			panel.add(getLblNewLabel_1_5_1());
-			panel.add(getComboBox());
+			panel.add(getComboBoxCarrer());
 			panel.add(getLblNewLabel_1_5_1_1());
-			panel.add(getComboBox_1());
+			
+			int index =getComboBoxCarrer().getSelectedIndex();
+			Carreer carreer =((ComboboxModelCarrer)getComboBoxCarrer().getModel()).getelemCarreer(index);
+			panel.add(getComboBoxYear(carreer));
+			panel.add(getScrollPaneBusquedaAvanzada());
+			
+			tableBusquedaAvanzada = new JTable();
 
 		}
 		return panel;
@@ -590,21 +600,32 @@ public class BusquedaAvanzada extends JFrame {
 		}
 		return lblNewLabel_1_5_1;
 	}
-	private JComboBox getComboBox() {
-		if (comboBox == null) {
-			comboBox = new JComboBox();
+	private JComboBox getComboBoxCarrer() {
+		if (comboBoxCarrer == null) {
+			comboBoxCarrer = new JComboBox();
+			comboBoxCarrer.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					int seleccion = comboBoxCarrer.getSelectedIndex();
+					if (seleccion != ((ComboboxModelCarrer)comboBoxCarrer.getModel()).getSeletion()) {
+						((ComboboxModelCarrer)comboBoxCarrer.getModel()).setSeletion(seleccion);;
+						((ComboboxModelYear)comboBoxYear.getModel()).update(((ComboboxModelCarrer)comboBoxCarrer.getModel()).
+								getelemCarreer(seleccion)
+								, bookcase);
+					}
+				}
+			});
 
 			//comboBox.setModel(new DefaultComboBoxModel(new String[] {"algo"}));
-			LinkedList<Carreer> a = (LinkedList<Carreer>) bookcase.getAllCarrer();
+			LinkedList<Carreer> carreraComboList = (LinkedList<Carreer>) bookcase.getAllCarrer();
 			LinkedList<String> b = new LinkedList<String>();
-			for (Carreer val : a) {
+			for (Carreer val : carreraComboList) {
 				b.add(val.getName());
 			}
-			comboBox.setModel(new ComboboxModelCarrer(b.toArray( new String[b.size()])));
-			comboBox.setBounds(77, 87, 190, 38);
+			comboBoxCarrer.setModel(new ComboboxModelCarrer(b.toArray( new String[b.size()]), carreraComboList));
+			comboBoxCarrer.setBounds(77, 87, 190, 38);
 
 		}
-		return comboBox;
+		return comboBoxCarrer;
 	}
 	private JLabel getLblNewLabel_1_5_1_1() {
 		if (lblNewLabel_1_5_1_1 == null) {
@@ -614,27 +635,39 @@ public class BusquedaAvanzada extends JFrame {
 		}
 		return lblNewLabel_1_5_1_1;
 	}
-	private JComboBox getComboBox_1() {
-		if (comboBox_1 == null) {
-			comboBox_1 = new JComboBox();
+	private JComboBox getComboBoxYear(Carreer carreer) {
+		if (comboBoxYear == null) {
+			comboBoxYear = new JComboBox();
 
-			comboBox_1.addActionListener(new ActionListener() {
+			comboBoxYear.setModel(new ComboboxModelYear(new String[] {"algo"}));
+			((ComboboxModelYear)comboBoxYear.getModel()).update(carreer, bookcase);
+			comboBoxYear.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
+					int seleccion = comboBoxYear.getSelectedIndex();
+					if (seleccion != ((ComboboxModelYear)comboBoxYear.getModel()).getSeletion()) {
+						((ComboboxModelYear)comboBoxYear.getModel()).setSeletion(seleccion);
+						
+					List<Material> materialList = bookcase.getAllMaterialOfCarrerAndYear(((ComboboxModelCarrer)comboBoxCarrer.getModel()).
+									getelemCarreer(comboBoxCarrer.getSelectedIndex()) , 
+								((ComboboxModelYear)comboBoxYear.getModel()).
+								getelemYear(seleccion));
+					getTableBusquedaAvanzada(materialList);
+					}
+
 				}
 			});
-			comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"algo"}));
 			
-			comboBox_1.setBounds(77, 200, 190, 38);
+			
+			comboBoxYear.setBounds(421, 87, 190, 38);
 		}
-		return comboBox_1;
+		return comboBoxYear;
 	}
 
 	private JTable getTablaMaterialesMasUsados() {
 		if (tablaMaterialesMasUsados == null) {
 			tablaMaterialesMasUsados = new JTable(new TableModelMostUseMaterial());
-			
-			ArrayList<Material> a_test = new ArrayList<Material>();
+			//test de datos
+/*			ArrayList<Material> a_test = new ArrayList<Material>();
 			Calendar cal = Calendar.getInstance();
 			
 			a_test.add(new Book("1","1ro", "1ro", (GregorianCalendar) cal, "1ra", "1ra", "2001"));
@@ -654,7 +687,10 @@ public class BusquedaAvanzada extends JFrame {
 			a_test.add(new Document("24", "doc 4", "24", (GregorianCalendar) cal, "cp"));
 			
 
-			((TableModelMostUseMaterial)tablaMaterialesMasUsados.getModel()).actualizar(a_test);
+//			((TableModelMostUseMaterial)tablaMaterialesMasUsados.getModel()).actualizar(a_test);
+
+ */
+			((TableModelMostUseMaterial)tablaMaterialesMasUsados.getModel()).actualizar(bookcase.mostUseMaterial());
 		}
 		return tablaMaterialesMasUsados;
 	}
@@ -699,5 +735,34 @@ public class BusquedaAvanzada extends JFrame {
 			scrollPaneMaterialesMasUsados.setViewportView(getTablaMaterialesMasUsados());
 		}
 		return scrollPaneMaterialesMasUsados;
+	}
+	
+	private JTable getTableBusquedaAvanzada(List<Material> materialList) {
+		if (tableBusquedaAvanzada == null) {
+			tableBusquedaAvanzada = new JTable(new TableModelBusquedaAvanzada());
+			//((TableModelMostUseMaterial)tableBusquedaAvanzada.getModel()).actualizar(bookcase.mostUseMaterial());
+			((TableModelBusquedaAvanzada)tableBusquedaAvanzada.getModel()).actualizar(materialList);
+			
+			
+			
+		}
+		return tableBusquedaAvanzada;
+	}
+	private JScrollPane getScrollPaneBusquedaAvanzada() {
+		if (scrollPaneBusquedaAvanzada == null) {
+			scrollPaneBusquedaAvanzada = new JScrollPane();
+			scrollPaneBusquedaAvanzada.setBounds(0, 130, 742, 253);
+			
+			// 
+			int seleccion = comboBoxYear.getSelectedIndex();
+			List<Material> materialList = bookcase.getAllMaterialOfCarrerAndYear(((ComboboxModelCarrer)comboBoxCarrer.getModel()).
+					getelemCarreer(comboBoxCarrer.getSelectedIndex()) , 
+					((ComboboxModelYear)comboBoxYear.getModel()).
+					getelemYear(seleccion));
+
+			scrollPaneBusquedaAvanzada.setViewportView(getTableBusquedaAvanzada(materialList));
+			
+		}
+		return scrollPaneBusquedaAvanzada;
 	}
 }
