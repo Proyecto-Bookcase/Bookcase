@@ -14,6 +14,7 @@ import java.util.Random;
 
 import auxiliary_classes.AuxiliarInfo;
 import auxiliary_classes.Auxiliary;
+import auxiliary_classes.AuxiliarySubjectMostMaterialUse;
 import cu.edu.cujae.ceis.graph.LinkedGraph;
 import cu.edu.cujae.ceis.graph.edge.Edge;
 import cu.edu.cujae.ceis.graph.interfaces.ILinkedNotDirectedGraph;
@@ -392,7 +393,7 @@ public class Bookcase {
 	}
 
 	// este metodo devuekve las asignaturas que usan mayor cantidad de materiales
-	public List<Subject> subjectsMostMaterialUse() {
+	public AuxiliarySubjectMostMaterialUse subjectsMostMaterialUse() {
 		// aqui se crea la lista de salida
 		List<Subject> escLits = new LinkedList<>();
 		// se obtiene la lisat de vertices del ggrafo
@@ -427,7 +428,7 @@ public class Bookcase {
 
 			cont++;
 		}
-		return escLits;
+		return  new AuxiliarySubjectMostMaterialUse(escLits, max);
 	}
 
 	// metodo para encontrara los materiales mas utilizados
@@ -781,5 +782,48 @@ public class Bookcase {
 		tree.deleteNode(carrerNode);
 
 	}
+	
+	
+	public List<Carreer> getAllCarrer()
+	{
+		BinaryTreeNode<NodeInfo> node = (BinaryTreeNode<NodeInfo>)tree.getRoot();
+		List<Carreer> escList = new LinkedList<Carreer>();
+		node = node.getLeft();
+		
+		while (node != null) {
+		escList.add((Carreer)node.getInfo());
+		node = node.getRight();
+			
+		}
+		
+		return escList;
+	}
+	
+	public List<Year> getAllYearOfCarrer(Carreer carreer)
+	{
+		List<Year> escList = new LinkedList<Year>();
+		BinaryTreeNode<NodeInfo> node = (BinaryTreeNode<NodeInfo>)tree.getRoot();
+		
+		node = node.getLeft();
+		
+		while (node != null) {
+			BinaryTreeNode<NodeInfo> nodeYear =  node.getLeft();
+			while(nodeYear != null)
+			{
+				escList.add((Year)nodeYear.getInfo());
+				nodeYear = nodeYear.getRight();
+			}
+			node = node.getRight();
+			
+		}
+		
+		return escList;
+		
+	}
+//	public List<Subject> getAllSubjectOf()
+//	{
+//		
+//		
+//	}
 
 }
