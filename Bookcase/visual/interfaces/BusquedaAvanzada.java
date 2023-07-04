@@ -42,6 +42,7 @@ import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import javax.swing.ListSelectionModel;
 
 public class BusquedaAvanzada extends JFrame {
 
@@ -67,8 +68,7 @@ public class BusquedaAvanzada extends JFrame {
 	private JPanel panel;
 	private JScrollPane scrollPane_3;
 	private JLabel lblNewLabel_1_5;
-	private JLabel lblNewLabel_2;
-	private JLabel lblNewLabel_3;
+	private JLabel lblFondo;
 	private JLabel lblNewLabel_1_5_1;
 	private JComboBox comboBox;
 	private JLabel lblNewLabel_1_5_1_1;
@@ -101,7 +101,7 @@ public class BusquedaAvanzada extends JFrame {
 	public BusquedaAvanzada() {
 		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 625, 464);
+		setBounds(400, 300, 1015, 554);
 		contentPane = new JPanel();
 		contentPane.setBorder(new LineBorder(new Color(0, 0, 0)));
 		setLocationRelativeTo(null);
@@ -117,8 +117,7 @@ public class BusquedaAvanzada extends JFrame {
 		contentPane.add(getPanelOpcionesBusqueda());
 		contentPane.add(getLblNewLabel());
 		contentPane.add(getBtnCerrar());
-		contentPane.add(getLblNewLabel_2());
-		contentPane.add(getLblNewLabel_3());
+		contentPane.add(getLblFondo());
 		setIconImage(
 				Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/icons/icons8-book-64 (2).png")));
 		
@@ -131,7 +130,7 @@ public class BusquedaAvanzada extends JFrame {
 		if (lblNewLabel == null) {
 			lblNewLabel = new JLabel("Búsqueda Avanzada");
 			lblNewLabel.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 30));
-			lblNewLabel.setBounds(277, 150, 336, 76);
+			lblNewLabel.setBounds(316, 214, 336, 76);
 		}
 		return lblNewLabel;
 	}
@@ -140,7 +139,7 @@ public class BusquedaAvanzada extends JFrame {
 			panelOpcionesBusqueda = new JPanel();
 			panelOpcionesBusqueda.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 			panelOpcionesBusqueda.setBackground(new Color(255, 255, 255));
-			panelOpcionesBusqueda.setBounds(0, 56, 218, 365);
+			panelOpcionesBusqueda.setBounds(0, 56, 218, 442);
 			panelOpcionesBusqueda.setLayout(null);
 			panelOpcionesBusqueda.add(getLblNewLabel_1());
 			panelOpcionesBusqueda.add(getBtn1Mostrar());
@@ -151,14 +150,18 @@ public class BusquedaAvanzada extends JFrame {
 			panelOpcionesBusqueda.add(getBtn5Ocultar());
 			panelOpcionesBusqueda.add(getSeparator());
 			panelOpcionesBusqueda.add(getSeparator_1());
+			
+			JSeparator separator_2 = new JSeparator();
+			separator_2.setBounds(33, 345, 152, 2);
+			panelOpcionesBusqueda.add(separator_2);
 		}
 		return panelOpcionesBusqueda;
 	}
 	private JButton getBtnCerrar() {
 		if (btnCerrar == null) {
 			btnCerrar = new JButton("");
-			btnCerrar.setIcon(new ImageIcon(BusquedaAvanzada.class.getResource("/icons/icons8-x-24.png")));
-			btnCerrar.setBounds(570, 0, 55, 33);
+			btnCerrar.setIcon(new ImageIcon(BusquedaAvanzada.class.getResource("/icons/icons8-x-32 (1).png")));
+			btnCerrar.setBounds(975, 0, 40, 32);
 			
 			btnCerrar.setOpaque(false);
 			btnCerrar.setBorder(null);
@@ -194,8 +197,9 @@ public class BusquedaAvanzada extends JFrame {
 			btn1Mostrar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {	
 					
-					int x=371;
-					int y=365;
+					int x=788; 
+					int y=443;
+
 					btn1Ocultar.setVisible(true);
 					btn1Mostrar.setVisible(false);
 					
@@ -215,26 +219,26 @@ public class BusquedaAvanzada extends JFrame {
 					
 					
 				     
-				        if(x==371){ 
+				        if(x==788){ 
 							scrollPane.show();
 		   
 				         Thread th = new Thread(){
 				             @Override
 				             public void run(){
-				            	 int x=371;
+				            	 int x=788;
 				                 try{
-				                   for(int i =0;i<=x;i++){
+				                   for(int i =0;i<=x;i+=2){
 				                	   
 				                       Thread.sleep(1);
-										scrollPane.setSize(i,365);
-										panelMaterialesMasUsado.setSize(i, 365);				                       
+										scrollPane.setSize(i,443);
+										panelMaterialesMasUsado.setSize(i, 443);				                       
 				                   }  
 				                 }catch(Exception e){
 				                     JOptionPane.showMessageDialog(null, e);
 				                 }
 				             }
 				         };th.start();
-				         x=419;
+				         x=788;
 				        
 				     }
 				}
@@ -247,7 +251,7 @@ public class BusquedaAvanzada extends JFrame {
 			btn2Mostrar = new JButton("Mayor Cantidad de material:");
 			btn2Mostrar.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 11));
 			btn2Mostrar.setOpaque(false);
-			btn2Mostrar.setBounds(22, 195, 173, 49);
+			btn2Mostrar.setBounds(22, 180, 173, 49);
 			
 			btn2Mostrar.setOpaque(false);
 			btn2Mostrar.setBorder(null);
@@ -257,8 +261,8 @@ public class BusquedaAvanzada extends JFrame {
 			btn2Mostrar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {	
 					
-					int x=371;
-					int y=365;
+					int x=788;
+					int y=443;
 					btn2Ocultar.setVisible(true);
 					btn2Mostrar.setVisible(false);
 					btn1Mostrar.setVisible(true);
@@ -275,19 +279,19 @@ public class BusquedaAvanzada extends JFrame {
 					
 					
 				     
-				        if(x==371){ 
+				        if(x==788){ 
 				        	panelMyorCantidadMat.show();
 						//	scrollPane_1.setVisible(true);
 		   
 				         Thread th = new Thread(){
 				             @Override
 				             public void run(){
-				            	 int x=371;
+				            	 int x=788;
 				                 try{
-				                   for(int i =0;i<=x;i++){
+				                   for(int i =0;i<=x;i+=2){
 				                	   
 				                       Thread.sleep(1);
-				                       panelMyorCantidadMat.setSize(i,365);
+				                       panelMyorCantidadMat.setSize(i,443);
 				                    
 
 				                   }  
@@ -296,7 +300,7 @@ public class BusquedaAvanzada extends JFrame {
 				                 }
 				             }
 				         };th.start();
-				         x=371;
+				         x=788;
 				        
 				     }
 				}
@@ -318,8 +322,8 @@ public class BusquedaAvanzada extends JFrame {
 			btn5Mostrar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {	
 					
-					int x=371;
-					int y=365;
+					int x=788;
+					int y=443;
 					btn5Ocultar.setVisible(true);
 					btn5Mostrar.setVisible(false);
 					
@@ -340,26 +344,26 @@ public class BusquedaAvanzada extends JFrame {
 					
 					
 				     
-				        if(x==371){ 
+				        if(x==788){ 
 							scrollPane_3.show();
 		   
 				         Thread th = new Thread(){
 				             @Override
 				             public void run(){
-				            	 int x=371;
+				            	 int x=788;
 				                 try{
-				                   for(int i =0;i<=x;i++){
+				                   for(int i =0;i<=x;i+=2){
 				                	   
 				                       Thread.sleep(1);
-										scrollPane_3.setSize(i,365);
-										panel.setSize(i, 365);				                       
+										scrollPane_3.setSize(i,443);
+										panel.setSize(i, 443);				                       
 				                   }  
 				                 }catch(Exception e){
 				                     JOptionPane.showMessageDialog(null, e);
 				                 }
 				             }
 				         };th.start();
-				         x=419;
+				         x=788;
 				        
 				     }
 				}
@@ -388,7 +392,7 @@ public class BusquedaAvanzada extends JFrame {
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
-			scrollPane.setBounds(217, 56, 371, 365);
+			scrollPane.setBounds(217, 56, 788, 433);
 			scrollPane.setViewportView(getPanelMaterialesMasUsado());
 			
 			scrollPane.setVisible(false);
@@ -399,8 +403,8 @@ public class BusquedaAvanzada extends JFrame {
 	private JLabel getLblNewLabel_1_1() {
 		if (lblNewLabel_1_1 == null) {
 			lblNewLabel_1_1 = new JLabel("Materiales más usados:");
-			lblNewLabel_1_1.setBounds(93, 11, 239, 33);
-			lblNewLabel_1_1.setFont(new Font("Yu Gothic UI Semibold", Font.ITALIC, 20));
+			lblNewLabel_1_1.setBounds(247, 11, 239, 33);
+			lblNewLabel_1_1.setFont(new Font("Yu Gothic UI Semibold", Font.ITALIC, 16));
 		}
 		return lblNewLabel_1_1;
 	}
@@ -441,7 +445,7 @@ public class BusquedaAvanzada extends JFrame {
 			btn2Ocultar.setFocusPainted(false);
 			btn2Ocultar.setContentAreaFilled(false);
 			btn2Ocultar.setBorder(null);
-			btn2Ocultar.setBounds(22, 195, 173, 49);
+			btn2Ocultar.setBounds(22, 180, 173, 49);
 		}
 		return btn2Ocultar;
 	}
@@ -479,7 +483,7 @@ public class BusquedaAvanzada extends JFrame {
 	private JSeparator getSeparator_1() {
 		if (separator_1 == null) {
 			separator_1 = new JSeparator();
-			separator_1.setBounds(33, 242, 152, 2);
+			separator_1.setBounds(33, 224, 152, 2);
 		}
 		return separator_1;
 	}
@@ -488,7 +492,7 @@ public class BusquedaAvanzada extends JFrame {
 			panelMyorCantidadMat = new JPanel();
 			panelMyorCantidadMat.setBorder(new LineBorder(new Color(0, 0, 0)));
 			panelMyorCantidadMat.setBackground(new Color(255, 255, 255));
-			panelMyorCantidadMat.setBounds(217, 56, 371, 365);
+			panelMyorCantidadMat.setBounds(217, 56, 770, 433);
 			panelMyorCantidadMat.setLayout(null);
 			panelMyorCantidadMat.add(getLblNewLabel_1_2());
 			panelMyorCantidadMat.add(getTxtpnEnEstaPantalla());
@@ -501,7 +505,7 @@ public class BusquedaAvanzada extends JFrame {
 		if (lblNewLabel_1_2 == null) {
 			lblNewLabel_1_2 = new JLabel("Asignaturas con mayor cantidad de materiales:");
 			lblNewLabel_1_2.setFont(new Font("Yu Gothic UI Semibold", Font.ITALIC, 16));
-			lblNewLabel_1_2.setBounds(21, 11, 364, 33);
+			lblNewLabel_1_2.setBounds(203, 11, 364, 33);
 		}
 		return lblNewLabel_1_2;
 	}
@@ -534,7 +538,7 @@ public class BusquedaAvanzada extends JFrame {
 			scrollPane_3 = new JScrollPane();
 			scrollPane_3.setBackground(new Color(255, 255, 255));
 			scrollPane_3.setBorder(new LineBorder(new Color(130, 135, 144)));
-			scrollPane_3.setBounds(217, 56, 371, 365);
+			scrollPane_3.setBounds(217, 56, 788, 433);
 			scrollPane_3.setViewportView(getPanel());
 			scrollPane_3.setVisible(false);
 		}
@@ -544,58 +548,52 @@ public class BusquedaAvanzada extends JFrame {
 		if (lblNewLabel_1_5 == null) {
 			lblNewLabel_1_5 = new JLabel("Buscar por carrera y año:");
 			lblNewLabel_1_5.setFont(new Font("Yu Gothic UI Semibold", Font.ITALIC, 16));
-			lblNewLabel_1_5.setBounds(77, 11, 190, 33);
+			lblNewLabel_1_5.setBounds(259, 11, 190, 33);
 		}
 		return lblNewLabel_1_5;
 	}
-	private JLabel getLblNewLabel_2() {
-		if (lblNewLabel_2 == null) {
-			lblNewLabel_2 = new JLabel("New label");
-			lblNewLabel_2.setBounds(0, 0, 680, 464);
+	private JLabel getLblFondo() {
+		if (lblFondo == null) {
+			lblFondo = new JLabel("");
+			lblFondo.setIcon(new ImageIcon(BusquedaAvanzada.class.getResource("/icons/FondoBusquedaAvanzada.jpg")));
+			lblFondo.setBounds(0, 0, 1015, 554);
 		}
-		return lblNewLabel_2;
-	}
-	private JLabel getLblNewLabel_3() {
-		if (lblNewLabel_3 == null) {
-			lblNewLabel_3 = new JLabel("New label");
-			lblNewLabel_3.setIcon(new ImageIcon(BusquedaAvanzada.class.getResource("/icons/Fondo de textura de acuarela amarilla brillante _ Vector Gratis.jpg")));
-			lblNewLabel_3.setBounds(0, 0, 680, 464);
-		}
-		return lblNewLabel_3;
+		return lblFondo;
 	}
 	private JLabel getLblNewLabel_1_5_1() {
 		if (lblNewLabel_1_5_1 == null) {
 			lblNewLabel_1_5_1 = new JLabel("Carrera:");
-			lblNewLabel_1_5_1.setFont(new Font("Yu Gothic UI Semibold", Font.ITALIC, 16));
-			lblNewLabel_1_5_1.setBounds(10, 87, 70, 33);
+			lblNewLabel_1_5_1.setFont(new Font("Yu Gothic UI Semibold", Font.ITALIC, 14));
+			lblNewLabel_1_5_1.setBounds(10, 60, 70, 26);
 		}
 		return lblNewLabel_1_5_1;
 	}
 	private JComboBox getComboBox() {
 		if (comboBox == null) {
 			comboBox = new JComboBox();
-			comboBox.setBounds(77, 87, 190, 38);
+			comboBox.setBounds(77, 63, 190, 20);
 		}
 		return comboBox;
 	}
 	private JLabel getLblNewLabel_1_5_1_1() {
 		if (lblNewLabel_1_5_1_1 == null) {
 			lblNewLabel_1_5_1_1 = new JLabel("Año:");
-			lblNewLabel_1_5_1_1.setFont(new Font("Yu Gothic UI Semibold", Font.ITALIC, 16));
-			lblNewLabel_1_5_1_1.setBounds(10, 200, 70, 33);
+			lblNewLabel_1_5_1_1.setFont(new Font("Yu Gothic UI Semibold", Font.ITALIC, 14));
+			lblNewLabel_1_5_1_1.setBounds(372, 60, 70, 26);
 		}
 		return lblNewLabel_1_5_1_1;
 	}
 	private JComboBox getComboBox_1() {
 		if (comboBox_1 == null) {
 			comboBox_1 = new JComboBox();
-			comboBox_1.setBounds(77, 200, 190, 38);
+			comboBox_1.setBounds(439, 63, 190, 20);
 		}
 		return comboBox_1;
 	}
 	private JTable getTablaMaterialesMasUsados() {
 		if (tablaMaterialesMasUsados == null) {
 			tablaMaterialesMasUsados = new JTable();
+			tablaMaterialesMasUsados.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			//nuevo
 			tablaMaterialesMasUsados.setModel(tableModel);
 			ArrayList<Material> a_test = new ArrayList<Material>();
@@ -620,7 +618,7 @@ public class BusquedaAvanzada extends JFrame {
 			tableModel.actualizar(a_test);
 			
 			//
-			tablaMaterialesMasUsados.setBounds(0, 86, 352, 278);
+			tablaMaterialesMasUsados.setBounds(0, 71, 769, 359);
 		}
 		return tablaMaterialesMasUsados;
 	}
