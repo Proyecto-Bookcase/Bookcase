@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
 
+import org.junit.platform.engine.support.hierarchical.Node;
+
 import auxiliary_classes.AuxiliarInfo;
 import auxiliary_classes.Auxiliary;
 import auxiliary_classes.AuxiliarySubjectMostMaterialUse;
@@ -57,12 +59,18 @@ public class Bookcase {
 		if (instance == null) {
 			instance = new Bookcase();
 			instance.tree.setRoot(new BinaryTreeNode<>(new University("", "")));
+			
 			instance.newCarreer("Informática", 4);
 			instance.newSubject("001", "Matemática");
 			instance.newSubject("001", "Matemáticb");
 			instance.newSubject("001", "Matemáticc");
 			instance.newSubject("001", "Matemáticd");
 
+			instance.newCarreer("Ciencias Médicas", 6);
+			instance.newSubject("011", "asdsd");
+			instance.newSubject("011", "asdadasd");
+			instance.newSubject("011", "asdsdad");
+			instance.newSubject("021", "asdasdasd");
 		}
 		return instance;
 	}
@@ -810,23 +818,29 @@ public class Bookcase {
 	}
 
 	public List<Year> getAllYearOfCarrer(Carreer carreer) {
-		List<Year> escList = new LinkedList<Year>();
-		BinaryTreeNode<NodeInfo> node = (BinaryTreeNode<NodeInfo>) tree.getRoot();
+		List<Year> escList = new LinkedList<>();
+		BinaryTreeNode<NodeInfo> node = getCarreerNode(carreer.getId());
 
 		node = node.getLeft();
 
 		while (node != null) {
-			BinaryTreeNode<NodeInfo> nodeYear = node.getLeft();
-			while (nodeYear != null) {
-				escList.add((Year) nodeYear.getInfo());
-				nodeYear = nodeYear.getRight();
-			}
+			escList.add((Year)node.getInfo());
+
 			node = node.getRight();
 
 		}
 
 		return escList;
 
+	}
+
+	public List<Subject> getAllSubjectsFromYear(String id){
+		List<Subject> res = new ArrayList<>();
+		BinaryTreeNode<NodeInfo> yearNode = getYearNode(id);
+		for (BinaryTreeNode<NodeInfo> node : tree.getSons(yearNode)) {
+			res.add((Subject) node.getInfo());
+		}
+		return res;
 	}
 //	public List<Subject> getAllSubjectOf()
 //	{
