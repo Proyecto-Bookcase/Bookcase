@@ -59,9 +59,10 @@ public class BusquedaAvanzada extends JFrame {
 	private JComboBox comboBox_1;
 	// instancia de bookcase
 	Bookcase bookcase;
-	private JTable table;
-	private JScrollPane scrollPane_1;
-	private TableModelMostUseMaterial tableModel;
+
+
+	private JTable tablaMaterialesMasUsados;
+
 
 	/**
 	 * Launch the application.
@@ -348,7 +349,8 @@ public class BusquedaAvanzada extends JFrame {
 			panelMaterialesMasUsado.setPreferredSize(new Dimension(0, 10000));
 			panelMaterialesMasUsado.setLayout(null);
 			panelMaterialesMasUsado.add(getLblNewLabel_1_1());
-			panelMaterialesMasUsado.add(getScrollPane_1());
+
+			panelMaterialesMasUsado.add(getTablaMaterialesMasUsados());
 
 		}
 		return panelMaterialesMasUsado;
@@ -580,11 +582,36 @@ public class BusquedaAvanzada extends JFrame {
 		return comboBox_1;
 	}
 
-	private JTable getTable() {
-		if (table == null) {
-			table = new JTable(new TableModelMostUseMaterial());
+	private JTable getTablaMaterialesMasUsados() {
+		if (tablaMaterialesMasUsados == null) {
+			tablaMaterialesMasUsados = new JTable();
+			//nuevo
+			tablaMaterialesMasUsados.setModel(tableModel);
+			ArrayList<Material> a_test = new ArrayList<Material>();
+			Calendar cal = Calendar.getInstance();
+			
+			a_test.add(new Book("1","1ro", "1ro", (GregorianCalendar) cal, "1ra", "1ra", "2001"));
+			a_test.add(new Book("2","2do", "2do", (GregorianCalendar) cal, "2do", "2do", "2002"));
+			a_test.add(new Book("3","3ra", "3ra", (GregorianCalendar) cal, "3ra", "3ra", "2003"));
+			a_test.add(new Book("4","4ta", "4ta", (GregorianCalendar) cal, "4ta", "4ta", "2004"));
+			a_test.add(new Book("5","5ta", "5ta", (GregorianCalendar) cal, "5ta", "5ta", "2005"));
+			
+			a_test.add(new Exercices("11", "exercices 1", "11",(GregorianCalendar) cal ,11,"alegra1" ));
+			a_test.add(new Exercices("12", "exercices 2", "12",(GregorianCalendar) cal ,12,"alegra2" ));
+			a_test.add(new Exercices("13", "exercices 3", "11",(GregorianCalendar) cal ,13,"alegra3" ));
+			a_test.add(new Exercices("14", "exercices 3", "11",(GregorianCalendar) cal ,14,"alegra4" ));
+			
+			a_test.add(new Document("21", "doc 1", "21", (GregorianCalendar) cal, "conferencia"));
+			a_test.add(new Document("22", "doc 2", "22", (GregorianCalendar) cal, "cp"));
+			a_test.add(new Document("23", "doc 3", "23", (GregorianCalendar) cal, "conferencia"));
+			a_test.add(new Document("24", "doc 4", "24", (GregorianCalendar) cal, "cp"));
+			
+			tableModel.actualizar(a_test);
+			
+			//
+			tablaMaterialesMasUsados.setBounds(0, 86, 352, 278);
 		}
-		return table;
+		return tablaMaterialesMasUsados;
 	}
 
 	private JScrollPane getScrollPane_1() {
