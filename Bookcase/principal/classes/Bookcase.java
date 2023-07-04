@@ -419,7 +419,6 @@ public class Bookcase {
 					// si es mayor se reinicia la lista se añade el subject
 					// y se actualiza la cantidad de materiales
 					max = grade;
-					String test1 = ((Subject) help).getId();
 					Auxiliary aux = findInfoSubjcetId(((Subject) help).getId());
 					escLits.clear();
 					escLits.add(new SubAuxiliary(subject, (Carreer) aux.getCarrerNode().getInfo(),
@@ -428,8 +427,8 @@ public class Bookcase {
 				} else if (grade == max) {
 					// si es igual se añade el subject a la lista
 					
-					String test1 = ((Subject) help).getId();
-					Auxiliary aux = findInfoSubjcetId(test1);
+					
+					Auxiliary aux = findInfoSubjcetId(((Subject) help).getId());
 					escLits.add(new SubAuxiliary(subject, (Carreer) aux.getCarrerNode().getInfo(),
 							(Year) aux.getYearNode().getInfo()));
 				}
