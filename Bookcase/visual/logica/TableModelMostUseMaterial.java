@@ -77,6 +77,14 @@ public class TableModelMostUseMaterial extends DefaultTableModel {
 						"null","null",
 						((Document)material).getTypeDoc()});
 			}
+			else
+			{
+				addRow(new Object[] { "null","null","null","null","null"
+										,"null","null","null"
+										,"null","null"
+										,"null"});
+				
+			}
 		}
 
 	}
