@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
@@ -118,7 +119,8 @@ public class BusquedaAvanzada extends JFrame {
 		contentPane.add(getBtnCerrar());
 		contentPane.add(getLblNewLabel_2());
 		contentPane.add(getLblNewLabel_3());
-		
+		setIconImage(
+				Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/icons/icons8-book-64 (2).png")));
 		
 		//agregado por diefo hoy 3/7/23 11:09 am
 		//agregado el contrusctor 
