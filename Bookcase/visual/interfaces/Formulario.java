@@ -870,12 +870,7 @@ public class Formulario extends JFrame {
 			spinnerCArrera.setFocusable(false);
 			spinnerCArrera.setModel(new SpinnerNumberModel(2, 2, 6, 1));
 			spinnerCArrera.setBounds(101, 113, 273, 23);
-
 			spinnerCArrera.setOpaque(false);
-//			spinner.getT
-
-			// spinnerCArrera.
-
 		}
 		return spinnerCArrera;
 	}
