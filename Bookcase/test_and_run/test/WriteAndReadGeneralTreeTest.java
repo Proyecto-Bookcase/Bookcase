@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test;
 
 import cu.edu.cujae.ceis.tree.binary.BinaryTreeNode;
 import cu.edu.cujae.ceis.tree.general.GeneralTree;
-import externalMemory.ReadGeneralTree;
-import externalMemory.WriteGeneralTree;
+import external_memory.ReadGeneralTree;
+import external_memory.WriteGeneralTree;
 
 class WriteAndReadGeneralTreeTest {
 

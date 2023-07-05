@@ -1,7 +1,6 @@
 package classes;
 
 import java.lang.reflect.Constructor;
-import java.net.http.WebSocketHandshakeException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
@@ -10,7 +9,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Random;
 
 import auxiliary_classes.AuxiliarInfo;
@@ -57,31 +55,42 @@ public class Bookcase {
 	public static Bookcase getInstance() {
 		if (instance == null) {
 			instance = new Bookcase();
-			instance.tree.setRoot(new BinaryTreeNode<>(new University("0", "Cujae")));
+
+			inicializacion();
+
+			//instance.tree.setRoot(new BinaryTreeNode<>(new University("0", "Cujae")));
 
 
 //github.com/Proyecto-Bookcase/Bookcase.git
-			instance.newCarreer("Informática", 4);
-			instance.newSubject("001", "Matemática");
-			instance.newSubject("002", "Matemáticb");
-			instance.newSubject("003", "Matemáticc");
-			instance.newSubject("004", "Matemáticd");
+			//instance.newCarreer("Informática", 4);
+			//instance.newSubject("001", "Matemática");
+			//instance.newSubject("002", "Matemáticb");
+			//instance.newSubject("003", "Matemáticc");
+			//instance.newSubject("004", "Matemáticd");
 
 		
-			instance.newMaterial(Document.class, Arrays.asList("00100"), "A", "", new GregorianCalendar(), "");
-			instance.newMaterial(Document.class, Arrays.asList("00100"), "B", "", new GregorianCalendar(), "");
+			//instance.newMaterial(Document.class, Arrays.asList("00100"), "A", "", new GregorianCalendar(), "");
+			//instance.newMaterial(Document.class, Arrays.asList("00100"), "B", "", new GregorianCalendar(), "");
 			
 
 
-			instance.newCarreer("Ciencias Médicas", 6);
-			instance.newSubject("011", "asdsd");
-			instance.newSubject("011", "asdadasd");
-			instance.newSubject("011", "asdsdad");
-			instance.newSubject("021", "asdasdasd");
+			//instance.newCarreer("Ciencias Médicas", 6);
+			//instance.newSubject("011", "asdsd");
+			//instance.newSubject("011", "asdadasd");
+			//instance.newSubject("011", "asdsdad");
+			//instance.newSubject("021", "asdasdasd");
 			
-			instance.newMaterial(Document.class, Arrays.asList("00100"), "C", "", new GregorianCalendar(), "");
+			//instance.newMaterial(Document.class, Arrays.asList("00100"), "C", "", new GregorianCalendar(), "");
 		}
 		return instance;
+	}
+
+	public void setTree(GeneralTree<NodeInfo> tree) {
+		this.tree = tree;
+	}
+
+	public void setGraph(ILinkedNotDirectedGraph graph) {
+		this.graph = graph;
 	}
 
 	public GeneralTree<NodeInfo> getTree() {
@@ -321,16 +330,22 @@ public class Bookcase {
 
 	public String getFirstAvailableSubjectId(String yearId) {
 		int i = 0;
-		boolean stop = false;
-		// Obtiene los hijos del nodo del año
-		Iterator<NodeInfo> it = instance.tree.getSonsInfo(getYearNode(yearId)).iterator();
-		// Itera sobre los hijos hasta encontrar el primer ID de carrera disponible
-		while (!stop && it.hasNext()) {
-			Subject subject = (Subject) it.next();
-			if (Integer.parseInt(subject.getId().substring(3)) == i) {
-				i++;
-			} else {
-				stop = true;
+		boolean check = false;
+		while (i < 100 && !check) {
+			String id = String.format("%02d", i);
+			boolean stop = false;
+			Iterator<NodeInfo> it = instance.tree.getSonsInfo(getYearNode(yearId)).iterator();
+			// Itera sobre los hijos hasta encontrar el primer ID de carrera disponible
+			while (!stop && it.hasNext()) {
+				Subject subject = (Subject) it.next();
+				if (Integer.parseInt(subject.getId().substring(3, 4)) == i) {
+					stop = true;
+					i++;
+				}
+			}
+
+			if (!stop) {
+				check = true;
 			}
 		}
 
@@ -382,6 +397,17 @@ public class Bookcase {
 			if (node.getLevel() == 3 && ((Subject) info).getId().equals(id)) {
 				res = node.getNode();
 			}
+		}
+
+		return res;
+	}
+
+	public Vertex getMaterialVertex(String id) {
+
+		Vertex res = null;
+		for (Vertex vertex : graph.getVerticesList()) {
+			if (vertex.getInfo() instanceof Material material && material.getId().equals(id))
+				res = vertex;
 		}
 
 		return res;
@@ -537,69 +563,55 @@ public class Bookcase {
 	}
 
 	// metodo que tiene que hacer altro
-	
-/*
+
+	/*
+	 * public Auxiliary findInfoSubjcetId(String id) { Auxiliary aux = new
+	 * Auxiliary(); // cambie aqui String carreer = id.substring(0, 2); int year =
+	 * Integer.parseInt(id.substring(2, 3));
+	 * 
+	 * List<BinaryTreeNode<NodeInfo>> list =
+	 * instance.tree.getSons((BinaryTreeNode<NodeInfo>) instance.tree.getRoot());
+	 * ListIterator<BinaryTreeNode<NodeInfo>> it = list.listIterator(); boolean
+	 * found = false; while (!found && it.hasNext()) { BinaryTreeNode<NodeInfo> node
+	 * = it.next(); if (node.getInfo().getId().equals(carreer)) {
+	 * aux.setCarrerNode(node); List<BinaryTreeNode<NodeInfo>> years =
+	 * instance.tree.getSons(node); ListIterator<BinaryTreeNode<NodeInfo>> iter =
+	 * years.listIterator(); while (!found && iter.hasNext()) { node = iter.next();
+	 * int number = ((Year) node.getInfo()).getNumberYear(); if (number == year) {
+	 * aux.setYearNode(node); found = true; } }
+	 * 
+	 * }
+	 * 
+	 * }
+	 * 
+	 * return aux; }
+	 */
+
 	public Auxiliary findInfoSubjcetId(String id) {
-		Auxiliary aux = new Auxiliary();
-		// cambie aqui
-		String carreer = id.substring(0, 2);
-		int year = Integer.parseInt(id.substring(2, 3));
-
-		List<BinaryTreeNode<NodeInfo>> list = instance.tree.getSons((BinaryTreeNode<NodeInfo>) instance.tree.getRoot());
-		ListIterator<BinaryTreeNode<NodeInfo>> it = list.listIterator();
-		boolean found = false;
-		while (!found && it.hasNext()) {
-			BinaryTreeNode<NodeInfo> node = it.next();
-			if (node.getInfo().getId().equals(carreer)) {
-				aux.setCarrerNode(node);
-				List<BinaryTreeNode<NodeInfo>> years = instance.tree.getSons(node);
-				ListIterator<BinaryTreeNode<NodeInfo>> iter = years.listIterator();
-				while (!found && iter.hasNext()) {
-					node = iter.next();
-					int number = ((Year) node.getInfo()).getNumberYear();
-					if (number == year) {
-						aux.setYearNode(node);
-						found = true;
-					}
-				}
-
-			}
-
-		}
-
-		return aux;
-	}
-*/
-	
-	public Auxiliary findInfoSubjcetId(String id) 
-	{
 		Auxiliary auxEsc = new Auxiliary();
-//		BinaryTreeNode<NodeInfo> carrerNode = ((BinaryTreeNode<NodeInfo>)tree.getRoot()).getLeft();
+		// BinaryTreeNode<NodeInfo> carrerNode =
+		// ((BinaryTreeNode<NodeInfo>)tree.getRoot()).getLeft();
 		BinaryTreeNode<NodeInfo> carrerNode = new BinaryTreeNode<NodeInfo>();
 		BinaryTreeNode<NodeInfo> yearNode = new BinaryTreeNode<NodeInfo>();
-		
+
 		boolean found = false;
 		InDepthIterator<NodeInfo> iter = tree.inDepthIterator();
 		while (!found && iter.hasNext()) {
 			BinaryTreeNode<NodeInfo> nodeiter = iter.nextNode();
 			NodeInfo info = nodeiter.getInfo();
-			if(info instanceof Carreer)
-			{
+			if (info instanceof Carreer) {
 				carrerNode = nodeiter;
-			}
-			else if (info instanceof Year) {
+			} else if (info instanceof Year) {
 				yearNode = nodeiter;
-			}
-			else if(info instanceof Subject && info.getId().equals(id))
-			{
+			} else if (info instanceof Subject && info.getId().equals(id)) {
 				found = true;
 				auxEsc.setCarrerNode(carrerNode);
-				auxEsc.setYearNode(yearNode);	
-			}		
+				auxEsc.setYearNode(yearNode);
+			}
 		}
 		return auxEsc;
 	}
-	
+
 	// este metodo devuelve toda la informacion de los materiales de una carrera
 	// es decir devuelve cada material la cantidad de veces que se utiliza en la
 	// carrera
@@ -672,8 +684,8 @@ public class Bookcase {
 		Iterator<Vertex> iter = vertList.iterator();
 		while (iter.hasNext()) {
 			Vertex vert = iter.next();
-			Object vertInfo =  vert.getInfo();
-			if (vertInfo instanceof Material material) {
+
+			if (vert.getInfo() instanceof Material material) {
 
 				LinkedList<Edge> subjectsList = vert.getEdgeList();
 				Iterator<Edge> iterEdge = subjectsList.iterator();
@@ -848,46 +860,43 @@ public class Bookcase {
 	// este metodo para eliminar un año determinado para una carrera determinada
 	// tengo dudas de como implementaro
 	public void deleteYearCarrear(Year year) {
-		BinaryTreeNode<NodeInfo> carrerNode = ((BinaryTreeNode<NodeInfo>)tree.getRoot()).getLeft();
+		BinaryTreeNode<NodeInfo> carrerNode = ((BinaryTreeNode<NodeInfo>) tree.getRoot()).getLeft();
 		boolean found = false;
-		BinaryTreeNode<NodeInfo> yearNode = new BinaryTreeNode<NodeInfo>(); 
-		while (!found  && carrerNode!= null) {
+		BinaryTreeNode<NodeInfo> yearNode = new BinaryTreeNode<NodeInfo>();
+		while (!found && carrerNode != null) {
 			BinaryTreeNode<NodeInfo> yearNodeIter = carrerNode.getLeft();
-				while (!found &&yearNodeIter!= null) {
-					if(yearNodeIter.getInfo().getId().equals(year.getId()))
-					{
-						found = true;
-						yearNode = yearNodeIter;
+			while (!found && yearNodeIter != null) {
+				if (yearNodeIter.getInfo().getId().equals(year.getId())) {
+					found = true;
+					yearNode = yearNodeIter;
+					yearNodeIter = yearNodeIter.getRight();
+
+					while (yearNodeIter != null) {
+						((Year) yearNodeIter.getInfo())
+								.setNumberYear(((Year) yearNodeIter.getInfo()).getNumberYear() - 1);
+
 						yearNodeIter = yearNodeIter.getRight();
-						
-						while (yearNodeIter!= null) {
-							((Year)yearNodeIter.getInfo()).setNumberYear(
-									((Year)yearNodeIter.getInfo()).getNumberYear()-1);
-							
-							yearNodeIter = yearNodeIter.getRight();
-						}
-						
-						BinaryTreeNode<NodeInfo> subject = yearNode.getLeft();
-						while (subject != null) {
-							deleteSubjectGraph((Subject) subject.getInfo());
-							subject = subject.getRight();
-						}
-					
 					}
-					else {
-						yearNodeIter = yearNodeIter.getRight();
-						
+
+					BinaryTreeNode<NodeInfo> subject = yearNode.getLeft();
+					while (subject != null) {
+						deleteSubjectGraph((Subject) subject.getInfo());
+						subject = subject.getRight();
 					}
+
+				} else {
+					yearNodeIter = yearNodeIter.getRight();
+
 				}
-			
-			if(found)
-			{
-				((Carreer)carrerNode.getInfo()).setDuration(((Carreer)carrerNode.getInfo()).getDuration()-1);
+			}
+
+			if (found) {
+				((Carreer) carrerNode.getInfo()).setDuration(((Carreer) carrerNode.getInfo()).getDuration() - 1);
 			}
 			carrerNode = carrerNode.getRight();
-			
+
 		}
-		
+
 		tree.deleteNode(yearNode);
 	}
 
@@ -952,7 +961,7 @@ public class Bookcase {
 	public List<Material> getAllMaterials() {
 
 		List<Material> res = new ArrayList<>();
-		for(Vertex vertex : graph.getVerticesList()) {
+		for (Vertex vertex : graph.getVerticesList()) {
 			if (vertex.getInfo() instanceof Material material)
 				res.add(material);
 
@@ -978,62 +987,298 @@ public class Bookcase {
 
 		return res;
 	}
-	
-	public void addRelation(String subjectId, String materialId)
-	{
+
+	public void addRelation(String subjectId, String materialId) {
 		List<Vertex> vertList = graph.getVerticesList();
 		Iterator<Vertex> iter = vertList.iterator();
-		
-		
-		int index =0;
-		int subject =-1;
-		int material =-1;
-		while ((subject==-1 && material == -1) && iter.hasNext()) {
-			Vertex vertIter = iter.next(); 
+
+		int index = 0;
+		int subject = -1;
+		int material = -1;
+		while ((subject == -1 && material == -1) && iter.hasNext()) {
+			Vertex vertIter = iter.next();
 			Object info = vertIter.getInfo();
-			if(info instanceof Material mat && mat.getId().equals(materialId))
-			{
+			if (info instanceof Material mat && mat.getId().equals(materialId)) {
 				material = index;
-			}
-			else if (info instanceof Subject subj && subj.getId().equals(subjectId)) {
+			} else if (info instanceof Subject subj && subj.getId().equals(subjectId)) {
 				subject = index;
 			}
 			index++;
 		}
 		graph.insertEdgeNDG(subject, material);
 	}
-	public void deleteRelation(String subjectId, String materialId)
-	{
+
+	public void deleteRelation(String subjectId, String materialId) {
 		List<Vertex> vertList = graph.getVerticesList();
 		Iterator<Vertex> iter = vertList.iterator();
-		
-		
-		int index =0;
-		int subject =-1;
-		int material =-1;
-		while ((subject==-1 && material == -1) && iter.hasNext()) {
-			Vertex vertIter = iter.next(); 
+
+		int index = 0;
+		int subject = -1;
+		int material = -1;
+		while ((subject == -1 && material == -1) && iter.hasNext()) {
+			Vertex vertIter = iter.next();
 			Object info = vertIter.getInfo();
-			if(info instanceof Material mat && mat.getId().equals(materialId))
-			{
-				if(vertIter.getAdjacents().size()==1)
-				{
+			if (info instanceof Material mat && mat.getId().equals(materialId)) {
+				if (vertIter.getAdjacents().size() == 1) {
 					material = -2;
-				}
-				else {
+				} else {
 					material = index;
-					
+
 				}
-			}
-			else if (info instanceof Subject subj && subj.getId().equals(subjectId)) {
+			} else if (info instanceof Subject subj && subj.getId().equals(subjectId)) {
 				subject = index;
 			}
 			index++;
 		}
-		if(material !=-2)
-		{
+		if (material != -2) {
 			graph.deleteEdgeND(subject, material);
 		}
+
+	}
+
+	public static void inicializacion() {
+		Bookcase bookcase = Bookcase.getInstance(); // en bookcase ya hay una carrera por eso empiezo en "01"
+
+		bookcase.tree.setRoot(new BinaryTreeNode<>(new University("123456789", "CUJAE")));
+
+		// Carrera 1
+		bookcase.newCarreer("Informatica", 4); // Cogigo de carrera "01" Codigo de los años de la carrera es
+												// "011","012"."013"."014"
+
+		// Asignaturas 1erAnno
+		bookcase.newSubject("001", "Calculo1");
+		bookcase.newSubject("001", "Filosofia");
+		bookcase.newSubject("001", "Matematica Computacional");
+
+		// 2do anno
+		bookcase.newSubject("002", "Historia");
+		bookcase.newSubject("002", "Calculo2");
+		bookcase.newSubject("002", "Fisica");
+		// 3ro anno
+		bookcase.newSubject("003", "BD");
+		bookcase.newSubject("003", "RA");
+		bookcase.newSubject("003", "TP");
+		// 4to anno
+		bookcase.newSubject("004", "Calculo3");
+		bookcase.newSubject("004", "Economia Politica");
+		bookcase.newSubject("004", "Economia Empresarial");
+
+		// Materiales 1er Anno Calculo1
+		bookcase.newMaterial(Book.class, Arrays.asList("011??"), 1 / 5 / 2023, "Stewart", "Anonimo", "Felix Varela",
+				"1ra", "2001");
+		bookcase.newMaterial(Document.class, Arrays.asList("011??"), 2 / 5 / 2022, "Resumenes de Calculo1", "Anonimo",
+				".doc");
+		bookcase.newMaterial(Book.class, Arrays.asList("011??"), 3 / 5 / 2023, "Algebra Lineal", "Anonimo",
+				"Felix Varela", "3ra", "2001");
+		// Materiales 1er Anno Filosofia
+		bookcase.newMaterial(Book.class, Arrays.asList("011??"), 4 / 5 / 2023, "Marxismo", "Anonimo", "Carlos Varela",
+				"2da", "2002");
+		bookcase.newMaterial(Document.class, Arrays.asList("011??"), 5 / 5 / 2023, "Guias para Parciales ?", "Titulo2",
+				"Anonimo", ".pdf");
+		bookcase.newMaterial(Book.class, Arrays.asList("011??"), 6 / 5 / 2023, "Socialismo", "Anonimo", "Carlos Varela",
+				"2da", "2004");
+		// Materiales 1er Anno MC
+		bookcase.newMaterial(Book.class, Arrays.asList("011??"), 7 / 5 / 2023, "Matematica Computacional 1",
+				"Mark Allen Weiss", "Felix Varela", "3ra", "2001");
+		bookcase.newMaterial(Document.class, Arrays.asList("011??"), 8 / 5 / 2023, "Compendio de resumenes",
+				"Profesor Eresto", ".pdf");
+		bookcase.newMaterial(Book.class, Arrays.asList("011??"), 9 / 5 / 2023, "Matematica Computacional 2",
+				"William Stallings", "Felix Varela", "3ra", "2001");
+		// Materiales 2do Anno Historia
+		bookcase.newMaterial(Exercices.class, Arrays.asList("012??"), 11 / 5 / 2023, "Folleto", "William S", 12,
+				"Tipe1");
+		bookcase.newMaterial(Document.class, Arrays.asList("012??"), 14 / 5 / 2023, "Documentales por ver",
+				"Carlos Antonio", ".mp4");
+		bookcase.newMaterial(Book.class, Arrays.asList("012??"), 16 / 5 / 2023, "Hisoria de Cuba ", "James Monte",
+				"Felix Varela", "1ra", "2001");
+		// Materiales 2do Anno Calculo2
+		bookcase.newMaterial(Book.class, Arrays.asList("012??"), 17 / 5 / 2023,
+				"Trascendentes Tempranas de James Stewart", "James Stewart", "Felix Varela", "1ra", "2001");
+		bookcase.newMaterial(Document.class, Arrays.asList("012??"), 18 / 5 / 2023, "Resumenes de Calculo1",
+				"Profesor Ester", ".ppt");
+		bookcase.newMaterial(Book.class, Arrays.asList("012??"), 19 / 5 / 2023,
+				"Ecuaciones Diferenciales con Aplicaciones Parte I", "Zill", "Felix Varela", "1ra", "2001");
+		// Materiales 2do Anno Fisica
+		bookcase.newMaterial(Exercices.class, Arrays.asList("012??"), 12 / 1 / 2023, "Ejercicios de Fisica",
+				"Profesor Antonio", 4, ".doc");
+		bookcase.newMaterial(Document.class, Arrays.asList("012??"), 12 / 2 / 2023, "Documnetos Utiles",
+				"Profesor Manuel", "pdf");
+		bookcase.newMaterial(Book.class, Arrays.asList("012??"), 12 / 3 / 2023, "Fisica", "Johnsonbaugh",
+				"Felix Varela", "3ra", "2001");
+		// Materiales 3er Anno BD
+		bookcase.newMaterial(Book.class, Arrays.asList("013??"), 12 / 4 / 2023, "C/C++ Tomo I", "Anonimo", "1ra",
+				"2002");
+		bookcase.newMaterial(Document.class, Arrays.asList("013??"), 12 / 5 / 2023, "Listas de libros",
+				"Profesor Maria", ".excel");
+		bookcase.newMaterial(Book.class, Arrays.asList("013??"), 12 / 6 / 2023, "C/C++ Tomo II", "Anonimo", "1ra",
+				"2002");
+		// Materiales 3er Anno RA
+		bookcase.newMaterial(Book.class, Arrays.asList("013??"), 12 / 6 / 2023, "Estructura de Datos en Java Volumen I",
+				"Mark Allen Weiss", "Felix Varela", "3ra", "2001");
+		bookcase.newMaterial(Document.class, Arrays.asList("013??"), 12 / 7 / 2023, "Conferncias", "Profesor Leonardo",
+				".ppt");
+		bookcase.newMaterial(Book.class, Arrays.asList("013??"), 12 / 12 / 2023,
+				"Estructura de Datos en Java Volumen II", "Mark Allen Weiss", "Felix Varela", "2ra", "2001");
+		// Materiales 3er Anno TP
+		bookcase.newMaterial(Book.class, Arrays.asList("013??"), 12 / 9 / 2023, "Quimica General", "Anonimo",
+				"Felix Varela", "2ra", "2001");
+		bookcase.newMaterial(Document.class, Arrays.asList("013??"), 12 / 10 / 2023, "Conferncias", "Lpru.orp Alberto",
+				".ppt");
+		bookcase.newMaterial(Book.class, Arrays.asList("013??"), 12 / 11 / 2023, "Quimica General tomo II", "Anonimo",
+				"Felix Varela", "2ra", "2001");
+		// Materiales 4to Anno Calculo3
+		bookcase.newMaterial(Exercices.class, Arrays.asList("014??"), 12 / 5 / 2023, "Folleto", "Profesor Manuel", 15,
+				".doc");
+		bookcase.newMaterial(Document.class, Arrays.asList("014??"), 12 / 5 / 2003, "Conferncias", "Manuel", "ppt");
+		bookcase.newMaterial(Book.class, Arrays.asList("014??"), 12 / 5 / 2004,
+				"Ecuaciones Diferenciales con Aplicaciones Parte I", "Zill", "Felix Varela", "1ra", "2001");
+		// Materiales 4to Anno Economia Politica
+		bookcase.newMaterial(Exercices.class, Arrays.asList("014??"), 12 / 5 / 2001, "Folleto", "Manuel Carlos", 16,
+				".excel");
+		bookcase.newMaterial(Document.class, Arrays.asList("014??"), 12 / 5 / 2000, "Conferncias", "Fuanito", ".ppt");
+		bookcase.newMaterial(Book.class, Arrays.asList("014??"), 12 / 5 / 2009, "Marxismo", "Zell Sack", "Felix Varela",
+				"2da", "2001");
+		// Materiales 4to Anno Economia Empresarial
+		bookcase.newMaterial(Exercices.class, Arrays.asList("014??"), 12 / 5 / 2010, "Ejecicios de clase", "Pedro M",
+				17, ".doc");
+		bookcase.newMaterial(Document.class, Arrays.asList("014??"), 12 / 5 / 2011, "Conferencias", "Pedro C", ".ppt");
+		bookcase.newMaterial(Book.class, Arrays.asList("014??"), 12 / 5 / 2012, "Economia", "Anonimo", "Felix Varela",
+				"2ra", "2001");
+
+		// Carrera 2
+		bookcase.newCarreer("Mecanica", 4); // Cogigo de carrera "02" Codigo de los años de la carrera es
+											// "021","022"."023"."024"
+
+		// Asignaturas 1erAnno
+		bookcase.newSubject("021", "ResistenciaM");
+		bookcase.newSubject("021", "Calculo1");
+		bookcase.newSubject("021", "Seguridad Nacional");
+		// 2do anno
+		bookcase.newSubject("022", "MaquinasA");
+		bookcase.newSubject("022", "Calculo2");
+		bookcase.newSubject("022", "Economia Empresarial");
+		// 3ro anno
+		bookcase.newSubject("023", "Termodinamica");
+		bookcase.newSubject("023", "Fisica");
+		bookcase.newSubject("023", "Calculo3");
+
+		// Materiales 1er Anno ResistenciaM
+		bookcase.newMaterial(Book.class, Arrays.asList("021??"), 12 / 5 / 2013, "Resistencia I", "Anonimo",
+				"Felix Varela", "1ra", "2001");
+		bookcase.newMaterial(Document.class, Arrays.asList("021??"), 12 / 5 / 2014, "Conferencias", "Pedro C", ".ppt");
+		bookcase.newMaterial(Book.class, Arrays.asList("021??"), 12 / 5 / 2015, "Resistencia I", "Anonimo",
+				"Felix Varela", "1ra", "2001");
+		// Materiales 1er Anno Calculo1
+		bookcase.newMaterial(Book.class, Arrays.asList("021??"), 12 / 5 / 2016, "Stewart", "Anonimo", "Felix Varela",
+				"1ra", "2001");
+		bookcase.newMaterial(Document.class, Arrays.asList("021??"), 12 / 5 / 2017, "Resumenes de Calculo1", "Anonimo",
+				".doc");
+		bookcase.newMaterial(Book.class, Arrays.asList("021??"), 12 / 5 / 2018, "Algebra Lineal", "Anonimo",
+				"Felix Varela", "3ra", "2001");
+		// Materiales 1er Anno Seguridad Nacional
+		bookcase.newMaterial(Book.class, Arrays.asList("021??"), 12 / 5 / 2019, "Seguridad y Defensa Nacional",
+				"Anonimo", "Felix Varela", "1ra", "2001");
+		bookcase.newMaterial(Document.class, Arrays.asList("021??"), 12 / 5 / 2020, "Conferencias", "Anonimo", "ppt");
+		// Materiales 2do Anno MaquinasA
+		bookcase.newMaterial(Exercices.class, Arrays.asList("022??"), 5 / 5 / 2020, "Ejercicios", "Antonio", 6, ".doc");
+		bookcase.newMaterial(Document.class, Arrays.asList("022??"), 6 / 5 / 2023, "Conferncias", "Xavier M", "ppt");
+		bookcase.newMaterial(Book.class, Arrays.asList("022??"), 7 / 5 / 2023, "Maquinas Automotris ", "Anonimo",
+				"Felix Varela", "3ra", "2001");
+		// Materiales 2do Anno Calculo2
+		bookcase.newMaterial(Book.class, Arrays.asList("022??"), 8 / 5 / 2023,
+				"Trascendentes Tempranas de James Stewart", "James Stewart", "Felix Varela", "1ra", "2001");
+		bookcase.newMaterial(Document.class, Arrays.asList("022??"), 9 / 5 / 2023, "Resumenes de Calculo1",
+				"Profe Ester", ".ppt");
+		bookcase.newMaterial(Book.class, Arrays.asList("022??"), 10 / 5 / 2023,
+				"Ecuaciones Diferenciales con Aplicaciones Parte I", "Zill", "Felix Varela", "1ra", "2001");
+		// Materiales 2do Anno Economia Empresarial
+		bookcase.newMaterial(Exercices.class, Arrays.asList("022??"), 11 / 5 / 2023, "Ejecicios de clase", "Pedro M",
+				17, ".doc");
+		bookcase.newMaterial(Document.class, Arrays.asList("022??"), 11 / 5 / 2023, "Conferencias", "Pedro C", ".ppt");
+		bookcase.newMaterial(Book.class, Arrays.asList("022??"), 12 / 5 / 2023, "Economia", "Anonimo", "Felix Varela",
+				"2ra", "2001");
+		// Materiales 3er Anno Termodinamica
+		bookcase.newMaterial(Book.class, Arrays.asList("023??"), 13 / 5 / 2023, "Termodinamica I", "Anonimo",
+				"Felix Varela", "2ra", "2001");
+		bookcase.newMaterial(Document.class, Arrays.asList("023??"), 14 / 5 / 2023, "id7 ?", "Guia Estudio", "Calors",
+				".doc");
+		bookcase.newMaterial(Book.class, Arrays.asList("023??"), 15 / 5 / 2023, "Termodinamica II", "Anonimo",
+				"Felix Varela", "2ra", "2001");
+		// Materiales 3er Anno Fisica
+		bookcase.newMaterial(Exercices.class, Arrays.asList("023??"), 12 / 5 / 2023, "Ejercicios de Fisica",
+				"Profesor Antonio", 4, ".doc");
+		bookcase.newMaterial(Document.class, Arrays.asList("023??"), 12 / 5 / 2023, "Documnetos Utiles",
+				"Profesor Manuel", "pdf");
+		bookcase.newMaterial(Book.class, Arrays.asList("023??"), 12 / 5 / 2023, "Fisica", "Johnsonbaugh",
+				"Felix Varela", "3ra", "2001");
+		// Materiales 3er Anno Calculo3
+		bookcase.newMaterial(Book.class, Arrays.asList("023??"), 12 / 5 / 2023, "Algebra Lineal I", "Anonimo",
+				"Felix Varela", "3ra", "2001");
+		bookcase.newMaterial(Document.class, Arrays.asList("023??"), 1 / 5 / 2023, "Conferencias", "Roberto C", "ppt");
+		bookcase.newMaterial(Book.class, Arrays.asList("023??"), 15 / 5 / 2023, "Algebra Lineal II", "Anonimo",
+				"Felix Varela", "3ra", "2001");
+
+		// Carrera 3
+		bookcase.newCarreer("Industrial", 3); // Cogigo de carrera "03" Codigo de los años de la carrera es
+												// "031","032"."033".
+
+		// Asignaturas 1erAnno
+		bookcase.newSubject("031", "Ingeniería industrial");
+		bookcase.newSubject("031", "Modelacion Organizacional");
+		bookcase.newSubject("031", "Calculo1");
+		// 2do anno
+		bookcase.newSubject("032", "Procesos tecnológicos");
+		bookcase.newSubject("032", "Calculo2");
+		bookcase.newSubject("032", "Fisica");
+		// 3ro anno
+		bookcase.newSubject("033", "Desarrollo de Sistemas Informáticos");
+		bookcase.newSubject("033", "Calculo3");
+
+		// Materiales 1er Anno Ingeniería industrial
+		bookcase.newMaterial(Book.class, Arrays.asList("031??"), 12 / 5 / 2023, "Quimica General", "Anonimo", "3ra",
+				"2001");
+		bookcase.newMaterial(Document.class, Arrays.asList("031??"), 1 / 5 / 2023, "Conferencias", "Roberto C", "ppt");
+		// Materiales 1er Anno Modelacion Organizacional
+		bookcase.newMaterial(Book.class, Arrays.asList("031??"), 12 / 5 / 2023, "Modelacion Tomo I",
+				"William Stallings", "Felix Varela", "3ra", "2001");
+		bookcase.newMaterial(Document.class, Arrays.asList("031??"), 12 / 5 / 2023, "Conferencias", "Garcias", "ppt");
+		// Materiales 1er Anno Calculo1
+		bookcase.newMaterial(Book.class, Arrays.asList("031??"), 12 / 5 / 2023, "Stewart", "Anonimo", "Felix Varela",
+				"1ra", "2001");
+		bookcase.newMaterial(Document.class, Arrays.asList("031??"), 12 / 5 / 2023, "id1 ?", "Resumenes de Calculo1",
+				"Anonimo", ".doc");
+		bookcase.newMaterial(Book.class, Arrays.asList("031??"), 12 / 5 / 2023, "Algebra Lineal", "Anonimo",
+				"Felix Varela", "3ra", "2001");
+		// Materiales 2do Anno Procesos tecnológicos
+		bookcase.newMaterial(Exercices.class, Arrays.asList("032??"), 12 / 5 / 2023, "Guia de Ejercicios", "Anonimo",
+				12, ".doc");
+		bookcase.newMaterial(Book.class, Arrays.asList("032??"), 12 / 5 / 2023, "Procesos Tecno", "Anonimo",
+				"Felix Varela", "3ra", "2001");
+		// Materiales 2do Anno Calculo2
+		bookcase.newMaterial(Book.class, Arrays.asList("032??"), 12 / 5 / 2023,
+				"Trascendentes Tempranas de James Stewart", "James Stewart", "Felix Varela", "1ra", "2001");
+		bookcase.newMaterial(Document.class, Arrays.asList("032??"), 12 / 5 / 2023, "Resumenes de Calculo1",
+				"Profe Ester", ".ppt");
+		bookcase.newMaterial(Book.class, Arrays.asList("032??"), 12 / 5 / 2023,
+				"Ecuaciones Diferenciales con Aplicaciones Parte I", "Zill", "Felix Varela", "1ra", "2001");
+		// Materiales 2do Anno Fisica
+		bookcase.newMaterial(Exercices.class, Arrays.asList("032??"), 12 / 5 / 2023, "Ejercicios de Fisica",
+				"Profesor Antonio", 4, ".doc");
+		bookcase.newMaterial(Document.class, Arrays.asList("032??"), 12 / 5 / 2023, "Documnetos Utiles",
+				"Profesor Manuel", "pdf");
+		bookcase.newMaterial(Book.class, Arrays.asList("032??"), 12 / 5 / 2023, "Fisica", "Johnsonbaugh",
+				"Felix Varela", "3ra", "2001");
+		// Materiales 3er Anno Desarrollo de Sistemas Informáticos
+		bookcase.newMaterial(Book.class, Arrays.asList("033??"), 12 / 5 / 2023, "C/C++ Tomo I", "Anonimo", "1ra",
+				"2002");
+		bookcase.newMaterial(Document.class, Arrays.asList("033??"), 12 / 5 / 2023, "Conferncias", "Anonimo", ".ppt");
+		// Materiales 3er Anno Calculo3
+		bookcase.newMaterial(Book.class, Arrays.asList("033??"), 12 / 5 / 2023, "Algebra Lineal I", "Anonimo",
+				"Felix Varela", "3ra", "2001");
+		bookcase.newMaterial(Document.class, Arrays.asList("033??"), 1 / 5 / 2023, "Conferencias", "Roberto C", "ppt");
+		bookcase.newMaterial(Book.class, Arrays.asList("033??"), 15 / 5 / 2023, "Algebra Lineal II", "Anonimo",
+				"Felix Varela", "3ra", "2001");
+
 	}
 	
 	

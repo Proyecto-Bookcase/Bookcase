@@ -3,7 +3,6 @@ package interfaces;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -38,6 +37,8 @@ import classes.Subject;
 import classes.Year;
 import cu.edu.cujae.ceis.tree.binary.BinaryTreeNode;
 import cu.edu.cujae.ceis.tree.general.GeneralTree;
+import custom_components.Auxiliary;
+import external_memory.Manager;
 
 public class Principal extends JFrame {
 
@@ -76,22 +77,6 @@ public class Principal extends JFrame {
 	private boolean showned = false;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Principal frame = new Principal();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
 	public Principal() {
@@ -121,6 +106,8 @@ public class Principal extends JFrame {
 		contentPane.add(getLblImagenRaton());
 		contentPane.add(getLblBookcase());
 		contentPane.add(getLblFondoRaton());
+		
+		Auxiliary.dragEffect(this, lblPAnelArriba);
 
 		insertCarreers();
 
@@ -325,6 +312,7 @@ public class Principal extends JFrame {
 			btnCerrar.setToolTipText("Cerrar");
 			btnCerrar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					Manager.guardarDatos();
 					dispose();
 				}
 			});
