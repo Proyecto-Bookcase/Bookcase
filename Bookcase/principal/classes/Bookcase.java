@@ -795,7 +795,10 @@ public class Bookcase {
 						}
 					
 					}
-					yearNodeIter = yearNodeIter.getRight();
+					else {
+						yearNodeIter = yearNodeIter.getRight();
+						
+					}
 				}
 			
 			if(found)
