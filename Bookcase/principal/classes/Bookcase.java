@@ -57,27 +57,28 @@ public class Bookcase {
 			instance = new Bookcase();
 
 			inicializacion();
+			inicializacion();
 
 			/* instance.tree.setRoot(new BinaryTreeNode<>(new University("0", "Cujae")));
 
 
-			instance.newCarreer("Informática", 4);
-			instance.newSubject("001", "Matemática");
-			instance.newSubject("002", "Matemáticb");
-			instance.newSubject("003", "Matemáticc");
-			instance.newSubject("004", "Matemáticd");
+			//instance.newCarreer("Informática", 4);
+			//instance.newSubject("001", "Matemática");
+			//instance.newSubject("002", "Matemáticb");
+			//instance.newSubject("003", "Matemáticc");
+			//instance.newSubject("004", "Matemáticd");
 
 		
-			instance.newMaterial(Document.class, Arrays.asList("00100"), "A", "", new GregorianCalendar(), "");
-			instance.newMaterial(Document.class, Arrays.asList("00100"), "B", "", new GregorianCalendar(), "");
+			//instance.newMaterial(Document.class, Arrays.asList("00100"), "A", "", new GregorianCalendar(), "");
+			//instance.newMaterial(Document.class, Arrays.asList("00100"), "B", "", new GregorianCalendar(), "");
 			
 
 
-			instance.newCarreer("Ciencias Médicas", 6);
-			instance.newSubject("011", "asdsd");
-			instance.newSubject("011", "asdadasd");
-			instance.newSubject("011", "asdsdad");
-			instance.newSubject("021", "asdasdasd");
+			//instance.newCarreer("Ciencias Médicas", 6);
+			//instance.newSubject("011", "asdsd");
+			//instance.newSubject("011", "asdadasd");
+			//instance.newSubject("011", "asdsdad");
+			//instance.newSubject("021", "asdasdasd");
 			
 			instance.newMaterial(Document.class, Arrays.asList("00100"), "C", "", new GregorianCalendar(), "");
  */
