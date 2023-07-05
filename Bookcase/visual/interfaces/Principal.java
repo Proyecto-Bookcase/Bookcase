@@ -1,5 +1,7 @@
 package interfaces;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
+
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -41,6 +43,8 @@ import custom_components.Auxiliary;
 import external_memory.Manager;
 
 public class Principal extends JFrame {
+	
+	public static ActionListener update = null;
 
 	private static final long serialVersionUID = 4588383233881937941L;
 	private final String SPECS_ROW_CARREER = "max(28dlu;default)";
@@ -67,7 +71,7 @@ public class Principal extends JFrame {
 	private JLabel lblFondoRaton;
 	private JPanel panelCarreers;
 	private JScrollPane scrollPane;
-	private static Bookcase instance = Bookcase.getInstance();
+	private static Bookcase instance;
 	private GeneralTree<NodeInfo> tree;
 	private JPanel panelYears;
 	private CardLayout yearsLayout;
@@ -80,6 +84,20 @@ public class Principal extends JFrame {
 	 * Create the frame.
 	 */
 	public Principal() {
+		
+		update = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				System.out.println(this.getClass().getSimpleName());
+				
+				actualizarFiltrado();
+				
+			}
+		};
+		
+		instance = Bookcase.getInstance();
 		tree = instance.getTree();
 		setUndecorated(true);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -105,11 +123,31 @@ public class Principal extends JFrame {
 		contentPane.add(getLblImagenRaton());
 		contentPane.add(getLblBookcase());
 		contentPane.add(getLblFondoRaton());
-		
+
 		Auxiliary.dragEffect(this, lblPAnelArriba);
 
 		insertCarreers();
 
+	}
+
+	public void actualizarFiltrado() {
+
+		panelCarreers.removeAll();
+		FormLayout fl_panelCarreers = new FormLayout();
+		fl_panelCarreers.appendColumn(FormSpecs.RELATED_GAP_COLSPEC);
+		fl_panelCarreers.appendColumn(FormSpecs.DEFAULT_COLSPEC);
+		fl_panelCarreers.appendColumn(FormSpecs.RELATED_GAP_COLSPEC);
+		fl_panelCarreers.appendColumn(ColumnSpec.decode("max(101dlu;default)"));
+		panelCarreers.setLayout(fl_panelCarreers);
+		
+		
+		
+		panelYears.removeAll();
+	
+		
+		panelAsignatura.removeAll();
+		
+		insertCarreers();
 	}
 
 	private void insertCarreers() {
@@ -124,7 +162,7 @@ public class Principal extends JFrame {
 	private void insertCarreerComponent(BinaryTreeNode<NodeInfo> node) {
 
 		Carreer info = (Carreer) node.getInfo();
-		FormLayout layout = (FormLayout) getPanel_1_1().getLayout();
+		FormLayout layout = (FormLayout) getPanelCarreers().getLayout();
 		layout.appendRow(FormSpecs.RELATED_GAP_ROWSPEC);
 		layout.appendRow(RowSpec.decode(SPECS_ROW_CARREER));
 		JLabel label = new JLabel(info.getName());
@@ -245,6 +283,8 @@ public class Principal extends JFrame {
 			btnMostrar.addActionListener(new ActionListener() {
 
 				public void actionPerformed(ActionEvent e) {
+					
+					panelCarreers.updateUI();
 					if (!showned) {
 						showned = true;
 						int x = 213;
@@ -256,7 +296,7 @@ public class Principal extends JFrame {
 								public void run() {
 									int x = 213;
 									try {
-										for (int i = 0; i <= x; i+=2) {
+										for (int i = 0; i <= x; i += 2) {
 
 											Thread.sleep(1);
 											panel.setSize(i, 600);
@@ -281,7 +321,7 @@ public class Principal extends JFrame {
 								@Override
 								public void run() {
 									try {
-										for (int i = 213; i >= 0; i-=2) {
+										for (int i = 213; i >= 0; i -= 2) {
 											Thread.sleep(1);
 											panel.setSize(i, 600);
 										}
@@ -508,7 +548,7 @@ public class Principal extends JFrame {
 		return lblFondoRaton;
 	}
 
-	private JPanel getPanel_1_1() {
+	private JPanel getPanelCarreers() {
 		if (panelCarreers == null) {
 			panelCarreers = new JPanel();
 			panelCarreers.setBorder(null);
@@ -529,7 +569,7 @@ public class Principal extends JFrame {
 			scrollPane.setBorder(null);
 			scrollPane.setOpaque(false);
 			scrollPane.setBounds(0, 102, 213, 498);
-			scrollPane.setViewportView(getPanel_1_1());
+			scrollPane.setViewportView(getPanelCarreers());
 			scrollPane.getViewport().setOpaque(false);
 			JScrollBar scrollBar = scrollPane.getVerticalScrollBar();
 			scrollBar.setPreferredSize(new Dimension(20, 0));

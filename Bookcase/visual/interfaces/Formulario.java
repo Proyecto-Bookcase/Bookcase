@@ -1324,6 +1324,7 @@ public class Formulario extends JDialog {
 			deleteButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					delete();
+					Principal.update.actionPerformed(e);
 				}
 			});
 			deleteButton.setEnabled(false);
