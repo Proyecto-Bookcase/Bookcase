@@ -1,6 +1,6 @@
 package classes;
 
-import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class Exercices extends Material {
 
@@ -10,7 +10,7 @@ public class Exercices extends Material {
 	private String tipe;
 
 	
-	public Exercices(String id,String tittle, String author, Calendar dateCreation, int total, String tipe) {
+	public Exercices(String id,String tittle, String author, GregorianCalendar dateCreation, Integer total, String tipe) {
 		super(id, tittle, author, dateCreation);
 		this.total = total;
 		this.tipe = tipe;
