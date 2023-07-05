@@ -9,7 +9,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		Manager.loadData();
+		//Manager.loadData();
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
