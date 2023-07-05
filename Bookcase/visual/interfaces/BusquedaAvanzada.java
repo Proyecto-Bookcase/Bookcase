@@ -1,7 +1,5 @@
 package interfaces;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -9,12 +7,10 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.ComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -28,21 +24,16 @@ import javax.swing.JTable;
 import javax.swing.JTextPane;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
-import javax.swing.table.DefaultTableModel;
 
 import auxiliary_classes.AuxiliarySubjectMostMaterialUse;
-import classes.Book;
 import classes.Bookcase;
 import classes.Carreer;
-import classes.Document;
-import classes.Exercices;
 import classes.Material;
 import logica.ComboboxModelCarrer;
 import logica.ComboboxModelYear;
 import logica.TabelModelSubjectMostUseMaterial;
 import logica.TableModelBusquedaAvanzada;
 import logica.TableModelMostUseMaterial;
-
 
 public class BusquedaAvanzada extends JFrame {
 
@@ -72,26 +63,24 @@ public class BusquedaAvanzada extends JFrame {
 
 	private JLabel lblFondo;
 
-  private JLabel lblNewLabel_1_5_1;
+	private JLabel lblNewLabel_1_5_1;
 	private JComboBox comboBoxCarrer;
 	private JLabel lblNewLabel_1_5_1_1;
 	private JComboBox comboBoxYear;
-	//private TableModel model;
+	// private TableModel model;
 	private TableModelMostUseMaterial tableModel;
 
 	private JTable tablePaneMayorCantidadMateriales;
 	private JScrollPane scrollPaneMayorCantidadMateriales;
 	private JLabel CantidadMateriales;
 
-  
-	//instancia de bookcase
+	// instancia de bookcase
 	Bookcase bookcase;
 	private JTable tablaMaterialesMasUsados;
 	private JScrollPane scrollPaneMaterialesMasUsados;
-	//private JTable tableBusquedaAvanzada;
+	// private JTable tableBusquedaAvanzada;
 	private JTable tableBusquedaAvanzada;
 	private JScrollPane scrollPaneBusquedaAvanzada;
-
 
 	/**
 	 * Launch the application.
@@ -120,10 +109,10 @@ public class BusquedaAvanzada extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new LineBorder(new Color(0, 0, 0)));
 		setLocationRelativeTo(null);
-		//model = new 
-		
+		// model = new
+
 		tableModel = new TableModelMostUseMaterial();
-		
+
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		contentPane.add(getScrollPane_3());
@@ -136,13 +125,13 @@ public class BusquedaAvanzada extends JFrame {
 		contentPane.add(getLblFondo());
 		setIconImage(
 				Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/icons/icons8-book-64 (2).png")));
-		
-		//agregado por diefo hoy 3/7/23 11:09 am
-		//agregado el contrusctor 
+
+		// agregado por diefo hoy 3/7/23 11:09 am
+		// agregado el contrusctor
 		this.bookcase = Bookcase.getInstance();
-		
 
 	}
+
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {
 			lblNewLabel = new JLabel("Búsqueda Avanzada");
@@ -151,6 +140,7 @@ public class BusquedaAvanzada extends JFrame {
 		}
 		return lblNewLabel;
 	}
+
 	private JPanel getPanelOpcionesBusqueda() {
 		if (panelOpcionesBusqueda == null) {
 			panelOpcionesBusqueda = new JPanel();
@@ -167,19 +157,20 @@ public class BusquedaAvanzada extends JFrame {
 			panelOpcionesBusqueda.add(getBtn5Ocultar());
 			panelOpcionesBusqueda.add(getSeparator());
 			panelOpcionesBusqueda.add(getSeparator_1());
-			
+
 			JSeparator separator_2 = new JSeparator();
 			separator_2.setBounds(33, 345, 152, 2);
 			panelOpcionesBusqueda.add(separator_2);
 		}
 		return panelOpcionesBusqueda;
 	}
+
 	private JButton getBtnCerrar() {
 		if (btnCerrar == null) {
 			btnCerrar = new JButton("");
 			btnCerrar.setIcon(new ImageIcon(BusquedaAvanzada.class.getResource("/icons/icons8-x-32 (1).png")));
 			btnCerrar.setBounds(975, 0, 40, 32);
-			
+
 			btnCerrar.setOpaque(false);
 			btnCerrar.setBorder(null);
 			btnCerrar.setContentAreaFilled(false);
@@ -192,6 +183,7 @@ public class BusquedaAvanzada extends JFrame {
 		}
 		return btnCerrar;
 	}
+
 	private JLabel getLblNewLabel_1() {
 		if (lblNewLabel_1 == null) {
 			lblNewLabel_1 = new JLabel("Opciones de búsqueda:\r\n");
@@ -200,199 +192,185 @@ public class BusquedaAvanzada extends JFrame {
 		}
 		return lblNewLabel_1;
 	}
+
 	private JButton getBtn1Mostrar() {
 		if (btn1Mostrar == null) {
 			btn1Mostrar = new JButton("Materiales más usados:");
 			btn1Mostrar.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 11));
 			btn1Mostrar.setBounds(22, 70, 163, 40);
-			
+
 			btn1Mostrar.setOpaque(false);
 			btn1Mostrar.setBorder(null);
 			btn1Mostrar.setContentAreaFilled(false);
 			btn1Mostrar.setFocusPainted(false);
-			
+
 			btn1Mostrar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {	
-					
-					int x=788; 
-					int y=443;
+				public void actionPerformed(ActionEvent e) {
+
+					int x = 788;
+					int y = 443;
 
 					btn1Ocultar.setVisible(true);
 					btn1Mostrar.setVisible(false);
-					
+
 					panelMyorCantidadMat.setVisible(false);
 					btn2Mostrar.setVisible(true);
 					btn5Mostrar.setVisible(true);
 					scrollPane_3.setVisible(false);
 
-					
-					
-
-
-				//	btnEditarMostrar.setVisible(true);
-                 //   btnAnnadirMostrar.setVisible(true);
-                 //   panelAnnadir.setVisible(false);
+					// btnEditarMostrar.setVisible(true);
+					// btnAnnadirMostrar.setVisible(true);
+					// panelAnnadir.setVisible(false);
 					List<Material> a = bookcase.mostUseMaterial();
-					
-					
-				     
-				        if(x==788){ 
-							scrollPane.show();
-		   
-				         Thread th = new Thread(){
-				             @Override
-				             public void run(){
-				            	 int x=788;
-				                 try{
-				                   for(int i =0;i<=x;i+=2){
-				                	   
-				                       Thread.sleep(1);
-										scrollPane.setSize(i,443);
-										panelMaterialesMasUsado.setSize(i, 443);				                       
-				                   }  
-				                 }catch(Exception e){
-				                     JOptionPane.showMessageDialog(null, e);
-				                 }
-				             }
-				         };th.start();
-				         x=788;
-				        
-				     }
+
+					if (x == 788) {
+						scrollPane.show();
+
+						Thread th = new Thread() {
+							@Override
+							public void run() {
+								int x = 788;
+								try {
+									for (int i = 0; i <= x; i += 2) {
+
+										Thread.sleep(1);
+										scrollPane.setSize(i, 443);
+										panelMaterialesMasUsado.setSize(i, 443);
+									}
+								} catch (Exception e) {
+									JOptionPane.showMessageDialog(null, e);
+								}
+							}
+						};
+						th.start();
+						x = 788;
+
+					}
 				}
 			});
 		}
 		return btn1Mostrar;
 	}
+
 	private JButton getBtn2Mostrar() {
 		if (btn2Mostrar == null) {
 			btn2Mostrar = new JButton("Mayor Cantidad de material:");
 			btn2Mostrar.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 11));
 			btn2Mostrar.setOpaque(false);
 			btn2Mostrar.setBounds(22, 180, 173, 49);
-			
+
 			btn2Mostrar.setOpaque(false);
 			btn2Mostrar.setBorder(null);
 			btn2Mostrar.setContentAreaFilled(false);
 			btn2Mostrar.setFocusPainted(false);
-			
+
 			btn2Mostrar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {	
-					
-					int x=788;
-					int y=443;
+				public void actionPerformed(ActionEvent e) {
+
+					int x = 788;
+					int y = 443;
 					btn2Ocultar.setVisible(true);
 					btn2Mostrar.setVisible(false);
 					btn1Mostrar.setVisible(true);
 					btn5Mostrar.setVisible(true);
-					 scrollPane_3.setVisible(false);
-					 scrollPane.setVisible(false);
+					scrollPane_3.setVisible(false);
+					scrollPane.setVisible(false);
 
-				//	btnEditarMostrar.setVisible(true);
+					// btnEditarMostrar.setVisible(true);
 
+					// btnEditarMostrar.setVisible(true);
+					// btnAnnadirMostrar.setVisible(true);
+					// panelAnnadir.setVisible(false);
 
-				//	btnEditarMostrar.setVisible(true);
-                 //   btnAnnadirMostrar.setVisible(true);
-                 //   panelAnnadir.setVisible(false);
-					
-					
-				     
-				        if(x==788){ 
-				        	panelMyorCantidadMat.show();
-						//	scrollPane_1.setVisible(true);
-		   
-				         Thread th = new Thread(){
-				             @Override
-				             public void run(){
-				            	 int x=788;
-				                 try{
-				                   for(int i =0;i<=x;i+=2){
-				                	   
-				                       Thread.sleep(1);
-				                       panelMyorCantidadMat.setSize(i,443);
-				                    
+					if (x == 788) {
+						panelMyorCantidadMat.show();
+						// scrollPane_1.setVisible(true);
 
-				                   }  
-				                 }catch(Exception e){
-				                     JOptionPane.showMessageDialog(null, e);
-				                 }
-				             }
-				         };th.start();
-				         x=788;
-				        
-				     }
+						Thread th = new Thread() {
+							@Override
+							public void run() {
+								int x = 788;
+								try {
+									for (int i = 0; i <= x; i += 2) {
+
+										Thread.sleep(1);
+										panelMyorCantidadMat.setSize(i, 443);
+
+									}
+								} catch (Exception e) {
+									JOptionPane.showMessageDialog(null, e);
+								}
+							}
+						};
+						th.start();
+						x = 788;
+
+					}
 				}
 			});
 		}
 		return btn2Mostrar;
 	}
+
 	private JButton getBtn5Mostrar() {
 		if (btn5Mostrar == null) {
 			btn5Mostrar = new JButton("Buscar por carrera y año:");
 			btn5Mostrar.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD | Font.ITALIC, 11));
 			btn5Mostrar.setBounds(22, 307, 163, 40);
-			
+
 			btn5Mostrar.setOpaque(false);
 			btn5Mostrar.setBorder(null);
 			btn5Mostrar.setContentAreaFilled(false);
 			btn5Mostrar.setFocusPainted(false);
-			
+
 			btn5Mostrar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {	
-					
-					int x=788;
-					int y=443;
+				public void actionPerformed(ActionEvent e) {
+
+					int x = 788;
+					int y = 443;
 					btn5Ocultar.setVisible(true);
 					btn5Mostrar.setVisible(false);
-					
+
 					panelMyorCantidadMat.setVisible(false);
 					btn2Mostrar.setVisible(true);
 					btn1Mostrar.setVisible(true);
 
-					
-					 
-				//	 scrollPane_2.setVisible(false);
+					// scrollPane_2.setVisible(false);
 
+					// btnEditarMostrar.setVisible(true);
+					// btnAnnadirMostrar.setVisible(true);
+					// panelAnnadir.setVisible(false);
 
+					if (x == 788) {
+						scrollPane_3.show();
 
+						Thread th = new Thread() {
+							@Override
+							public void run() {
+								int x = 788;
+								try {
+									for (int i = 0; i <= x; i += 2) {
 
-				//	btnEditarMostrar.setVisible(true);
-                 //   btnAnnadirMostrar.setVisible(true);
-                 //   panelAnnadir.setVisible(false);
-					
-					
-				     
-				        if(x==788){ 
-							scrollPane_3.show();
-		   
-				         Thread th = new Thread(){
-				             @Override
-				             public void run(){
-				            	 int x=788;
-				                 try{
-				                   for(int i =0;i<=x;i+=2){
-				                	   
-				                       Thread.sleep(1);
-										scrollPane_3.setSize(i,443);
-										panel.setSize(i, 443);				                       
-				                   }  
-				                 }catch(Exception e){
-				                     JOptionPane.showMessageDialog(null, e);
-				                 }
-				             }
-				         };th.start();
-				         x=788;
-				        
-				     }
+										Thread.sleep(1);
+										scrollPane_3.setSize(i, 443);
+										panel.setSize(i, 443);
+									}
+								} catch (Exception e) {
+									JOptionPane.showMessageDialog(null, e);
+								}
+							}
+						};
+						th.start();
+						x = 788;
+
+					}
 				}
 			});
-		
-			
-			
-			
-			
+
 		}
 		return btn5Mostrar;
 	}
+
 	private JPanel getPanelMaterialesMasUsado() {
 		if (panelMaterialesMasUsado == null) {
 			panelMaterialesMasUsado = new JPanel();
@@ -406,17 +384,19 @@ public class BusquedaAvanzada extends JFrame {
 		}
 		return panelMaterialesMasUsado;
 	}
+
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
 			scrollPane.setBounds(217, 56, 788, 433);
 			scrollPane.setViewportView(getPanelMaterialesMasUsado());
-			
+
 			scrollPane.setVisible(false);
 
 		}
 		return scrollPane;
 	}
+
 	private JLabel getLblNewLabel_1_1() {
 		if (lblNewLabel_1_1 == null) {
 			lblNewLabel_1_1 = new JLabel("Materiales más usados:");
@@ -425,12 +405,13 @@ public class BusquedaAvanzada extends JFrame {
 		}
 		return lblNewLabel_1_1;
 	}
+
 	private JButton getBtn1Ocultar() {
 		if (btn1Ocultar == null) {
 			btn1Ocultar = new JButton("Materiales más usados:");
 			btn1Ocultar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
+
 					btn1Ocultar.setVisible(false);
 					btn1Mostrar.setVisible(true);
 					scrollPane.setVisible(false);
@@ -446,6 +427,7 @@ public class BusquedaAvanzada extends JFrame {
 		}
 		return btn1Ocultar;
 	}
+
 	private JButton getBtn2Ocultar() {
 		if (btn2Ocultar == null) {
 			btn2Ocultar = new JButton("Mayor Cantidad de material:");
@@ -454,7 +436,7 @@ public class BusquedaAvanzada extends JFrame {
 					btn2Ocultar.setVisible(false);
 					btn2Mostrar.setVisible(true);
 					panelMyorCantidadMat.setVisible(false);
-					
+
 				}
 			});
 			btn2Ocultar.setOpaque(false);
@@ -466,6 +448,7 @@ public class BusquedaAvanzada extends JFrame {
 		}
 		return btn2Ocultar;
 	}
+
 	private JButton getBtn5Ocultar() {
 		if (btn5Ocultar == null) {
 			btn5Ocultar = new JButton("Buscar por carrera y año:");
@@ -475,7 +458,7 @@ public class BusquedaAvanzada extends JFrame {
 			btn5Ocultar.setContentAreaFilled(false);
 			btn5Ocultar.setBorder(null);
 			btn5Ocultar.setBounds(22, 307, 163, 40);
-			
+
 			btn5Ocultar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					btn5Ocultar.setVisible(false);
@@ -483,13 +466,12 @@ public class BusquedaAvanzada extends JFrame {
 					panelMyorCantidadMat.setVisible(false);
 					scrollPane_3.setVisible(false);
 
-
-					
 				}
 			});
 		}
 		return btn5Ocultar;
 	}
+
 	private JSeparator getSeparator() {
 		if (separator == null) {
 			separator = new JSeparator();
@@ -497,6 +479,7 @@ public class BusquedaAvanzada extends JFrame {
 		}
 		return separator;
 	}
+
 	private JSeparator getSeparator_1() {
 		if (separator_1 == null) {
 			separator_1 = new JSeparator();
@@ -504,6 +487,7 @@ public class BusquedaAvanzada extends JFrame {
 		}
 		return separator_1;
 	}
+
 	private JPanel getPanelMyorCantidadMat() {
 		if (panelMyorCantidadMat == null) {
 			panelMyorCantidadMat = new JPanel();
@@ -513,17 +497,16 @@ public class BusquedaAvanzada extends JFrame {
 			panelMyorCantidadMat.setLayout(null);
 			panelMyorCantidadMat.add(getLblNewLabel_1_2());
 
-			
 			AuxiliarySubjectMostMaterialUse subjectsMostMaterialUse = bookcase.subjectsMostMaterialUse();
-			//panelMyorCantidadMat.add(getTxtpnEnEstaPantalla(subjectsMostMaterialUse.getCantdida()));
+			// panelMyorCantidadMat.add(getTxtpnEnEstaPantalla(subjectsMostMaterialUse.getCantdida()));
 			panelMyorCantidadMat.add(getScrollPaneMayorCantidadMateriales());
 			panelMyorCantidadMat.add(getLblNewLabel_2_1(subjectsMostMaterialUse.getCantdida()));
-
 
 			panelMyorCantidadMat.setVisible(false);
 		}
 		return panelMyorCantidadMat;
 	}
+
 	private JLabel getLblNewLabel_1_2() {
 		if (lblNewLabel_1_2 == null) {
 			lblNewLabel_1_2 = new JLabel("Asignaturas con mayor cantidad de materiales:");
@@ -532,7 +515,6 @@ public class BusquedaAvanzada extends JFrame {
 		}
 		return lblNewLabel_1_2;
 	}
-
 
 //	private JTextPane getTxtpnEnEstaPantalla(int cantidadMaxima) {
 //		if (txtpnEnEstaPantalla == null) {
@@ -544,29 +526,26 @@ public class BusquedaAvanzada extends JFrame {
 //		return txtpnEnEstaPantalla;
 //	}
 
-
 	private JPanel getPanel() {
 		if (panel == null) {
 			panel = new JPanel();
 			panel.setBackground(new Color(255, 255, 255));
-			
+
 			panel.setPreferredSize(new Dimension(0, 10000));
 			panel.setLayout(null);
 			panel.add(getLblNewLabel_1_5());
 			panel.add(getLblNewLabel_1_5_1());
 			panel.add(getComboBoxCarrer());
 			panel.add(getLblNewLabel_1_5_1_1());
-			
-			int index =getComboBoxCarrer().getSelectedIndex();
-			Carreer carreer =((ComboboxModelCarrer)getComboBoxCarrer().getModel()).getelemCarreer(index);
-			panel.add(getComboBoxYear(carreer));
+			panel.add(getComboBoxYear());
 			panel.add(getScrollPaneBusquedaAvanzada());
-			
+
 			tableBusquedaAvanzada = new JTable();
 
 		}
 		return panel;
 	}
+
 	private JScrollPane getScrollPane_3() {
 		if (scrollPane_3 == null) {
 			scrollPane_3 = new JScrollPane();
@@ -578,6 +557,7 @@ public class BusquedaAvanzada extends JFrame {
 		}
 		return scrollPane_3;
 	}
+
 	private JLabel getLblNewLabel_1_5() {
 		if (lblNewLabel_1_5 == null) {
 			lblNewLabel_1_5 = new JLabel("Buscar por carrera y año:");
@@ -604,33 +584,33 @@ public class BusquedaAvanzada extends JFrame {
 		}
 		return lblNewLabel_1_5_1;
 	}
+
 	private JComboBox getComboBoxCarrer() {
 		if (comboBoxCarrer == null) {
-			comboBoxCarrer = new JComboBox();
+			List<String> list = new LinkedList<>();
+			LinkedList<Carreer> carreraComboList = (LinkedList<Carreer>) bookcase.getAllCarrer();
+			for (Carreer carreer : carreraComboList) {
+				list.add(carreer.getName());
+			}
+			
+			comboBoxCarrer = new JComboBox(list.toArray());
 			comboBoxCarrer.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					int seleccion = comboBoxCarrer.getSelectedIndex();
-					if (seleccion != ((ComboboxModelCarrer)comboBoxCarrer.getModel()).getSeletion()) {
-						((ComboboxModelCarrer)comboBoxCarrer.getModel()).setSeletion(seleccion);;
-						((ComboboxModelYear)comboBoxYear.getModel()).update(((ComboboxModelCarrer)comboBoxCarrer.getModel()).
-								getelemCarreer(seleccion)
-								, bookcase);
-					}
+					actualizar();
 				}
 			});
 
-			//comboBox.setModel(new DefaultComboBoxModel(new String[] {"algo"}));
-			LinkedList<Carreer> carreraComboList = (LinkedList<Carreer>) bookcase.getAllCarrer();
-			LinkedList<String> b = new LinkedList<String>();
-			for (Carreer val : carreraComboList) {
-				b.add(val.getName());
-			}
-			comboBoxCarrer.setModel(new ComboboxModelCarrer(b.toArray( new String[b.size()]), carreraComboList));
+			// comboBox.setModel(new DefaultComboBoxModel(new String[] {"algo"}));
 			comboBoxCarrer.setBounds(77, 87, 190, 38);
 
 		}
 		return comboBoxCarrer;
 	}
+	
+	private void actualizar() {
+		
+	}
+	
 	private JLabel getLblNewLabel_1_5_1_1() {
 		if (lblNewLabel_1_5_1_1 == null) {
 			lblNewLabel_1_5_1_1 = new JLabel("Año:");
@@ -639,33 +619,10 @@ public class BusquedaAvanzada extends JFrame {
 		}
 		return lblNewLabel_1_5_1_1;
 	}
-	private JComboBox getComboBoxYear(Carreer carreer) {
+
+	private JComboBox getComboBoxYear() {
 		if (comboBoxYear == null) {
 			comboBoxYear = new JComboBox();
-
-			comboBoxYear.setModel(new ComboboxModelYear(new String[] {"algo"}));
-			((ComboboxModelYear)comboBoxYear.getModel()).update(carreer, bookcase);
-			comboBoxYear.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					int seleccion = comboBoxYear.getSelectedIndex();
-					if (seleccion != ((ComboboxModelYear)comboBoxYear.getModel()).getSeletion()) {
-						((ComboboxModelYear)comboBoxYear.getModel()).setSeletion(seleccion);
-						
-					List<Material> materialList = bookcase.getAllMaterialOfCarrerAndYear(((ComboboxModelCarrer)comboBoxCarrer.getModel()).
-									getelemCarreer(comboBoxCarrer.getSelectedIndex()) , 
-								((ComboboxModelYear)comboBoxYear.getModel()).
-								getelemYear(0));
-					tableBusquedaAvanzada.removeAll();
-					tableBusquedaAvanzada.setModel(new TableModelBusquedaAvanzada());
-					((TableModelBusquedaAvanzada)tableBusquedaAvanzada.getModel()).setRowCount(0);;
-					//((TableModelBusquedaAvanzada)tableBusquedaAvanzada.getModel()).actualizar(materialList);
-					//getTableBusquedaAvanzada(materialList);
-					}
-
-				}
-			});
-			
-			
 			comboBoxYear.setBounds(421, 87, 190, 38);
 		}
 		return comboBoxYear;
@@ -674,54 +631,61 @@ public class BusquedaAvanzada extends JFrame {
 	private JTable getTablaMaterialesMasUsados() {
 		if (tablaMaterialesMasUsados == null) {
 			tablaMaterialesMasUsados = new JTable(new TableModelMostUseMaterial());
-			//test de datos
-/*			ArrayList<Material> a_test = new ArrayList<Material>();
-			Calendar cal = Calendar.getInstance();
-			
-			a_test.add(new Book("1","1ro", "1ro", (GregorianCalendar) cal, "1ra", "1ra", "2001"));
-			a_test.add(new Book("2","2do", "2do", (GregorianCalendar) cal, "2do", "2do", "2002"));
-			a_test.add(new Book("3","3ra", "3ra", (GregorianCalendar) cal, "3ra", "3ra", "2003"));
-			a_test.add(new Book("4","4ta", "4ta", (GregorianCalendar) cal, "4ta", "4ta", "2004"));
-			a_test.add(new Book("5","5ta", "5ta", (GregorianCalendar) cal, "5ta", "5ta", "2005"));
-			
-			a_test.add(new Exercices("11", "exercices 1", "11",(GregorianCalendar) cal ,11,"alegra1" ));
-			a_test.add(new Exercices("12", "exercices 2", "12",(GregorianCalendar) cal ,12,"alegra2" ));
-			a_test.add(new Exercices("13", "exercices 3", "11",(GregorianCalendar) cal ,13,"alegra3" ));
-			a_test.add(new Exercices("14", "exercices 3", "11",(GregorianCalendar) cal ,14,"alegra4" ));
-			
-			a_test.add(new Document("21", "doc 1", "21", (GregorianCalendar) cal, "conferencia"));
-			a_test.add(new Document("22", "doc 2", "22", (GregorianCalendar) cal, "cp"));
-			a_test.add(new Document("23", "doc 3", "23", (GregorianCalendar) cal, "conferencia"));
-			a_test.add(new Document("24", "doc 4", "24", (GregorianCalendar) cal, "cp"));
-			
-
-//			((TableModelMostUseMaterial)tablaMaterialesMasUsados.getModel()).actualizar(a_test);
-
- */
-			((TableModelMostUseMaterial)tablaMaterialesMasUsados.getModel()).actualizar(bookcase.mostUseMaterial());
+			// test de datos
+			/*
+			 * ArrayList<Material> a_test = new ArrayList<Material>(); Calendar cal =
+			 * Calendar.getInstance();
+			 * 
+			 * a_test.add(new Book("1","1ro", "1ro", (GregorianCalendar) cal, "1ra", "1ra",
+			 * "2001")); a_test.add(new Book("2","2do", "2do", (GregorianCalendar) cal,
+			 * "2do", "2do", "2002")); a_test.add(new Book("3","3ra", "3ra",
+			 * (GregorianCalendar) cal, "3ra", "3ra", "2003")); a_test.add(new
+			 * Book("4","4ta", "4ta", (GregorianCalendar) cal, "4ta", "4ta", "2004"));
+			 * a_test.add(new Book("5","5ta", "5ta", (GregorianCalendar) cal, "5ta", "5ta",
+			 * "2005"));
+			 * 
+			 * a_test.add(new Exercices("11", "exercices 1", "11",(GregorianCalendar) cal
+			 * ,11,"alegra1" )); a_test.add(new Exercices("12", "exercices 2",
+			 * "12",(GregorianCalendar) cal ,12,"alegra2" )); a_test.add(new Exercices("13",
+			 * "exercices 3", "11",(GregorianCalendar) cal ,13,"alegra3" )); a_test.add(new
+			 * Exercices("14", "exercices 3", "11",(GregorianCalendar) cal ,14,"alegra4" ));
+			 * 
+			 * a_test.add(new Document("21", "doc 1", "21", (GregorianCalendar) cal,
+			 * "conferencia")); a_test.add(new Document("22", "doc 2", "22",
+			 * (GregorianCalendar) cal, "cp")); a_test.add(new Document("23", "doc 3", "23",
+			 * (GregorianCalendar) cal, "conferencia")); a_test.add(new Document("24",
+			 * "doc 4", "24", (GregorianCalendar) cal, "cp"));
+			 * 
+			 * 
+			 * //
+			 * ((TableModelMostUseMaterial)tablaMaterialesMasUsados.getModel()).actualizar(
+			 * a_test);
+			 * 
+			 */
+			((TableModelMostUseMaterial) tablaMaterialesMasUsados.getModel()).actualizar(bookcase.mostUseMaterial());
 		}
 		return tablaMaterialesMasUsados;
 	}
 
-	/*private JScrollPane getScrollPane_() {
-		if (scrollPane_1 == null) {
-			scrollPane_1 = new JScrollPane();
-			scrollPane_1.setBounds(0, 56, 352, 253);
-			scrollPane_1.setViewportView(getTablaMaterialesMasUsados());
-
-		}
-		return tablaMaterialesMasUsados;
-	}*/
+	/*
+	 * private JScrollPane getScrollPane_() { if (scrollPane_1 == null) {
+	 * scrollPane_1 = new JScrollPane(); scrollPane_1.setBounds(0, 56, 352, 253);
+	 * scrollPane_1.setViewportView(getTablaMaterialesMasUsados());
+	 * 
+	 * } return tablaMaterialesMasUsados; }
+	 */
 	private JTable getTablePaneMayorCantidadMateriales() {
 		if (tablePaneMayorCantidadMateriales == null) {
 			tablePaneMayorCantidadMateriales = new JTable(new TabelModelSubjectMostUseMaterial());
 			AuxiliarySubjectMostMaterialUse subjectsMostMaterialUse = bookcase.subjectsMostMaterialUse();
-			((TabelModelSubjectMostUseMaterial)tablePaneMayorCantidadMateriales.getModel()).actualizar(subjectsMostMaterialUse.getSub());
-			
+			((TabelModelSubjectMostUseMaterial) tablePaneMayorCantidadMateriales.getModel())
+					.actualizar(subjectsMostMaterialUse.getSub());
+
 		}
 		return tablePaneMayorCantidadMateriales;
 	}
-	private JScrollPane getScrollPaneMayorCantidadMateriales( ) {
+
+	private JScrollPane getScrollPaneMayorCantidadMateriales() {
 		if (scrollPaneMayorCantidadMateriales == null) {
 			scrollPaneMayorCantidadMateriales = new JScrollPane();
 			scrollPaneMayorCantidadMateriales.setBounds(0, 56, 352, 253);
@@ -729,13 +693,15 @@ public class BusquedaAvanzada extends JFrame {
 		}
 		return scrollPaneMayorCantidadMateriales;
 	}
+
 	private JLabel getLblNewLabel_2_1(int cantidadMateriales) {
 		if (CantidadMateriales == null) {
-			CantidadMateriales = new JLabel("La cantidad de materiales es: "+cantidadMateriales );
+			CantidadMateriales = new JLabel("La cantidad de materiales es: " + cantidadMateriales);
 			CantidadMateriales.setBounds(31, 27, 364, 33);
 		}
 		return CantidadMateriales;
 	}
+
 	private JScrollPane getScrollPaneMaterialesMasUsados() {
 		if (scrollPaneMaterialesMasUsados == null) {
 			scrollPaneMaterialesMasUsados = new JScrollPane();
@@ -744,33 +710,30 @@ public class BusquedaAvanzada extends JFrame {
 		}
 		return scrollPaneMaterialesMasUsados;
 	}
-	
+
 	private JTable getTableBusquedaAvanzada(List<Material> materialList) {
 //		if (tableBusquedaAvanzada == null) {
-			tableBusquedaAvanzada = new JTable(new TableModelBusquedaAvanzada());
-			//((TableModelMostUseMaterial)tableBusquedaAvanzada.getModel()).actualizar(bookcase.mostUseMaterial());
-			((TableModelBusquedaAvanzada)tableBusquedaAvanzada.getModel()).actualizar(materialList);
-			
+		tableBusquedaAvanzada = new JTable(new TableModelBusquedaAvanzada());
+		// ((TableModelMostUseMaterial)tableBusquedaAvanzada.getModel()).actualizar(bookcase.mostUseMaterial());
+		((TableModelBusquedaAvanzada) tableBusquedaAvanzada.getModel()).actualizar(materialList);
+
 //		}
-		
-		
-		
+
 		return tableBusquedaAvanzada;
 	}
+
 	private JScrollPane getScrollPaneBusquedaAvanzada() {
 		if (scrollPaneBusquedaAvanzada == null) {
 			scrollPaneBusquedaAvanzada = new JScrollPane();
 			scrollPaneBusquedaAvanzada.setBounds(0, 130, 742, 253);
-			
-			// 
+
+			//((ComboboxModelYear)comboBoxCarrer.getModel()).getelemCarreer(comboBoxCarrer.getSelectedIndex()
+			//((ComboboxModelYear) comboBoxYear.getModel()).getelemYear(seleccion)
 			int seleccion = comboBoxYear.getSelectedIndex();
-			List<Material> materialList = bookcase.getAllMaterialOfCarrerAndYear(((ComboboxModelCarrer)comboBoxCarrer.getModel()).
-					getelemCarreer(comboBoxCarrer.getSelectedIndex()) , 
-					((ComboboxModelYear)comboBoxYear.getModel()).
-					getelemYear(seleccion));
+			List<Material> materialList = bookcase.getAllMaterialOfCarrerAndYear(((ComboboxModelCarrer)comboBoxCarrer.getModel()).getelemCarreer(comboBoxCarrer.getSelectedIndex()),((ComboboxModelYear) comboBoxYear.getModel()).getelemYear(seleccion));
 
 			scrollPaneBusquedaAvanzada.setViewportView(getTableBusquedaAvanzada(materialList));
-			
+
 		}
 		return scrollPaneBusquedaAvanzada;
 	}
