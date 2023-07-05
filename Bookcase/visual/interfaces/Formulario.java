@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -35,13 +36,16 @@ import com.toedter.calendar.JDateChooser;
 
 import classes.Bookcase;
 import classes.Carreer;
+import classes.Material;
 import classes.Subject;
 import classes.Year;
+import cu.edu.cujae.ceis.graph.vertex.Vertex;
 import cu.edu.cujae.ceis.tree.binary.BinaryTreeNode;
 import cu.edu.cujae.ceis.tree.general.GeneralTree;
 import cu.edu.cujae.ceis.tree.iterators.general.InBreadthIterator;
 import custom_components.CustomTable;
 import logica.DeleteCarreerTableModel;
+import logica.DeleteSubjectTableModel;
 import logica.DeleteYearTableModel;
 import logica.TableModelMostUseMaterial;
 import logica.YearsComboBoxModel;
@@ -110,6 +114,8 @@ public class Formulario extends JFrame {
 	private DeleteCarreerTableModel tableModelCarreers;
 	private CustomTable scrTableEliminar;
 	private DeleteYearTableModel tableModelYears;
+	private DeleteSubjectTableModel tableModelSubjects;
+	private TableModelMostUseMaterial tableModelMaterials;
 
 	/**
 	 * Launch the application.
@@ -1061,7 +1067,7 @@ public class Formulario extends JFrame {
 						comboBoxEliminarAsiganturaAnno.setVisible(false);
 						lblEliminarAnnoCarrera.setVisible(false);
 						comboBoxEliminarAnnoCarrera.setVisible(false);
-						showCarreers();
+						showCarreersTable();
 
 					} else if (comboBoxEliminar.getSelectedItem().equals("Año")) {
 						scrTableEliminar.setVisible(true);
@@ -1072,7 +1078,7 @@ public class Formulario extends JFrame {
 						comboBoxEliminarMaterialAsignaturas.setVisible(false);
 						lblEliminarAsignaturaAnno.setVisible(false);
 						comboBoxEliminarAsiganturaAnno.setVisible(false);
-						showYears();
+						showYearsTable();
 						// se va a mostrar en la tabla los annos de esa carrera TODO
 
 					} else if (comboBoxEliminar.getSelectedItem().equals("Asignatura")) {
@@ -1083,6 +1089,7 @@ public class Formulario extends JFrame {
 						comboBoxEliminarAsiganturaAnno.setVisible(true);
 						lblEliminarAnnoCarrera.setVisible(true);
 						comboBoxEliminarAnnoCarrera.setVisible(true);
+						showSubjectTable();
 						// mostrar la tabla de todas las asignaturas dado una carrera y u anno TODO
 
 					} else if (comboBoxEliminar.getSelectedItem().equals("Material")) {
@@ -1093,6 +1100,7 @@ public class Formulario extends JFrame {
 						comboBoxEliminarAsiganturaAnno.setVisible(true);
 						lblEliminarAnnoCarrera.setVisible(true);
 						comboBoxEliminarAnnoCarrera.setVisible(true);
+						showMaterialTable();
 						// TODO
 					} else {
 						scrTableEliminar.setVisible(false);
@@ -1103,6 +1111,8 @@ public class Formulario extends JFrame {
 						lblEliminarAnnoCarrera.setVisible(false);
 						comboBoxEliminarAnnoCarrera.setVisible(false);
 					}
+
+					updateComboCarreer();
 				}
 
 			});
@@ -1113,14 +1123,24 @@ public class Formulario extends JFrame {
 		return comboBoxEliminar;
 	}
 
-	private void showCarreers() {
-		scrTableEliminar.setTableModel(tableModelCarreers, new int[] { 0, 2 });
+	private void showCarreersTable() {
+		scrTableEliminar.setTableModel(tableModelCarreers, new int[] { 0, 1, 2 });
 		tableModelCarreers.actualizar();
 	}
 
-	private void showYears() {
+	private void showYearsTable() {
 		scrTableEliminar.setTableModel(tableModelYears, new int[] { 0, 1, 2 });
 		tableModelYears.actualizarAllYears();
+	}
+
+	private void showSubjectTable() {
+		scrTableEliminar.setTableModel(tableModelSubjects, new int[] { 0, 1, 2, 3 });
+		tableModelSubjects.actualizar();
+	}
+
+	private void showMaterialTable() {
+		scrTableEliminar.setTableModel(tableModelMaterials, new int[] { 0, 1, 2 });
+		tableModelMaterials.actualizar(Bookcase.getInstance().getAllMaterials());
 	}
 
 	private JLabel getLblEliminarAnnoCarrera() {
@@ -1138,32 +1158,27 @@ public class Formulario extends JFrame {
 			comboBoxEliminarAnnoCarrera = new JComboBox<>(new YearsComboBoxModel());
 			comboBoxEliminarAnnoCarrera.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if (comboBoxEliminarAnnoCarrera.getSelectedIndex() == 0) {
-						tableModelYears.actualizarAllYears();
+					if (comboBoxEliminar.getSelectedIndex() > 1) {
+						if (comboBoxEliminarAnnoCarrera.getSelectedIndex() == 0) {
+							tableModelYears.actualizarAllYears();
 
-						comboBoxEliminarAsiganturaAnno.setEnabled(false);
-						comboBoxEliminarMaterialAsignaturas.setEnabled(false);
+						} else {
 
-					} else {
-
-						comboBoxEliminarAsiganturaAnno.setEnabled(true);
-						comboBoxEliminarMaterialAsignaturas.setEnabled(true);
-
-						GeneralTree<NodeInfo> tree = Bookcase.getInstance().getTree();
-						InBreadthIterator<NodeInfo> it = tree.inBreadthIterator();
-						boolean found = false;
-						while (!found && it.hasNext()) {
-							BinaryTreeNode<NodeInfo> node = it.nextNode();
-							if (node.getInfo() instanceof Carreer carreer
-									&& carreer.getName().equals(comboBoxEliminarAnnoCarrera.getSelectedItem())) {
-								found = true;
-								tableModelYears.actualizar(Bookcase.getInstance().getAllYearOfCarrer(carreer),
-										carreer.getName());
+							GeneralTree<NodeInfo> tree = Bookcase.getInstance().getTree();
+							InBreadthIterator<NodeInfo> it = tree.inBreadthIterator();
+							boolean found = false;
+							while (!found && it.hasNext()) {
+								BinaryTreeNode<NodeInfo> node = it.nextNode();
+								if (node.getInfo() instanceof Carreer carreer
+										&& carreer.getName().equals(comboBoxEliminarAnnoCarrera.getSelectedItem())) {
+									found = true;
+									tableModelYears.actualizar(Bookcase.getInstance().getAllYearOfCarrer(carreer),
+											carreer.getName());
+								}
 							}
 						}
-						
-						
 					}
+					updateComboYear();
 				}
 			});
 			comboBoxEliminarAnnoCarrera.setVisible(false);
@@ -1230,30 +1245,45 @@ public class Formulario extends JFrame {
 			comboBoxEliminarAsiganturaAnno = new JComboBox(array);
 			comboBoxEliminarAsiganturaAnno.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if (comboBoxEliminarAsiganturaAnno.getSelectedIndex() == 0) {
-						tableModelYears.actualizarAllYears();
 
-						comboBoxEliminarAsiganturaAnno.setEnabled(false);
-						comboBoxEliminarMaterialAsignaturas.setEnabled(false);
-
-					} else {
-
-						comboBoxEliminarAsiganturaAnno.setEnabled(false);
-						comboBoxEliminarMaterialAsignaturas.setEnabled(false);
-
-						GeneralTree<NodeInfo> tree = Bookcase.getInstance().getTree();
-						InBreadthIterator<NodeInfo> it = tree.inBreadthIterator();
-						boolean found = false;
-						while (!found && it.hasNext()) {
-							BinaryTreeNode<NodeInfo> node = it.nextNode();
-							if (node.getInfo() instanceof Carreer carreer
-									&& carreer.getName().equals(comboBoxEliminarAnnoCarrera.getSelectedItem())) {
-								found = true;
-								tableModelYears.actualizar(Bookcase.getInstance().getAllYearOfCarrer(carreer),
-										carreer.getName());
-							}
+					GeneralTree<NodeInfo> tree = Bookcase.getInstance().getTree();
+					InBreadthIterator<NodeInfo> it = tree.inBreadthIterator();
+					boolean found = false;
+					while (!found && it.hasNext()) {
+						BinaryTreeNode<NodeInfo> node = it.nextNode();
+						if (node.getInfo() instanceof Carreer carreer
+								&& carreer.getName().equals(comboBoxEliminarAnnoCarrera.getSelectedItem())) {
+							found = true;
+							tableModelYears.actualizar(Bookcase.getInstance().getAllYearOfCarrer(carreer),
+									carreer.getName());
 						}
 					}
+
+					updateComboSubject();
+
+					if (comboBoxEliminar.getSelectedIndex() == 3) {
+						BinaryTreeNode<NodeInfo> nodeCarreer = null;
+						BinaryTreeNode<NodeInfo> nodeYear = null;
+						for (BinaryTreeNode<NodeInfo> node : Bookcase.getInstance().getTree()
+								.getSons((BinaryTreeNode<NodeInfo>) Bookcase.getInstance().getTree().getRoot())) {
+							if (((Carreer) node.getInfo()).getName()
+									.equalsIgnoreCase((String) comboBoxEliminarAnnoCarrera.getSelectedItem())) {
+								nodeCarreer = node;
+								for (BinaryTreeNode<NodeInfo> node2 : Bookcase.getInstance().getTree().getSons(node)) {
+									if ((((Year) node2.getInfo()).getNumberYear() + "").equalsIgnoreCase(
+											(String) comboBoxEliminarAsiganturaAnno.getSelectedItem())) {
+										nodeYear = node2;
+									}
+								}
+							}
+						}
+						List<Subject> subjects = new LinkedList<>();
+						for (BinaryTreeNode<NodeInfo> node : Bookcase.getInstance().getTree().getSons(nodeYear)) {
+							subjects.add((Subject) node.getInfo());
+						}
+						tableModelSubjects.actualizar(subjects);
+					}
+
 				}
 			});
 			comboBoxEliminarAsiganturaAnno.setVisible(false);
@@ -1283,6 +1313,52 @@ public class Formulario extends JFrame {
 	private JComboBox getComboBoxEliminarMaterialAsignaturas() {
 		if (comboBoxEliminarMaterialAsignaturas == null) {
 			comboBoxEliminarMaterialAsignaturas = new JComboBox();
+			comboBoxEliminarMaterialAsignaturas.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+
+					if (comboBoxEliminar.getSelectedIndex() == 4) {
+
+						BinaryTreeNode<NodeInfo> nodeCarreer = null;
+						BinaryTreeNode<NodeInfo> nodeYear = null;
+						BinaryTreeNode<NodeInfo> nodeSubject = null;
+						for (BinaryTreeNode<NodeInfo> node : Bookcase.getInstance().getTree()
+								.getSons((BinaryTreeNode<NodeInfo>) Bookcase.getInstance().getTree().getRoot())) {
+							if (((Carreer) node.getInfo()).getName()
+									.equalsIgnoreCase((String) comboBoxEliminarAnnoCarrera.getSelectedItem())) {
+								nodeCarreer = node;
+								for (BinaryTreeNode<NodeInfo> node2 : Bookcase.getInstance().getTree().getSons(node)) {
+									if ((((Year) node2.getInfo()).getNumberYear() + "").equalsIgnoreCase(
+											(String) comboBoxEliminarAsiganturaAnno.getSelectedItem())) {
+										nodeYear = node2;
+										for (BinaryTreeNode<NodeInfo> node3 : Bookcase.getInstance().getTree()
+												.getSons(node2)) {
+											if ((((Subject) node3.getInfo()).getName() + "").equalsIgnoreCase(
+													(String) comboBoxEliminarMaterialAsignaturas.getSelectedItem())) {
+												nodeSubject = node3;
+											}
+										}
+									}
+								}
+							}
+						}
+						List<Material> materials = new LinkedList<>();
+						for (Vertex vertex : Bookcase.getInstance().getGraph().getVerticesList()) {
+
+							if (vertex.getInfo() instanceof Material material) {
+								Iterator<Vertex> it = vertex.getAdjacents().iterator();
+								boolean stop = false;
+								while (!stop && it.hasNext()) {
+									if (it.next().getInfo() instanceof Subject subject
+											&& subject.getId().equals(nodeSubject.getInfo().getId()))
+										materials.add(material);
+
+								}
+							}
+						}
+						tableModelMaterials.actualizar(materials);
+					}
+				}
+			});
 			comboBoxEliminarMaterialAsignaturas.setVisible(false);
 			comboBoxEliminarMaterialAsignaturas.setModel(
 					new DefaultComboBoxModel(new String[] { "Todas las asignaturas dada un anno y carrera" }));
@@ -1296,9 +1372,81 @@ public class Formulario extends JFrame {
 			tableModelMaterial = new TableModelMostUseMaterial();
 			tableModelCarreers = new DeleteCarreerTableModel();
 			tableModelYears = new DeleteYearTableModel();
-			scrTableEliminar = new CustomTable(tableModelCarreers, new int[] { 0, 2 });
+			tableModelSubjects = new DeleteSubjectTableModel();
+			tableModelMaterials = new TableModelMostUseMaterial();
+
+			scrTableEliminar = new CustomTable(tableModelCarreers, new int[] { 0, 1, 2 });
 			scrTableEliminar.setBounds(10, 123, 824, 300);
 		}
 		return scrTableEliminar;
 	}
+
+	public void updateComboCarreer() {
+		List<String> list = new ArrayList<>();
+		list.add("Todos los años");
+		for (Carreer carreer : Bookcase.getInstance().getAllCarrer()) {
+			list.add((carreer).getName());
+		}
+
+		comboBoxEliminarAnnoCarrera.setModel(new DefaultComboBoxModel<>(list.toArray(new String[0])));
+		updateComboYear();
+	}
+
+	public void updateComboYear() {
+		if (comboBoxEliminarAsiganturaAnno.isVisible()) {
+			List<String> list = new ArrayList<>();
+			list.add("Todos los años");
+			BinaryTreeNode<NodeInfo> nodeCarreer = findCarreerByFrameInfo();
+			for (NodeInfo year : Bookcase.getInstance().getTree().getSonsInfo(nodeCarreer)) {
+				list.add(((Year) year).getNumberYear() + "");
+			}
+			comboBoxEliminarAsiganturaAnno.setModel(new DefaultComboBoxModel<>(list.toArray(new String[0])));
+			updateComboSubject();
+		}
+	}
+
+	private void updateComboSubject() {
+
+		if (comboBoxEliminarMaterialAsignaturas.isVisible()) {
+			List<String> list = new ArrayList<>();
+			list.add("Todos las asignaturas");
+			BinaryTreeNode<NodeInfo> nodeYear = findYearByFrameInfo();
+			for (NodeInfo subject : Bookcase.getInstance().getTree().getSonsInfo(nodeYear)) {
+				list.add(((Subject) subject).getName());
+			}
+			comboBoxEliminarMaterialAsignaturas.setModel(new DefaultComboBoxModel<>(list.toArray(new String[0])));
+		}
+	}
+
+	/*
+	 * private <E> List<E> getFilterList(Class<E> typeData) {
+	 * 
+	 * List<E> res = new LinkedList<>(); GeneralTree<NodeInfo> tree =
+	 * Bookcase.getInstance().getTree();
+	 * 
+	 * List<BinaryTreeNode<NodeInfo>> list = tree.getSons((BinaryTreeNode<NodeInfo>)
+	 * tree.getRoot());
+	 * 
+	 * String item = (String) comboBoxEliminarAnnoCarrera.getSelectedItem(); if
+	 * (typeData.equals(Carreer.class)) { for (BinaryTreeNode<NodeInfo> node : list)
+	 * { res.add((E) node.getInfo()); } } else { list.removeIf(new
+	 * Predicate<BinaryTreeNode<NodeInfo>>() {
+	 * 
+	 * @Override public boolean test(BinaryTreeNode<NodeInfo> t) { return
+	 * !((Carreer)t.getInfo()).getName().equals(item); } });
+	 * 
+	 * if (res.isEmpty()) { List<BinaryTreeNode<NodeInfo>> list2 = new
+	 * LinkedList<>(); for (BinaryTreeNode<NodeInfo> node : list) {
+	 * list2.addAll(tree.getSons(node)); } list = list2;
+	 * 
+	 * if(typeData.equals(Year.class)){ for (BinaryTreeNode<NodeInfo> node : list) {
+	 * res.add((E) node.getInfo()); } }
+	 * 
+	 * if(res.isEmpty())
+	 * 
+	 * 
+	 * }
+	 * 
+	 * return res; }
+	 */
 }
