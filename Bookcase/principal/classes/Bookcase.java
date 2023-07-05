@@ -524,6 +524,8 @@ public class Bookcase {
 	}
 
 	// metodo que tiene que hacer altro
+	
+/*
 	public Auxiliary findInfoSubjcetId(String id) {
 		Auxiliary aux = new Auxiliary();
 		//cambie aqui
@@ -554,7 +556,37 @@ public class Bookcase {
 
 		return aux;
 	}
-
+*/
+	
+	public Auxiliary findInfoSubjcetId(String id) 
+	{
+		Auxiliary auxEsc = new Auxiliary();
+//		BinaryTreeNode<NodeInfo> carrerNode = ((BinaryTreeNode<NodeInfo>)tree.getRoot()).getLeft();
+		BinaryTreeNode<NodeInfo> carrerNode = new BinaryTreeNode<NodeInfo>();
+		BinaryTreeNode<NodeInfo> yearNode = new BinaryTreeNode<NodeInfo>();
+		
+		boolean found = false;
+		InDepthIterator<NodeInfo> iter = tree.inDepthIterator();
+		while (!found && iter.hasNext()) {
+			BinaryTreeNode<NodeInfo> nodeiter = iter.nextNode();
+			NodeInfo info = nodeiter.getInfo();
+			if(info instanceof Carreer)
+			{
+				carrerNode = nodeiter;
+			}
+			else if (info instanceof Year) {
+				yearNode = nodeiter;
+			}
+			else if(info instanceof Subject && info.getId().equals(id))
+			{
+				found = true;
+				auxEsc.setCarrerNode(carrerNode);
+				auxEsc.setYearNode(yearNode);	
+			}		
+		}
+		return auxEsc;
+	}
+	
 	// este metodo devuelve toda la informacion de los materiales de una carrera
 	// es decir devuelve cada material la cantidad de veces que se utiliza en la
 	// carrera
