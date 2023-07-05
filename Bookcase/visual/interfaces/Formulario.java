@@ -15,6 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
+import javax.swing.ComboBoxEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -46,6 +47,7 @@ import cu.edu.cujae.ceis.tree.general.GeneralTree;
 import cu.edu.cujae.ceis.tree.iterators.general.InBreadthIterator;
 import custom_components.Auxiliary;
 import custom_components.CustomTable;
+import logica.ComboboxModelCarrer;
 import logica.DeleteCarreerTableModel;
 import logica.DeleteSubjectTableModel;
 import logica.DeleteYearTableModel;
@@ -120,11 +122,16 @@ public class Formulario extends JDialog {
 	private TableModelMostUseMaterial tableModelMaterials;
 	private JButton deleteButton;
 
+	//new 
+	private JComboBox<String> comboBoxCarrer;
+	private Bookcase bookcase;
+	private JLabel lblCarrerNameAnno;
 	/**
 	 * Create the frame.
 	 */
 	public Formulario(JFrame padre) {
 		super(padre,true);
+		bookcase = Bookcase.getInstance();
 		setIconImage(
 				Toolkit.getDefaultToolkit().getImage(Formulario.class.getResource("/icons/icons8-book-64 (2).png")));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -426,6 +433,8 @@ public class Formulario extends JDialog {
 			panelFormulario.add(getSeparatorNombreAsignatura());
 			panelFormulario.add(getSeparatorTituloMaterial());
 			panelFormulario.add(getSeparatorAutor());
+			panelFormulario.add(getComboBoxCarrer());
+			panelFormulario.add(getLblCarrerNameAnno());
 			panelDeTrabajo.setVisible(false);
 		}
 		return panelDeTrabajo;
@@ -440,6 +449,30 @@ public class Formulario extends JDialog {
 		return lblAñadir;
 	}
 
+	private JComboBox getComboBoxCarrer() {
+		
+		if (comboBoxCarrer == null) {
+			List<String> list = new LinkedList<>();
+			this.setVisible(false);
+			LinkedList<Carreer> carreraComboList = (LinkedList<Carreer>) bookcase.getAllCarrer();
+			for (Carreer carreer : carreraComboList) {
+				list.add(carreer.getName());
+			}
+			
+			comboBoxCarrer = new JComboBox(list.toArray());
+			comboBoxCarrer.setVisible(false);
+			comboBoxCarrer.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+//					actualizar();
+				}
+			});
+
+			// comboBox.setModel(new DefaultComboBoxModel(new String[] {"algo"}));
+			comboBoxCarrer.setBounds(101, 150, 190, 38);
+
+		}
+		return comboBoxCarrer;
+	}
 	private JButton getBtnAnnadirOcultar() {
 		if (btnAnnadirOcultar == null) {
 			btnAnnadirOcultar = new JButton("Añadir");
@@ -579,8 +612,28 @@ public class Formulario extends JDialog {
 			btnAnnadirInterior = new JButton("");
 			btnAnnadirInterior.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if (rdbtnMaterial.isSelected()) {
-						JOptionPane.showMessageDialog(null, "Faltan cosas con el material");
+					if (rdbtnCarrera.isSelected() && !lblNombreCarrera.getText().isEmpty()) {
+						try {
+//							Bookcase bookcase = Bookcase.getInstance();
+							bookcase.newCarreer(lblNombreCarrera.getText(), (int)spinnerCArrera.getValue());
+							
+						} catch (Exception e2) {
+							JOptionPane.showMessageDialog(null, "Error al insertar carrera");
+						}
+						
+					}
+					else if(rdbtnAño.isSelected() )
+					{
+						int agregar = (int)spinnerCArrera.getValue();
+						Carreer carrer = ((ComboboxModelCarrer<String>)comboBoxCarrer.getModel()).getelemCarreer(comboBoxCarrer.getSelectedIndex());
+						if(carrer.getDuration() + agregar <= 6)
+						{
+							for (int i = 0; i < agregar; i++) {
+								bookcase.newYear(carrer.getId(), carrer.getDuration()+1);
+								carrer.setDuration(carrer.getDuration()+1);
+							}
+						}
+//						bookcase.getCarreerNode();
 					}
 				}
 			});
@@ -715,7 +768,8 @@ public class Formulario extends JDialog {
 					separatorNombreAsignatura.setVisible(false);
 					separatorTituloMaterial.setVisible(false);
 					separatorAutor.setVisible(false);
-
+					comboBoxCarrer.setVisible(false);
+					lblCarrerNameAnno.setVisible(false);
 				}
 			});
 			buttonGroup.add(rdbtnCarrera);
@@ -755,6 +809,8 @@ public class Formulario extends JDialog {
 					sepaNombreCarrera.setVisible(false);
 					separatorTituloMaterial.setVisible(false);
 					separatorAutor.setVisible(false);
+					comboBoxCarrer.setVisible(false);
+					lblCarrerNameAnno.setVisible(false);
 
 				}
 			});
@@ -789,6 +845,8 @@ public class Formulario extends JDialog {
 					separatorAutor.setVisible(true);
 					separatorNombreAsignatura.setVisible(false);
 					sepaNombreCarrera.setVisible(false);
+					comboBoxCarrer.setVisible(false);
+					lblCarrerNameAnno.setVisible(false);
 
 				}
 			});
@@ -823,6 +881,8 @@ public class Formulario extends JDialog {
 					separatorAutor.setVisible(false);
 					separatorNombreAsignatura.setVisible(false);
 					sepaNombreCarrera.setVisible(false);
+					comboBoxCarrer.setVisible(true);
+					lblCarrerNameAnno.setVisible(true);
 
 				}
 			});
@@ -1511,5 +1571,13 @@ public class Formulario extends JDialog {
 		}
 		
 		tableModelCarreers.actualizar();
+	}
+	private JLabel getLblCarrerNameAnno() {
+		if (lblCarrerNameAnno == null) {
+			lblCarrerNameAnno = new JLabel("Carrera");
+			lblCarrerNameAnno.setVisible(false);
+			lblCarrerNameAnno.setBounds(18, 141, 131, 29);
+		}
+		return lblCarrerNameAnno;
 	}
 }

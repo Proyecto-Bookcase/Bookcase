@@ -7,7 +7,7 @@ import javax.swing.DefaultComboBoxModel;
 
 import classes.Carreer;
 
-public class ComboboxModelCarrer extends DefaultComboBoxModel<String>{
+public class ComboboxModelCarrer<String> extends DefaultComboBoxModel<String>{
 	private LinkedList<Carreer> carreraComboList;
 	private int seletion;
 	

@@ -21,7 +21,7 @@ class TableModelUpdateTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		tb = new TableModelMostUseMaterial();
-		list = Arrays.asList(new Book("","","",Calendar.getInstance(), "","", null), new Exercices("", "", "", Calendar.getInstance(), 0, null));
+//		list = Arrays.asList(new Book("","","",Calendar.getInstance(), "","", null), new Exercices("", "", "", Calendar.getInstance(), 0, null));
 	}
 
 	@Test
