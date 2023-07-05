@@ -58,11 +58,11 @@ public class Bookcase {
 		if (instance == null) {
 			instance = new Bookcase();
 			instance.tree.setRoot(new BinaryTreeNode<>(new University("0", "Cujae")));
-			/*instance.newCarreer("Informática", 4);
+			instance.newCarreer("Informática", 4);
 			instance.newSubject("001", "Matemática");
 			instance.newSubject("002", "Matemáticb");
 			instance.newSubject("003", "Matemáticc");
-			instance.newSubject("004", "Matemáticd");*/
+			instance.newSubject("004", "Matemáticd");
 
 		}
 		return instance;
@@ -705,6 +705,40 @@ public class Bookcase {
 		}
 		return escList;
 	}
+	// devuelve todos los materiales que no usa un subject
+	public List<Material> getAllMaterialOfNotUseSubject(Subject subject) {
+		List<Material> escList = new LinkedList<>();
+
+		
+		LinkedList<Vertex> vertList = graph.getVerticesList();
+		Iterator<Vertex> iter = vertList.iterator();
+
+		LinkedList<Vertex> help = new LinkedList<Vertex>();
+		Vertex subjectVert = new Vertex(null);
+		boolean find = false;
+		while (!find && iter.hasNext()) {
+			Vertex vertIter = iter.next();
+			Object vertInfo = vertIter.getInfo();
+			if (vertInfo instanceof Subject subj && subj.getId().equals(subject.getId())) {
+					subjectVert = vertIter;
+					help = vertIter.getAdjacents();
+				}
+
+				find = true;
+			
+		}
+		Iterator<Vertex> iter2 = vertList.iterator();
+		while ( iter2.hasNext()) {
+			Vertex vertIter = iter.next();
+			Object vertInfo = vertIter.getInfo();
+			if (vertInfo instanceof Material subj && !help.contains(vertIter)) {
+				escList.add(subj);
+			}
+			
+		}
+		return escList;
+	}
+	
 
 	// este metodo devuelve todos los subjects que utilizan un material
 	public List<Subject> getAllSubjectOfMaterial(Material material) {
@@ -957,8 +991,11 @@ public class Bookcase {
 		{
 			graph.deleteEdgeND(subject, material);
 		}
-		
-		
+	}
+	
+	public List<Subject> getAllSubjects()
+	{
+		return null;
 	}
 	
 }
