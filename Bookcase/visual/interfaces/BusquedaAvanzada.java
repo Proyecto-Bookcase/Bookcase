@@ -1,5 +1,7 @@
 package interfaces;
 
+import static org.hamcrest.CoreMatchers.nullValue;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -26,6 +28,7 @@ import javax.swing.JTable;
 import javax.swing.JTextPane;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
+import javax.swing.table.DefaultTableModel;
 
 import auxiliary_classes.AuxiliarySubjectMostMaterialUse;
 import classes.Book;
@@ -651,8 +654,12 @@ public class BusquedaAvanzada extends JFrame {
 					List<Material> materialList = bookcase.getAllMaterialOfCarrerAndYear(((ComboboxModelCarrer)comboBoxCarrer.getModel()).
 									getelemCarreer(comboBoxCarrer.getSelectedIndex()) , 
 								((ComboboxModelYear)comboBoxYear.getModel()).
-								getelemYear(seleccion));
-					getTableBusquedaAvanzada(materialList);
+								getelemYear(0));
+					tableBusquedaAvanzada.removeAll();
+					tableBusquedaAvanzada.setModel(new TableModelBusquedaAvanzada());
+					((TableModelBusquedaAvanzada)tableBusquedaAvanzada.getModel()).setRowCount(0);;
+					//((TableModelBusquedaAvanzada)tableBusquedaAvanzada.getModel()).actualizar(materialList);
+					//getTableBusquedaAvanzada(materialList);
 					}
 
 				}
@@ -739,14 +746,15 @@ public class BusquedaAvanzada extends JFrame {
 	}
 	
 	private JTable getTableBusquedaAvanzada(List<Material> materialList) {
-		if (tableBusquedaAvanzada == null) {
+//		if (tableBusquedaAvanzada == null) {
 			tableBusquedaAvanzada = new JTable(new TableModelBusquedaAvanzada());
 			//((TableModelMostUseMaterial)tableBusquedaAvanzada.getModel()).actualizar(bookcase.mostUseMaterial());
 			((TableModelBusquedaAvanzada)tableBusquedaAvanzada.getModel()).actualizar(materialList);
 			
-			
-			
-		}
+//		}
+		
+		
+		
 		return tableBusquedaAvanzada;
 	}
 	private JScrollPane getScrollPaneBusquedaAvanzada() {
