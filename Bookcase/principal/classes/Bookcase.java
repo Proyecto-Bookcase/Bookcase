@@ -56,31 +56,32 @@ public class Bookcase {
 		if (instance == null) {
 			instance = new Bookcase();
 
-			inicializacion();
+			//inicializacion();
 
-			//instance.tree.setRoot(new BinaryTreeNode<>(new University("0", "Cujae")));
+			instance.tree.setRoot(new BinaryTreeNode<>(new University("0", "Cujae")));
 
 
-//github.com/Proyecto-Bookcase/Bookcase.git
-			//instance.newCarreer("Informática", 4);
-			//instance.newSubject("001", "Matemática");
-			//instance.newSubject("002", "Matemáticb");
-			//instance.newSubject("003", "Matemáticc");
-			//instance.newSubject("004", "Matemáticd");
+			instance.newCarreer("Informática", 4);
+			instance.newSubject("001", "Matemática");
+			instance.newSubject("002", "Matemáticb");
+			instance.newSubject("003", "Matemáticc");
+			instance.newSubject("004", "Matemáticd");
 
 		
-			//instance.newMaterial(Document.class, Arrays.asList("00100"), "A", "", new GregorianCalendar(), "");
-			//instance.newMaterial(Document.class, Arrays.asList("00100"), "B", "", new GregorianCalendar(), "");
+			instance.newMaterial(Document.class, Arrays.asList("00100"), "A", "", new GregorianCalendar(), "");
+			instance.newMaterial(Document.class, Arrays.asList("00100"), "B", "", new GregorianCalendar(), "");
 			
 
 
-			//instance.newCarreer("Ciencias Médicas", 6);
-			//instance.newSubject("011", "asdsd");
-			//instance.newSubject("011", "asdadasd");
-			//instance.newSubject("011", "asdsdad");
-			//instance.newSubject("021", "asdasdasd");
+			instance.newCarreer("Ciencias Médicas", 6);
+			instance.newSubject("011", "asdsd");
+			instance.newSubject("011", "asdadasd");
+			instance.newSubject("011", "asdsdad");
+			instance.newSubject("021", "asdasdasd");
 			
-			//instance.newMaterial(Document.class, Arrays.asList("00100"), "C", "", new GregorianCalendar(), "");
+			instance.newMaterial(Document.class, Arrays.asList("00100"), "C", "", new GregorianCalendar(), "");
+
+			
 		}
 		return instance;
 	}
@@ -338,7 +339,7 @@ public class Bookcase {
 			// Itera sobre los hijos hasta encontrar el primer ID de carrera disponible
 			while (!stop && it.hasNext()) {
 				Subject subject = (Subject) it.next();
-				if (Integer.parseInt(subject.getId().substring(3, 4)) == i) {
+				if (Integer.parseInt(subject.getId().substring(3, 5)) == i) {
 					stop = true;
 					i++;
 				}
