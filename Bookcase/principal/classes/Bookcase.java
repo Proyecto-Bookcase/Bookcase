@@ -61,7 +61,6 @@ public class Bookcase {
 			//instance.tree.setRoot(new BinaryTreeNode<>(new University("0", "Cujae")));
 
 
-//github.com/Proyecto-Bookcase/Bookcase.git
 			//instance.newCarreer("Informática", 4);
 			//instance.newSubject("001", "Matemática");
 			//instance.newSubject("002", "Matemáticb");
@@ -81,6 +80,8 @@ public class Bookcase {
 			//instance.newSubject("021", "asdasdasd");
 			
 			//instance.newMaterial(Document.class, Arrays.asList("00100"), "C", "", new GregorianCalendar(), "");
+
+			
 		}
 		return instance;
 	}
@@ -338,7 +339,7 @@ public class Bookcase {
 			// Itera sobre los hijos hasta encontrar el primer ID de carrera disponible
 			while (!stop && it.hasNext()) {
 				Subject subject = (Subject) it.next();
-				if (Integer.parseInt(subject.getId().substring(3, 4)) == i) {
+				if (Integer.parseInt(subject.getId().substring(3, 5)) == i) {
 					stop = true;
 					i++;
 				}
