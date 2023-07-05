@@ -911,6 +911,17 @@ public class Bookcase {
 		return res;
 	}
 
+	public List<Material> getAllMaterials() {
+
+		List<Material> res = new ArrayList<>();
+		for(Vertex vertex : graph.getVerticesList()) {
+			if (vertex.getInfo() instanceof Material material)
+				res.add(material);
+
+		}
+		return res;
+	}
+
 	public List<Subject> getAllSubjects() {
 
 		List<Subject> res = new ArrayList<>();
