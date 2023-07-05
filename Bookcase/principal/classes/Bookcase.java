@@ -1,6 +1,7 @@
 package classes;
 
 import java.lang.reflect.Constructor;
+import java.net.http.WebSocketHandshakeException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
@@ -56,13 +57,13 @@ public class Bookcase {
 	public static Bookcase getInstance() {
 		if (instance == null) {
 			instance = new Bookcase();
-			instance.tree.setRoot(new BinaryTreeNode<>(new University("", "")));
+			instance.tree.setRoot(new BinaryTreeNode<>(new University("0", "Cujae")));
 
-			instance.newCarreer("Informática", 4);
+			/*instance.newCarreer("Informática", 4);
 			instance.newSubject("001", "Matemática");
-			instance.newSubject("001", "Matemáticb");
-			instance.newSubject("001", "Matemáticc");
-			instance.newSubject("001", "Matemáticd");
+			instance.newSubject("002", "Matemáticb");
+			instance.newSubject("003", "Matemáticc");
+			instance.newSubject("004", "Matemáticd");*/
 			
 			instance.newMaterial(Document.class, Arrays.asList("00100"), "A", "", new GregorianCalendar(), "");
 			instance.newMaterial(Document.class, Arrays.asList("00100"), "B", "", new GregorianCalendar(), "");
@@ -532,6 +533,8 @@ public class Bookcase {
 	}
 
 	// metodo que tiene que hacer altro
+	
+/*
 	public Auxiliary findInfoSubjcetId(String id) {
 		Auxiliary aux = new Auxiliary();
 		// cambie aqui
@@ -562,7 +565,37 @@ public class Bookcase {
 
 		return aux;
 	}
-
+*/
+	
+	public Auxiliary findInfoSubjcetId(String id) 
+	{
+		Auxiliary auxEsc = new Auxiliary();
+//		BinaryTreeNode<NodeInfo> carrerNode = ((BinaryTreeNode<NodeInfo>)tree.getRoot()).getLeft();
+		BinaryTreeNode<NodeInfo> carrerNode = new BinaryTreeNode<NodeInfo>();
+		BinaryTreeNode<NodeInfo> yearNode = new BinaryTreeNode<NodeInfo>();
+		
+		boolean found = false;
+		InDepthIterator<NodeInfo> iter = tree.inDepthIterator();
+		while (!found && iter.hasNext()) {
+			BinaryTreeNode<NodeInfo> nodeiter = iter.nextNode();
+			NodeInfo info = nodeiter.getInfo();
+			if(info instanceof Carreer)
+			{
+				carrerNode = nodeiter;
+			}
+			else if (info instanceof Year) {
+				yearNode = nodeiter;
+			}
+			else if(info instanceof Subject && info.getId().equals(id))
+			{
+				found = true;
+				auxEsc.setCarrerNode(carrerNode);
+				auxEsc.setYearNode(yearNode);	
+			}		
+		}
+		return auxEsc;
+	}
+	
 	// este metodo devuelve toda la informacion de los materiales de una carrera
 	// es decir devuelve cada material la cantidad de veces que se utiliza en la
 	// carrera
@@ -777,13 +810,47 @@ public class Bookcase {
 	// este metodo para eliminar un año determinado para una carrera determinada
 	// tengo dudas de como implementaro
 	public void deleteYearCarrear(Year year) {
-		BinaryTreeNode<NodeInfo> yearNode = getYearNode(year.getId());
-		BinaryTreeNode<NodeInfo> subject = yearNode.getLeft();
-		while (subject != null) {
-			deleteSubjectGraph((Subject) subject.getInfo());
-			subject = subject.getRight();
-
+		BinaryTreeNode<NodeInfo> carrerNode = ((BinaryTreeNode<NodeInfo>)tree.getRoot()).getLeft();
+		boolean found = false;
+		BinaryTreeNode<NodeInfo> yearNode = new BinaryTreeNode<NodeInfo>(); 
+		while (!found  && carrerNode!= null) {
+			BinaryTreeNode<NodeInfo> yearNodeIter = carrerNode.getLeft();
+				while (!found &&yearNodeIter!= null) {
+					if(yearNodeIter.getInfo().getId().equals(year.getId()))
+					{
+						found = true;
+						yearNode = yearNodeIter;
+						yearNodeIter = yearNodeIter.getRight();
+						
+						while (yearNodeIter!= null) {
+							((Year)yearNodeIter.getInfo()).setNumberYear(
+									((Year)yearNodeIter.getInfo()).getNumberYear()-1);
+							
+							yearNodeIter = yearNodeIter.getRight();
+						}
+						
+						BinaryTreeNode<NodeInfo> subject = yearNode.getLeft();
+						while (subject != null) {
+							deleteSubjectGraph((Subject) subject.getInfo());
+							subject = subject.getRight();
+						}
+					
+					}
+					else {
+						yearNodeIter = yearNodeIter.getRight();
+						
+					}
+				}
+			
+			if(found)
+			{
+				((Carreer)carrerNode.getInfo()).setDuration(((Carreer)carrerNode.getInfo()).getDuration()-1);
+			}
+			carrerNode = carrerNode.getRight();
+			
 		}
+		
+		tree.deleteNode(yearNode);
 	}
 
 	// para eliminar toda una carrera promero hay que eliminar todas las asignaturas
@@ -862,21 +929,64 @@ public class Bookcase {
 
 		return res;
 	}
-//	public List<Subject> getAllSubjectOf()
-//	{
-//		
-//		
-//	}
-
-	public List<Material> getAllMaterials() {
-
-		List<Material> res = new ArrayList<>();
-		for(Vertex vertex : graph.getVerticesList()) {
-			if (vertex.getInfo() instanceof Material material)
-				res.add(material);
-
+	
+	public void addRelation(String subjectId, String materialId)
+	{
+		List<Vertex> vertList = graph.getVerticesList();
+		Iterator<Vertex> iter = vertList.iterator();
+		
+		
+		int index =0;
+		int subject =-1;
+		int material =-1;
+		while ((subject==-1 && material == -1) && iter.hasNext()) {
+			Vertex vertIter = iter.next(); 
+			Object info = vertIter.getInfo();
+			if(info instanceof Material mat && mat.getId().equals(materialId))
+			{
+				material = index;
+			}
+			else if (info instanceof Subject subj && subj.getId().equals(subjectId)) {
+				subject = index;
+			}
+			index++;
 		}
-		return res;
+		graph.insertEdgeNDG(subject, material);
+	}
+	public void deleteRelation(String subjectId, String materialId)
+	{
+		List<Vertex> vertList = graph.getVerticesList();
+		Iterator<Vertex> iter = vertList.iterator();
+		
+		
+		int index =0;
+		int subject =-1;
+		int material =-1;
+		while ((subject==-1 && material == -1) && iter.hasNext()) {
+			Vertex vertIter = iter.next(); 
+			Object info = vertIter.getInfo();
+			if(info instanceof Material mat && mat.getId().equals(materialId))
+			{
+				if(vertIter.getAdjacents().size()==1)
+				{
+					material = -2;
+				}
+				else {
+					material = index;
+					
+				}
+			}
+			else if (info instanceof Subject subj && subj.getId().equals(subjectId)) {
+				subject = index;
+			}
+			index++;
+		}
+		if(material !=-2)
+		{
+			graph.deleteEdgeND(subject, material);
+		}
+		
+		
 	}
 
 }
