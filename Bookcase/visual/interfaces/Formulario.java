@@ -19,6 +19,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -31,8 +32,6 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-
-import org.junit.platform.console.shadow.picocli.CommandLine.Help.Column;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -53,7 +52,7 @@ import logica.DeleteYearTableModel;
 import logica.TableModelMostUseMaterial;
 import logica.YearsComboBoxModel;
 
-public class Formulario extends JFrame {
+public class Formulario extends JDialog {
 
 	/**
 	 * 
@@ -122,28 +121,13 @@ public class Formulario extends JFrame {
 	private JButton deleteButton;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Formulario frame = new Formulario();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
-	public Formulario() {
+	public Formulario(JFrame padre) {
+		super(padre,true);
 		setIconImage(
 				Toolkit.getDefaultToolkit().getImage(Formulario.class.getResource("/icons/icons8-book-64 (2).png")));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1015, 554);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -260,6 +244,7 @@ public class Formulario extends JFrame {
 	private JButton getBtnNewButton_1_1() {
 		if (btnEditarMostrar == null) {
 			btnEditarMostrar = new JButton("Editar");
+			btnEditarMostrar.setVisible(false);
 			btnEditarMostrar.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent e) {
@@ -407,7 +392,7 @@ public class Formulario extends JFrame {
 			panelDeTrabajo = new JPanel();
 			panelDeTrabajo.setBorder(new LineBorder(new Color(0, 0, 0)));
 			panelDeTrabajo.setBackground(new Color(255, 255, 255));
-			panelDeTrabajo.setBounds(137, 53, 868, 445);
+			panelDeTrabajo.setBounds(137, 53, 878, 445);
 			panelDeTrabajo.setLayout(null);
 			panelDeTrabajo.add(getScrollPane_1());
 			panelDeTrabajo.add(getScrollPane_2());
@@ -1292,7 +1277,7 @@ public class Formulario extends JFrame {
 			tableModelMaterials = new TableModelMostUseMaterial();
 
 			scrTableEliminar = new CustomTable(tableModelCarreers, new int[] { 0, 1, 2 });
-			scrTableEliminar.setBounds(34, 131, 824, 300);
+			scrTableEliminar.setBounds(34, 131, 810, 300);
 		}
 		return scrTableEliminar;
 	}

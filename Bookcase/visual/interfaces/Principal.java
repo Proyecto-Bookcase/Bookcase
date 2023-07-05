@@ -67,7 +67,7 @@ public class Principal extends JFrame {
 	private JLabel lblFondoRaton;
 	private JPanel panelCarreers;
 	private JScrollPane scrollPane;
-	private Bookcase instance;
+	private static Bookcase instance = Bookcase.getInstance();
 	private GeneralTree<NodeInfo> tree;
 	private JPanel panelYears;
 	private CardLayout yearsLayout;
@@ -80,7 +80,6 @@ public class Principal extends JFrame {
 	 * Create the frame.
 	 */
 	public Principal() {
-		instance = Bookcase.getInstance();
 		tree = instance.getTree();
 		setUndecorated(true);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -324,6 +323,7 @@ public class Principal extends JFrame {
 	private JLabel getLblCarreras() {
 		if (lblCarreras == null) {
 			lblCarreras = new JLabel("Carreras");
+			lblCarreras.setHorizontalAlignment(SwingConstants.CENTER);
 			lblCarreras.setFont(new Font("Tahoma", Font.PLAIN, 20));
 			lblCarreras.setBounds(62, 53, 87, 23);
 		}
@@ -364,6 +364,7 @@ public class Principal extends JFrame {
 	private JLabel getLblAnnos() {
 		if (lblAnnos == null) {
 			lblAnnos = new JLabel("Años");
+			lblAnnos.setHorizontalAlignment(SwingConstants.CENTER);
 			lblAnnos.setFont(new Font("Tahoma", Font.PLAIN, 20));
 
 			lblAnnos.setBounds(24, 55, 57, 23);
@@ -375,7 +376,7 @@ public class Principal extends JFrame {
 		if (panelAsignatura == null) {
 			panelAsignatura = new JPanel();
 			panelAsignatura.setBackground(new Color(128, 128, 128));
-			panelAsignatura.setBounds(327, 0, 175, 600);
+			panelAsignatura.setBounds(327, 0, 224, 600);
 			panelAsignatura.setLayout(null);
 			panelAsignatura.add(getLblAsignatura());
 			panelAsignatura.add(getScrollPane_1_1());
@@ -388,6 +389,7 @@ public class Principal extends JFrame {
 	private JLabel getLblAsignatura() {
 		if (lblAsignatura == null) {
 			lblAsignatura = new JLabel("Asignatura");
+			lblAsignatura.setHorizontalAlignment(SwingConstants.CENTER);
 			lblAsignatura.setBounds(34, 53, 131, 25);
 			lblAsignatura.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		}
@@ -429,7 +431,7 @@ public class Principal extends JFrame {
 			btnOpciones = new JButton("");
 			btnOpciones.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					Formulario f = new Formulario();
+					Formulario f = new Formulario(Principal.this);
 					f.setVisible(true);
 				}
 			});
@@ -567,7 +569,7 @@ public class Principal extends JFrame {
 		if (scrollPane_1 == null) {
 			scrollPane_1 = new JScrollPane();
 			scrollPane_1.setBorder(null);
-			scrollPane_1.setBounds(0, 103, 175, 497);
+			scrollPane_1.setBounds(0, 103, 224, 497);
 			scrollPane_1.setViewportView(getSubjectPanel());
 		}
 		return scrollPane_1;

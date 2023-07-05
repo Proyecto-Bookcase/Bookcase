@@ -57,8 +57,9 @@ public class Bookcase {
 			instance = new Bookcase();
 
 			inicializacion();
+			inicializacion();
 
-			//instance.tree.setRoot(new BinaryTreeNode<>(new University("0", "Cujae")));
+			/* instance.tree.setRoot(new BinaryTreeNode<>(new University("0", "Cujae")));
 
 
 			//instance.newCarreer("Informática", 4);
@@ -79,8 +80,8 @@ public class Bookcase {
 			//instance.newSubject("011", "asdsdad");
 			//instance.newSubject("021", "asdasdasd");
 			
-			//instance.newMaterial(Document.class, Arrays.asList("00100"), "C", "", new GregorianCalendar(), "");
-
+			instance.newMaterial(Document.class, Arrays.asList("00100"), "C", "", new GregorianCalendar(), "");
+ */
 			
 		}
 		return instance;
@@ -1064,8 +1065,8 @@ public class Bookcase {
 		bookcase.newSubject("004", "Economia Politica");
 		bookcase.newSubject("004", "Economia Empresarial");
 
-		// Materiales 1er Anno Calculo1
-		bookcase.newMaterial(Book.class, Arrays.asList("011??"), 1 / 5 / 2023, "Stewart", "Anonimo", "Felix Varela",
+		/* // Materiales 1er Anno Calculo1
+		bookcase.newMaterial(Book.class, Arrays.asList("011??"), "1 / 5 / 2023", "Stewart", "Anonimo", "Felix Varela",
 				"1ra", "2001");
 		bookcase.newMaterial(Document.class, Arrays.asList("011??"), 2 / 5 / 2022, "Resumenes de Calculo1", "Anonimo",
 				".doc");
@@ -1144,26 +1145,26 @@ public class Bookcase {
 				17, ".doc");
 		bookcase.newMaterial(Document.class, Arrays.asList("014??"), 12 / 5 / 2011, "Conferencias", "Pedro C", ".ppt");
 		bookcase.newMaterial(Book.class, Arrays.asList("014??"), 12 / 5 / 2012, "Economia", "Anonimo", "Felix Varela",
-				"2ra", "2001");
+				"2ra", "2001"); */
 
 		// Carrera 2
 		bookcase.newCarreer("Mecanica", 4); // Cogigo de carrera "02" Codigo de los años de la carrera es
 											// "021","022"."023"."024"
 
 		// Asignaturas 1erAnno
-		bookcase.newSubject("021", "ResistenciaM");
-		bookcase.newSubject("021", "Calculo1");
-		bookcase.newSubject("021", "Seguridad Nacional");
+		bookcase.newSubject("011", "ResistenciaM");
+		bookcase.newSubject("011", "Calculo1");
+		bookcase.newSubject("011", "Seguridad Nacional");
 		// 2do anno
-		bookcase.newSubject("022", "MaquinasA");
-		bookcase.newSubject("022", "Calculo2");
-		bookcase.newSubject("022", "Economia Empresarial");
+		bookcase.newSubject("012", "MaquinasA");
+		bookcase.newSubject("012", "Calculo2");
+		bookcase.newSubject("012", "Economia Empresarial");
 		// 3ro anno
-		bookcase.newSubject("023", "Termodinamica");
-		bookcase.newSubject("023", "Fisica");
-		bookcase.newSubject("023", "Calculo3");
+		bookcase.newSubject("013", "Termodinamica");
+		bookcase.newSubject("013", "Fisica");
+		bookcase.newSubject("013", "Calculo3");
 
-		// Materiales 1er Anno ResistenciaM
+		/* // Materiales 1er Anno ResistenciaM
 		bookcase.newMaterial(Book.class, Arrays.asList("021??"), 12 / 5 / 2013, "Resistencia I", "Anonimo",
 				"Felix Varela", "1ra", "2001");
 		bookcase.newMaterial(Document.class, Arrays.asList("021??"), 12 / 5 / 2014, "Conferencias", "Pedro C", ".ppt");
@@ -1279,7 +1280,7 @@ public class Bookcase {
 		bookcase.newMaterial(Document.class, Arrays.asList("033??"), 1 / 5 / 2023, "Conferencias", "Roberto C", "ppt");
 		bookcase.newMaterial(Book.class, Arrays.asList("033??"), 15 / 5 / 2023, "Algebra Lineal II", "Anonimo",
 				"Felix Varela", "3ra", "2001");
-
+}*/
 	}
 	
 	
