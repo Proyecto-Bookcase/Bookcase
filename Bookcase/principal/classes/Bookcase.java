@@ -1,6 +1,7 @@
 package classes;
 
 import java.lang.reflect.Constructor;
+import java.net.http.WebSocketHandshakeException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
@@ -56,12 +57,12 @@ public class Bookcase {
 	public static Bookcase getInstance() {
 		if (instance == null) {
 			instance = new Bookcase();
-			instance.tree.setRoot(new BinaryTreeNode<>(new University("", "")));
-			instance.newCarreer("Informática", 4);
+			instance.tree.setRoot(new BinaryTreeNode<>(new University("0", "Cujae")));
+			/*instance.newCarreer("Informática", 4);
 			instance.newSubject("001", "Matemática");
-			instance.newSubject("001", "Matemáticb");
-			instance.newSubject("001", "Matemáticc");
-			instance.newSubject("001", "Matemáticd");
+			instance.newSubject("002", "Matemáticb");
+			instance.newSubject("003", "Matemáticc");
+			instance.newSubject("004", "Matemáticd");*/
 
 		}
 		return instance;
@@ -768,13 +769,44 @@ public class Bookcase {
 	// este metodo para eliminar un año determinado para una carrera determinada
 	// tengo dudas de como implementaro
 	public void deleteYearCarrear(Year year) {
-		BinaryTreeNode<NodeInfo> yearNode = getYearNode(year.getId());
-		BinaryTreeNode<NodeInfo> subject = yearNode.getLeft();
-		while (subject != null) {
-			deleteSubjectGraph((Subject) subject.getInfo());
-			subject = subject.getRight();
-
+		BinaryTreeNode<NodeInfo> carrerNode = ((BinaryTreeNode<NodeInfo>)tree.getRoot()).getLeft();
+		boolean found = false;
+		BinaryTreeNode<NodeInfo> yearNode = new BinaryTreeNode<NodeInfo>(); 
+		while (!found  && carrerNode!= null) {
+			BinaryTreeNode<NodeInfo> yearNodeIter = carrerNode.getLeft();
+				while (!found &&yearNodeIter!= null) {
+					if(yearNodeIter.getInfo().getId().equals(year.getId()))
+					{
+						found = true;
+						yearNode = yearNodeIter;
+						yearNodeIter = yearNodeIter.getRight();
+						
+						while (yearNodeIter!= null) {
+							((Year)yearNodeIter.getInfo()).setNumberYear(
+									((Year)yearNodeIter.getInfo()).getNumberYear()-1);
+							
+							yearNodeIter = yearNodeIter.getRight();
+						}
+						
+						BinaryTreeNode<NodeInfo> subject = yearNode.getLeft();
+						while (subject != null) {
+							deleteSubjectGraph((Subject) subject.getInfo());
+							subject = subject.getRight();
+						}
+					
+					}
+					yearNodeIter = yearNodeIter.getRight();
+				}
+			
+			if(found)
+			{
+				((Carreer)carrerNode.getInfo()).setDuration(((Carreer)carrerNode.getInfo()).getDuration()-1);
+			}
+			carrerNode = carrerNode.getRight();
+			
 		}
+		
+		tree.deleteNode(yearNode);
 	}
 
 	// para eliminar toda una carrera promero hay que eliminar todas las asignaturas
