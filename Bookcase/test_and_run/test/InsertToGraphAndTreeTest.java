@@ -12,22 +12,21 @@ import classes.Document;
 class InsertToGraphAndTreeTest {
 
 	private static Bookcase instance;
-	
-	
+
 	@BeforeAll
 	static void setUpBeforeClass() {
 		instance = Bookcase.getInstance();
-		
+
 		instance.newCarreer("Informática", 4);
 		instance.newSubject("001", "Maemática1");
-		instance.newMaterial(Document.class, Arrays.asList("00100"), "","",new GregorianCalendar(),"");
+		instance.newMaterial(Document.class, Arrays.asList("00100"), "", "", new GregorianCalendar(), "");
 	}
 
 	@Test
 	void test() {
-		
+
 		System.out.println();
-		
+
 	}
 
 }

@@ -58,12 +58,24 @@ public class Bookcase {
 		if (instance == null) {
 			instance = new Bookcase();
 			instance.tree.setRoot(new BinaryTreeNode<>(new University("0", "Cujae")));
+
 			/*instance.newCarreer("Informática", 4);
 			instance.newSubject("001", "Matemática");
 			instance.newSubject("002", "Matemáticb");
 			instance.newSubject("003", "Matemáticc");
 			instance.newSubject("004", "Matemáticd");*/
+			
+			instance.newMaterial(Document.class, Arrays.asList("00100"), "A", "", new GregorianCalendar(), "");
+			instance.newMaterial(Document.class, Arrays.asList("00100"), "B", "", new GregorianCalendar(), "");
+			
 
+			instance.newCarreer("Ciencias Médicas", 6);
+			instance.newSubject("011", "asdsd");
+			instance.newSubject("011", "asdadasd");
+			instance.newSubject("011", "asdsdad");
+			instance.newSubject("021", "asdasdasd");
+			
+			instance.newMaterial(Document.class, Arrays.asList("00100"), "C", "", new GregorianCalendar(), "");
 		}
 		return instance;
 	}
@@ -163,9 +175,8 @@ public class Bookcase {
 		return new Object[] { addSubjectToTree(yearId, subject), addSubjectToGraph(subject) };
 	}
 
-	public <E extends Material> Vertex newMaterial(Class<E> typeMaterial, List<String> idList, Object... args) {
+	public <E extends Material> E newMaterial(Class<E> typeMaterial, List<String> idList, Object... args) {
 
-		Vertex res = null;
 		String id = randomMaterialId();
 		List<Object> arg = new ArrayList<>();
 		arg.add(id);
@@ -204,9 +215,8 @@ public class Bookcase {
 			graph.insertEdgeNDG(posTail, posHead);
 		}
 
-		return res;
+		return info;
 	}
-	
 
 	private boolean checkId(String id) {
 
@@ -427,8 +437,7 @@ public class Bookcase {
 
 				} else if (grade == max) {
 					// si es igual se añade el subject a la lista
-					
-					
+
 					Auxiliary aux = findInfoSubjcetId(((Subject) help).getId());
 					escLits.add(new SubAuxiliary(subject, (Carreer) aux.getCarrerNode().getInfo(),
 							(Year) aux.getYearNode().getInfo()));
@@ -528,8 +537,8 @@ public class Bookcase {
 /*
 	public Auxiliary findInfoSubjcetId(String id) {
 		Auxiliary aux = new Auxiliary();
-		//cambie aqui
-		String carreer = id.substring(0,2);
+		// cambie aqui
+		String carreer = id.substring(0, 2);
 		int year = Integer.parseInt(id.substring(2, 3));
 
 		List<BinaryTreeNode<NodeInfo>> list = instance.tree.getSons((BinaryTreeNode<NodeInfo>) instance.tree.getRoot());
@@ -877,13 +886,13 @@ public class Bookcase {
 	}
 
 	public List<Year> getAllYearOfCarrer(Carreer carreer) {
-		List<Year> escList = new LinkedList<Year>();
+		List<Year> escList = new LinkedList<>();
 		BinaryTreeNode<NodeInfo> node = getCarreerNode(carreer.getId());
 
 		node = node.getLeft();
 
 		while (node != null) {
-			escList.add((Year)node.getInfo());
+			escList.add((Year) node.getInfo());
 
 			node = node.getRight();
 
@@ -892,14 +901,44 @@ public class Bookcase {
 		return escList;
 
 	}
-	public List<Subject> getALlSubjectOfYear(Year year)
-	{
-		BinaryTreeNode<NodeInfo> a = getYearNode(year.getId());
-		List<Subject> escLists = new LinkedList<Subject>();
-		
-		
-		
-		return escLists;
+
+	public List<Subject> getAllSubjectsFromYear(String id) {
+		List<Subject> res = new ArrayList<>();
+		BinaryTreeNode<NodeInfo> yearNode = getYearNode(id);
+		for (BinaryTreeNode<NodeInfo> node : tree.getSons(yearNode)) {
+			res.add((Subject) node.getInfo());
+		}
+		return res;
+	}
+
+	public List<Material> getAllMaterials() {
+
+		List<Material> res = new ArrayList<>();
+		for(Vertex vertex : graph.getVerticesList()) {
+			if (vertex.getInfo() instanceof Material material)
+				res.add(material);
+
+		}
+		return res;
+	}
+
+	public List<Subject> getAllSubjects() {
+
+		List<Subject> res = new ArrayList<>();
+		InBreadthIteratorWithLevels<NodeInfo> it = tree.inBreadthIteratorWithLevels();
+		boolean stop = false;
+		while (!stop && it.hasNext()) {
+			BreadthNode<NodeInfo> breathNode = it.nextNodeWithLevel();
+			int level = breathNode.getLevel();
+			if (level > 3)
+				stop = true;
+
+			if (level == 3) {
+				res.add((Subject) breathNode.getInfo());
+			}
+		}
+
+		return res;
 	}
 	
 	public void addRelation(String subjectId, String materialId)
@@ -960,5 +999,5 @@ public class Bookcase {
 		
 		
 	}
-	
+
 }
