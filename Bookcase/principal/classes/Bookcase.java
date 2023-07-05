@@ -57,7 +57,6 @@ public class Bookcase {
 			instance = new Bookcase();
 
 			inicializacion();
-			inicializacion();
 
 			/* instance.tree.setRoot(new BinaryTreeNode<>(new University("0", "Cujae")));
 
@@ -1038,249 +1037,165 @@ public class Bookcase {
 
 	}
 
-	public static void inicializacion() {
-		Bookcase bookcase = Bookcase.getInstance(); // en bookcase ya hay una carrera por eso empiezo en "01"
+	public static void inicializacion(){
+		Bookcase bookcase = Bookcase.getInstance();  //en bookcase ya hay una carrera por eso empiezo en "01"
 
-		bookcase.tree.setRoot(new BinaryTreeNode<>(new University("123456789", "CUJAE")));
+		bookcase.getTree().setRoot(new BinaryTreeNode<NodeInfo>(new University("00000000000000000","CUJAE")));
 
-		// Carrera 1
-		bookcase.newCarreer("Informatica", 4); // Cogigo de carrera "01" Codigo de los años de la carrera es
-												// "011","012"."013"."014"
+	// Carrera 1
+		bookcase.newCarreer("Informatica", 4);  //Cogigo de carrera "00" Codigo de los años de la carrera es "011","012"."013"."014"
 
-		// Asignaturas 1erAnno
-		bookcase.newSubject("001", "Calculo1");
-		bookcase.newSubject("001", "Filosofia");
+    // Asignaturas 1erAnno
+	    bookcase.newSubject("001", "Calculo1");
+		bookcase.newSubject("001", "Filosofia");		
 		bookcase.newSubject("001", "Matematica Computacional");
 
-		// 2do anno
+		//2do anno
 		bookcase.newSubject("002", "Historia");
 		bookcase.newSubject("002", "Calculo2");
 		bookcase.newSubject("002", "Fisica");
-		// 3ro anno
+		//3ro anno
 		bookcase.newSubject("003", "BD");
 		bookcase.newSubject("003", "RA");
 		bookcase.newSubject("003", "TP");
-		// 4to anno
+		//4to anno
 		bookcase.newSubject("004", "Calculo3");
 		bookcase.newSubject("004", "Economia Politica");
 		bookcase.newSubject("004", "Economia Empresarial");
+		
+		
+	// Materiales 1er Anno Calculo1
+	bookcase.newMaterial(Book.class, Arrays.asList("00100"),"Stewart","Anonimo",new GregorianCalendar(2014,2,12),"Felix Varela","1ra","2001");
+	bookcase.newMaterial(Document.class, Arrays.asList("00100"),"Resumenes de Calculo1","Anonimo",new GregorianCalendar(2014,2,12), ".doc");
+	bookcase.newMaterial(Book.class, Arrays.asList("00100"),"Algebra Lineal","Anonimo",new GregorianCalendar(2014,2,12),"Felix Varela","3ra","2001");
+	// Materiales 1er Anno Filosofia
+	bookcase.newMaterial(Book.class, Arrays.asList("00101"),"Marxismo","Anonimo",new GregorianCalendar(2014,2,12),"Carlos Varela","2da","2002");
+	bookcase.newMaterial(Document.class, Arrays.asList("00101"),"Guias para Parciales ?","Titulo2",new GregorianCalendar(2014,2,12), ".pdf");
+	bookcase.newMaterial(Book.class, Arrays.asList("00101"),"Socialismo","Anonimo",new GregorianCalendar(2014,2,12),"Carlos Varela","2da","2004");
+	// Materiales 1er Anno MC
+	bookcase.newMaterial(Book.class, Arrays.asList("00102"),"Matematica Computacional 1","Mark Allen Weiss",new GregorianCalendar(2014,2,12),"Felix Varela","3ra","2001");
+	bookcase.newMaterial(Document.class, Arrays.asList("00102"),"Compendio de resumenes","Profesor Eresto",new GregorianCalendar(2014,2,12), ".pdf");
+	bookcase.newMaterial(Book.class, Arrays.asList("00102"),"Matematica Computacional 2","William Stallings",new GregorianCalendar(2014,2,12),"Felix Varela","3ra","2001");
+	// Materiales 2do Anno Historia
+	bookcase.newMaterial(Exercices.class, Arrays.asList("00200"),"Folleto","William S",new GregorianCalendar(2014,2,12), 12 ,"Tipe1" );
+    bookcase.newMaterial(Document.class, Arrays.asList("00200"),"Documentales por ver","Carlos Antonio",new GregorianCalendar(2014,2,12), ".mp4");
+	bookcase.newMaterial(Book.class, Arrays.asList("00200"),"Hisoria de Cuba ","James Monte",new GregorianCalendar(2014,2,12),"Felix Varela","1ra","2001");
+	// Materiales 2do Anno Calculo2
+	bookcase.newMaterial(Book.class, Arrays.asList("00201"),"Trascendentes Tempranas de James Stewart","James Stewart",new GregorianCalendar(2014,2,12),"Felix Varela","1ra","2001");
+	bookcase.newMaterial(Document.class, Arrays.asList("00201"),"Resumenes de Calculo1","Profesor Ester",new GregorianCalendar(2014,2,12), ".ppt");
+	bookcase.newMaterial(Book.class, Arrays.asList("00201"),"Ecuaciones Diferenciales con Aplicaciones Parte I","Zill",new GregorianCalendar(2014,2,12),"Felix Varela","1ra","2001");
+	// Materiales 2do Anno Fisica
+	bookcase.newMaterial(Exercices.class, Arrays.asList("00202"),"Ejercicios de Fisica","Profesor Antonio",new GregorianCalendar(2014,2,12), 4 ,".doc" );
+    bookcase.newMaterial(Document.class, Arrays.asList("00202"),"Documnetos Utiles","Profesor Manuel",new GregorianCalendar(2014,2,12), "pdf");
+	bookcase.newMaterial(Book.class, Arrays.asList("00202"),"Fisica","Johnsonbaugh",new GregorianCalendar(2014,2,12),"Felix Varela","3ra","2001");
+	// Materiales 3er Anno BD
+	bookcase.newMaterial(Book.class, Arrays.asList("00300"),"C/C++ Tomo I","Anonimo",new GregorianCalendar(2014,2,12),"Felix Varela","1ra","2002");
+	bookcase.newMaterial(Document.class, Arrays.asList("0130"),"Listas de libros","Profesor Maria",new GregorianCalendar(2014,2,12), ".excel");
+	bookcase.newMaterial(Book.class, Arrays.asList("00300"),"C/C++ Tomo II","Anonimo",new GregorianCalendar(2014,2,12),"Felix Varela","1ra","2002");
+	// Materiales 3er Anno RA
+	bookcase.newMaterial(Book.class, Arrays.asList("00301"),"Estructura de Datos en Java Volumen I","Mark Allen Weiss",new GregorianCalendar(2014,2,12),"Felix Varela","3ra","2001");
+	bookcase.newMaterial(Document.class, Arrays.asList("01301"),"Conferncias","Profesor Leonardo",new GregorianCalendar(2014,2,12), ".ppt");
+	bookcase.newMaterial(Book.class, Arrays.asList("00301"),"Estructura de Datos en Java Volumen II","Mark Allen Weiss",new GregorianCalendar(2014,2,12),"Felix Varela","2ra","2001");
+	// Materiales 3er Anno TP
+	bookcase.newMaterial(Book.class, Arrays.asList("00302"),"Quimica General","Anonimo",new GregorianCalendar(2014,2,12),"Felix Varela","2ra","2001");
+	bookcase.newMaterial(Document.class, Arrays.asList("01302"),"Conferncias","Lpru.orp Alberto",new GregorianCalendar(2014,2,12), ".ppt");
+	bookcase.newMaterial(Book.class, Arrays.asList("00302"),"Quimica General tomo II","Anonimo",new GregorianCalendar(2014,2,12),"Felix Varela","2ra","2001");
+	// Materiales 4to Anno Calculo3
+	bookcase.newMaterial(Exercices.class, Arrays.asList("00400"),"Folleto","Profesor Manuel",new GregorianCalendar(2014,2,12), 15 ,".doc" );
+    bookcase.newMaterial(Document.class, Arrays.asList("00400"),"Conferncias","Manuel",new GregorianCalendar(2014,2,12), "ppt");
+	// Materiales 4to Anno Economia Politica
+	bookcase.newMaterial(Exercices.class, Arrays.asList("00401"),"Folleto","Manuel Carlos",new GregorianCalendar(2014,2,12), 16 ,".excel" );
+    bookcase.newMaterial(Document.class, Arrays.asList("00401"),"Conferncias","Fuanito",new GregorianCalendar(2014,2,12), ".ppt");
+	bookcase.newMaterial(Book.class, Arrays.asList("00401"),"Marxismo","Zell Sack",new GregorianCalendar(2014,2,12),"Felix Varela","2da","2001");
+	// Materiales 4to Anno Economia Empresarial
+	bookcase.newMaterial(Exercices.class, Arrays.asList("00402"),"Ejecicios de clase","Pedro M",new GregorianCalendar(2014,2,12), 17 ,".doc" );
+    bookcase.newMaterial(Document.class, Arrays.asList("00402"),"Conferencias","Pedro C",new GregorianCalendar(2014,2,12), ".ppt");
+	bookcase.newMaterial(Book.class, Arrays.asList("00402"),"Economia","Anonimo",new GregorianCalendar(2014,2,12),"Felix Varela","2ra","2001");
+	
+	// Carrera 2
+	bookcase.newCarreer("Mecanica", 4);  //Cogigo de carrera "01" Codigo de los años de la carrera es "021","022"."023"."024"
 
-		/* // Materiales 1er Anno Calculo1
-		bookcase.newMaterial(Book.class, Arrays.asList("011??"), "1 / 5 / 2023", "Stewart", "Anonimo", "Felix Varela",
-				"1ra", "2001");
-		bookcase.newMaterial(Document.class, Arrays.asList("011??"), 2 / 5 / 2022, "Resumenes de Calculo1", "Anonimo",
-				".doc");
-		bookcase.newMaterial(Book.class, Arrays.asList("011??"), 3 / 5 / 2023, "Algebra Lineal", "Anonimo",
-				"Felix Varela", "3ra", "2001");
-		// Materiales 1er Anno Filosofia
-		bookcase.newMaterial(Book.class, Arrays.asList("011??"), 4 / 5 / 2023, "Marxismo", "Anonimo", "Carlos Varela",
-				"2da", "2002");
-		bookcase.newMaterial(Document.class, Arrays.asList("011??"), 5 / 5 / 2023, "Guias para Parciales ?", "Titulo2",
-				"Anonimo", ".pdf");
-		bookcase.newMaterial(Book.class, Arrays.asList("011??"), 6 / 5 / 2023, "Socialismo", "Anonimo", "Carlos Varela",
-				"2da", "2004");
-		// Materiales 1er Anno MC
-		bookcase.newMaterial(Book.class, Arrays.asList("011??"), 7 / 5 / 2023, "Matematica Computacional 1",
-				"Mark Allen Weiss", "Felix Varela", "3ra", "2001");
-		bookcase.newMaterial(Document.class, Arrays.asList("011??"), 8 / 5 / 2023, "Compendio de resumenes",
-				"Profesor Eresto", ".pdf");
-		bookcase.newMaterial(Book.class, Arrays.asList("011??"), 9 / 5 / 2023, "Matematica Computacional 2",
-				"William Stallings", "Felix Varela", "3ra", "2001");
-		// Materiales 2do Anno Historia
-		bookcase.newMaterial(Exercices.class, Arrays.asList("012??"), 11 / 5 / 2023, "Folleto", "William S", 12,
-				"Tipe1");
-		bookcase.newMaterial(Document.class, Arrays.asList("012??"), 14 / 5 / 2023, "Documentales por ver",
-				"Carlos Antonio", ".mp4");
-		bookcase.newMaterial(Book.class, Arrays.asList("012??"), 16 / 5 / 2023, "Hisoria de Cuba ", "James Monte",
-				"Felix Varela", "1ra", "2001");
-		// Materiales 2do Anno Calculo2
-		bookcase.newMaterial(Book.class, Arrays.asList("012??"), 17 / 5 / 2023,
-				"Trascendentes Tempranas de James Stewart", "James Stewart", "Felix Varela", "1ra", "2001");
-		bookcase.newMaterial(Document.class, Arrays.asList("012??"), 18 / 5 / 2023, "Resumenes de Calculo1",
-				"Profesor Ester", ".ppt");
-		bookcase.newMaterial(Book.class, Arrays.asList("012??"), 19 / 5 / 2023,
-				"Ecuaciones Diferenciales con Aplicaciones Parte I", "Zill", "Felix Varela", "1ra", "2001");
-		// Materiales 2do Anno Fisica
-		bookcase.newMaterial(Exercices.class, Arrays.asList("012??"), 12 / 1 / 2023, "Ejercicios de Fisica",
-				"Profesor Antonio", 4, ".doc");
-		bookcase.newMaterial(Document.class, Arrays.asList("012??"), 12 / 2 / 2023, "Documnetos Utiles",
-				"Profesor Manuel", "pdf");
-		bookcase.newMaterial(Book.class, Arrays.asList("012??"), 12 / 3 / 2023, "Fisica", "Johnsonbaugh",
-				"Felix Varela", "3ra", "2001");
-		// Materiales 3er Anno BD
-		bookcase.newMaterial(Book.class, Arrays.asList("013??"), 12 / 4 / 2023, "C/C++ Tomo I", "Anonimo", "1ra",
-				"2002");
-		bookcase.newMaterial(Document.class, Arrays.asList("013??"), 12 / 5 / 2023, "Listas de libros",
-				"Profesor Maria", ".excel");
-		bookcase.newMaterial(Book.class, Arrays.asList("013??"), 12 / 6 / 2023, "C/C++ Tomo II", "Anonimo", "1ra",
-				"2002");
-		// Materiales 3er Anno RA
-		bookcase.newMaterial(Book.class, Arrays.asList("013??"), 12 / 6 / 2023, "Estructura de Datos en Java Volumen I",
-				"Mark Allen Weiss", "Felix Varela", "3ra", "2001");
-		bookcase.newMaterial(Document.class, Arrays.asList("013??"), 12 / 7 / 2023, "Conferncias", "Profesor Leonardo",
-				".ppt");
-		bookcase.newMaterial(Book.class, Arrays.asList("013??"), 12 / 12 / 2023,
-				"Estructura de Datos en Java Volumen II", "Mark Allen Weiss", "Felix Varela", "2ra", "2001");
-		// Materiales 3er Anno TP
-		bookcase.newMaterial(Book.class, Arrays.asList("013??"), 12 / 9 / 2023, "Quimica General", "Anonimo",
-				"Felix Varela", "2ra", "2001");
-		bookcase.newMaterial(Document.class, Arrays.asList("013??"), 12 / 10 / 2023, "Conferncias", "Lpru.orp Alberto",
-				".ppt");
-		bookcase.newMaterial(Book.class, Arrays.asList("013??"), 12 / 11 / 2023, "Quimica General tomo II", "Anonimo",
-				"Felix Varela", "2ra", "2001");
-		// Materiales 4to Anno Calculo3
-		bookcase.newMaterial(Exercices.class, Arrays.asList("014??"), 12 / 5 / 2023, "Folleto", "Profesor Manuel", 15,
-				".doc");
-		bookcase.newMaterial(Document.class, Arrays.asList("014??"), 12 / 5 / 2003, "Conferncias", "Manuel", "ppt");
-		bookcase.newMaterial(Book.class, Arrays.asList("014??"), 12 / 5 / 2004,
-				"Ecuaciones Diferenciales con Aplicaciones Parte I", "Zill", "Felix Varela", "1ra", "2001");
-		// Materiales 4to Anno Economia Politica
-		bookcase.newMaterial(Exercices.class, Arrays.asList("014??"), 12 / 5 / 2001, "Folleto", "Manuel Carlos", 16,
-				".excel");
-		bookcase.newMaterial(Document.class, Arrays.asList("014??"), 12 / 5 / 2000, "Conferncias", "Fuanito", ".ppt");
-		bookcase.newMaterial(Book.class, Arrays.asList("014??"), 12 / 5 / 2009, "Marxismo", "Zell Sack", "Felix Varela",
-				"2da", "2001");
-		// Materiales 4to Anno Economia Empresarial
-		bookcase.newMaterial(Exercices.class, Arrays.asList("014??"), 12 / 5 / 2010, "Ejecicios de clase", "Pedro M",
-				17, ".doc");
-		bookcase.newMaterial(Document.class, Arrays.asList("014??"), 12 / 5 / 2011, "Conferencias", "Pedro C", ".ppt");
-		bookcase.newMaterial(Book.class, Arrays.asList("014??"), 12 / 5 / 2012, "Economia", "Anonimo", "Felix Varela",
-				"2ra", "2001"); */
-
-		// Carrera 2
-		bookcase.newCarreer("Mecanica", 4); // Cogigo de carrera "02" Codigo de los años de la carrera es
-											// "021","022"."023"."024"
-
-		// Asignaturas 1erAnno
-		bookcase.newSubject("011", "ResistenciaM");
+    // Asignaturas 1erAnno
+	    bookcase.newSubject("011", "ResistenciaM");
 		bookcase.newSubject("011", "Calculo1");
 		bookcase.newSubject("011", "Seguridad Nacional");
-		// 2do anno
+		//2do anno
 		bookcase.newSubject("012", "MaquinasA");
 		bookcase.newSubject("012", "Calculo2");
 		bookcase.newSubject("012", "Economia Empresarial");
-		// 3ro anno
+		//3ro anno
 		bookcase.newSubject("013", "Termodinamica");
 		bookcase.newSubject("013", "Fisica");
 		bookcase.newSubject("013", "Calculo3");
 
-		/* // Materiales 1er Anno ResistenciaM
-		bookcase.newMaterial(Book.class, Arrays.asList("021??"), 12 / 5 / 2013, "Resistencia I", "Anonimo",
-				"Felix Varela", "1ra", "2001");
-		bookcase.newMaterial(Document.class, Arrays.asList("021??"), 12 / 5 / 2014, "Conferencias", "Pedro C", ".ppt");
-		bookcase.newMaterial(Book.class, Arrays.asList("021??"), 12 / 5 / 2015, "Resistencia I", "Anonimo",
-				"Felix Varela", "1ra", "2001");
-		// Materiales 1er Anno Calculo1
-		bookcase.newMaterial(Book.class, Arrays.asList("021??"), 12 / 5 / 2016, "Stewart", "Anonimo", "Felix Varela",
-				"1ra", "2001");
-		bookcase.newMaterial(Document.class, Arrays.asList("021??"), 12 / 5 / 2017, "Resumenes de Calculo1", "Anonimo",
-				".doc");
-		bookcase.newMaterial(Book.class, Arrays.asList("021??"), 12 / 5 / 2018, "Algebra Lineal", "Anonimo",
-				"Felix Varela", "3ra", "2001");
-		// Materiales 1er Anno Seguridad Nacional
-		bookcase.newMaterial(Book.class, Arrays.asList("021??"), 12 / 5 / 2019, "Seguridad y Defensa Nacional",
-				"Anonimo", "Felix Varela", "1ra", "2001");
-		bookcase.newMaterial(Document.class, Arrays.asList("021??"), 12 / 5 / 2020, "Conferencias", "Anonimo", "ppt");
-		// Materiales 2do Anno MaquinasA
-		bookcase.newMaterial(Exercices.class, Arrays.asList("022??"), 5 / 5 / 2020, "Ejercicios", "Antonio", 6, ".doc");
-		bookcase.newMaterial(Document.class, Arrays.asList("022??"), 6 / 5 / 2023, "Conferncias", "Xavier M", "ppt");
-		bookcase.newMaterial(Book.class, Arrays.asList("022??"), 7 / 5 / 2023, "Maquinas Automotris ", "Anonimo",
-				"Felix Varela", "3ra", "2001");
-		// Materiales 2do Anno Calculo2
-		bookcase.newMaterial(Book.class, Arrays.asList("022??"), 8 / 5 / 2023,
-				"Trascendentes Tempranas de James Stewart", "James Stewart", "Felix Varela", "1ra", "2001");
-		bookcase.newMaterial(Document.class, Arrays.asList("022??"), 9 / 5 / 2023, "Resumenes de Calculo1",
-				"Profe Ester", ".ppt");
-		bookcase.newMaterial(Book.class, Arrays.asList("022??"), 10 / 5 / 2023,
-				"Ecuaciones Diferenciales con Aplicaciones Parte I", "Zill", "Felix Varela", "1ra", "2001");
-		// Materiales 2do Anno Economia Empresarial
-		bookcase.newMaterial(Exercices.class, Arrays.asList("022??"), 11 / 5 / 2023, "Ejecicios de clase", "Pedro M",
-				17, ".doc");
-		bookcase.newMaterial(Document.class, Arrays.asList("022??"), 11 / 5 / 2023, "Conferencias", "Pedro C", ".ppt");
-		bookcase.newMaterial(Book.class, Arrays.asList("022??"), 12 / 5 / 2023, "Economia", "Anonimo", "Felix Varela",
-				"2ra", "2001");
-		// Materiales 3er Anno Termodinamica
-		bookcase.newMaterial(Book.class, Arrays.asList("023??"), 13 / 5 / 2023, "Termodinamica I", "Anonimo",
-				"Felix Varela", "2ra", "2001");
-		bookcase.newMaterial(Document.class, Arrays.asList("023??"), 14 / 5 / 2023, "id7 ?", "Guia Estudio", "Calors",
-				".doc");
-		bookcase.newMaterial(Book.class, Arrays.asList("023??"), 15 / 5 / 2023, "Termodinamica II", "Anonimo",
-				"Felix Varela", "2ra", "2001");
-		// Materiales 3er Anno Fisica
-		bookcase.newMaterial(Exercices.class, Arrays.asList("023??"), 12 / 5 / 2023, "Ejercicios de Fisica",
-				"Profesor Antonio", 4, ".doc");
-		bookcase.newMaterial(Document.class, Arrays.asList("023??"), 12 / 5 / 2023, "Documnetos Utiles",
-				"Profesor Manuel", "pdf");
-		bookcase.newMaterial(Book.class, Arrays.asList("023??"), 12 / 5 / 2023, "Fisica", "Johnsonbaugh",
-				"Felix Varela", "3ra", "2001");
-		// Materiales 3er Anno Calculo3
-		bookcase.newMaterial(Book.class, Arrays.asList("023??"), 12 / 5 / 2023, "Algebra Lineal I", "Anonimo",
-				"Felix Varela", "3ra", "2001");
-		bookcase.newMaterial(Document.class, Arrays.asList("023??"), 1 / 5 / 2023, "Conferencias", "Roberto C", "ppt");
-		bookcase.newMaterial(Book.class, Arrays.asList("023??"), 15 / 5 / 2023, "Algebra Lineal II", "Anonimo",
-				"Felix Varela", "3ra", "2001");
+	// Materiales 1er Anno ResistenciaM	
+	bookcase.newMaterial(Book.class, Arrays.asList("01100"),"Resistencia I","Anonimo",new GregorianCalendar(2014,2,12),"Felix Varela","1ra","2001");
+	bookcase.newMaterial(Document.class, Arrays.asList("01100"),"Conferencias","Pedro C",new GregorianCalendar(2014,5,12), ".ppt");
+	bookcase.newMaterial(Book.class, Arrays.asList("01100"),"Resistencia I","Anonimo",new GregorianCalendar(2014,5,12),"Felix Varela","1ra","2001");
+	// Materiales 1er Anno Calculo1
+	bookcase.newMaterial(Book.class, Arrays.asList("01101"),"Stewart","Anonimo",new GregorianCalendar(2014,5,12),"Felix Varela","1ra","2001");
+	bookcase.newMaterial(Document.class, Arrays.asList("01101"),"Resumenes de Calculo1","Anonimo",new GregorianCalendar(2014,5,12), ".doc");
+	bookcase.newMaterial(Book.class, Arrays.asList("01101"),"Algebra Lineal","Anonimo",new GregorianCalendar(2014,5,12),"Felix Varela","3ra","2001");
+	// Materiales 1er Anno Seguridad Nacional
+	bookcase.newMaterial(Book.class, Arrays.asList("01102"),"Seguridad y Defensa Nacional","Anonimo",new GregorianCalendar(2014,5,12),"Felix Varela","1ra","2001");
+	bookcase.newMaterial(Document.class, Arrays.asList("01102"),"Conferencias","Anonimo",new GregorianCalendar(2014,5,12), "ppt");
+	// Materiales 2do Anno MaquinasA
+	bookcase.newMaterial(Exercices.class, Arrays.asList("01200"),"Ejercicios","Antonio",new GregorianCalendar(2014,5,12), 6 ,".doc" );
+    bookcase.newMaterial(Document.class, Arrays.asList("01200"),"Conferncias","Xavier M",new GregorianCalendar(2014,5,12), "ppt");
+	bookcase.newMaterial(Book.class, Arrays.asList("01200"),"Maquinas Automotris ","Anonimo",new GregorianCalendar(2014,5,12),"Felix Varela","3ra","2001");
+	// Materiales 2do Anno Calculo2
+	bookcase.newMaterial(Book.class, Arrays.asList("01201"),"Trascendentes Tempranas de James Stewart","James Stewart",new GregorianCalendar(2014,5,12),"Felix Varela","1ra","2001");
+	bookcase.newMaterial(Document.class, Arrays.asList("01201"),"Resumenes de Calculo1","Profe Ester",new GregorianCalendar(2014,5,12), ".ppt");
+	bookcase.newMaterial(Book.class, Arrays.asList("01201"),"Ecuaciones Diferenciales con Aplicaciones Parte I","Zill",new GregorianCalendar(2014,5,12),"Felix Varela","1ra","2001");
+	// Materiales 2do Anno Economia Empresarial
+	bookcase.newMaterial(Exercices.class, Arrays.asList("01202"),"Ejecicios de clase","Pedro M",new GregorianCalendar(2014,5,12), 17 ,".doc" );
+	bookcase.newMaterial(Book.class, Arrays.asList("01202"),"Economia","Anonimo",new GregorianCalendar(2014,5,12),"Felix Varela","2ra","2001");
+	// Materiales 3er Anno Termodinamica
+	bookcase.newMaterial(Book.class, Arrays.asList("01300"),"Termodinamica I","Anonimo",new GregorianCalendar(2014,5,12),"Felix Varela","2ra","2001");
+	bookcase.newMaterial(Document.class, Arrays.asList("01300"),"id7 ?","Guia Estudio",new GregorianCalendar(2014,5,12), ".doc");
+	bookcase.newMaterial(Book.class, Arrays.asList("01300"),"Termodinamica II","Anonimo",new GregorianCalendar(2014,5,12),"Felix Varela","2ra","2001");
+	// Materiales 3er Anno Fisica
+	bookcase.newMaterial(Exercices.class, Arrays.asList("01301"),"Ejercicios de Fisica","Profesor Antonio",new GregorianCalendar(2014,5,12), 4 ,".doc" );
+    bookcase.newMaterial(Document.class, Arrays.asList("01301"),"Documnetos Utiles","Profesor Manuel",new GregorianCalendar(2014,5,12), "pdf");
+	bookcase.newMaterial(Book.class, Arrays.asList("01301"),"Fisica","Johnsonbaugh",new GregorianCalendar(2014,5,12),"Felix Varela","3ra","2001");
+	// Materiales 3er Anno Calculo3
+	bookcase.newMaterial(Book.class, Arrays.asList("01302"),"Algebra Lineal I","Anonimo",new GregorianCalendar(2014,5,12),"Felix Varela","3ra","2001");
+	bookcase.newMaterial(Document.class, Arrays.asList("01302"),"Conferencias","Roberto C",new GregorianCalendar(2014,5,12), "ppt");
+	bookcase.newMaterial(Book.class, Arrays.asList("01302"),"Algebra Lineal II","Anonimo",new GregorianCalendar(2014,5,12),"Felix Varela","3ra","2001");
+	
+	
+	// Carrera 3
+	bookcase.newCarreer("Industrial", 3);  //Cogigo de carrera "02" Codigo de los años de la carrera es "031","032"."033".
 
-		// Carrera 3
-		bookcase.newCarreer("Industrial", 3); // Cogigo de carrera "03" Codigo de los años de la carrera es
-												// "031","032"."033".
+    // Asignaturas 1erAnno
+	    bookcase.newSubject("021", "Ingeniería industrial");
+		bookcase.newSubject("021", "Modelacion Organizacional");
+		bookcase.newSubject("021", "Calculo1");
+		//2do anno
+		bookcase.newSubject("022", "Procesos tecnológicos");
+		bookcase.newSubject("022", "Calculo2");
+		bookcase.newSubject("022", "Fisica");
+		//3ro anno
+		bookcase.newSubject("023", "Desarrollo de Sistemas Informáticos");
+		bookcase.newSubject("023", "Calculo3");
+		
+	// Materiales 1er Anno Ingeniería industrial
+	bookcase.newMaterial(Book.class, Arrays.asList("02100"),"Quimica General","Anonimo",new GregorianCalendar(2014,5,12),"Felix Varela","3ra","2001");
+	// Materiales 1er Anno Modelacion Organizacional
+	bookcase.newMaterial(Document.class, Arrays.asList("02101"),"Conferencias","Garcias",new GregorianCalendar(2014,5,12), "ppt");
+	// Materiales 1er Anno Calculo1
+	bookcase.newMaterial(Document.class, Arrays.asList("02102"),"id1 ?","Resumenes de Calculo1",new GregorianCalendar(2014,5,12), ".doc");
+	// Materiales 2do Anno Procesos tecnológicos
+	bookcase.newMaterial(Exercices.class, Arrays.asList("02200"),"Guia de Ejercicios","Anonimo",new GregorianCalendar(2014,5,12), 12 ,".doc" );
+	// Materiales 2do Anno Calculo2
+	// Materiales 2do Anno Fisica
+	// Materiales 3er Anno Desarrollo de Sistemas Informáticos
+	bookcase.newMaterial(Book.class, Arrays.asList("02300"),"C/C++ Tomo I","Anonimo",new GregorianCalendar(2014,5,12),"Felix Varela","1ra","2002");
+	bookcase.newMaterial(Document.class, Arrays.asList("02300"),"Conferncias","Anonimo",new GregorianCalendar(2014,5,12), ".ppt");
+	// Materiales 3er Anno Calculo3
+	
 
-		// Asignaturas 1erAnno
-		bookcase.newSubject("031", "Ingeniería industrial");
-		bookcase.newSubject("031", "Modelacion Organizacional");
-		bookcase.newSubject("031", "Calculo1");
-		// 2do anno
-		bookcase.newSubject("032", "Procesos tecnológicos");
-		bookcase.newSubject("032", "Calculo2");
-		bookcase.newSubject("032", "Fisica");
-		// 3ro anno
-		bookcase.newSubject("033", "Desarrollo de Sistemas Informáticos");
-		bookcase.newSubject("033", "Calculo3");
 
-		// Materiales 1er Anno Ingeniería industrial
-		bookcase.newMaterial(Book.class, Arrays.asList("031??"), 12 / 5 / 2023, "Quimica General", "Anonimo", "3ra",
-				"2001");
-		bookcase.newMaterial(Document.class, Arrays.asList("031??"), 1 / 5 / 2023, "Conferencias", "Roberto C", "ppt");
-		// Materiales 1er Anno Modelacion Organizacional
-		bookcase.newMaterial(Book.class, Arrays.asList("031??"), 12 / 5 / 2023, "Modelacion Tomo I",
-				"William Stallings", "Felix Varela", "3ra", "2001");
-		bookcase.newMaterial(Document.class, Arrays.asList("031??"), 12 / 5 / 2023, "Conferencias", "Garcias", "ppt");
-		// Materiales 1er Anno Calculo1
-		bookcase.newMaterial(Book.class, Arrays.asList("031??"), 12 / 5 / 2023, "Stewart", "Anonimo", "Felix Varela",
-				"1ra", "2001");
-		bookcase.newMaterial(Document.class, Arrays.asList("031??"), 12 / 5 / 2023, "id1 ?", "Resumenes de Calculo1",
-				"Anonimo", ".doc");
-		bookcase.newMaterial(Book.class, Arrays.asList("031??"), 12 / 5 / 2023, "Algebra Lineal", "Anonimo",
-				"Felix Varela", "3ra", "2001");
-		// Materiales 2do Anno Procesos tecnológicos
-		bookcase.newMaterial(Exercices.class, Arrays.asList("032??"), 12 / 5 / 2023, "Guia de Ejercicios", "Anonimo",
-				12, ".doc");
-		bookcase.newMaterial(Book.class, Arrays.asList("032??"), 12 / 5 / 2023, "Procesos Tecno", "Anonimo",
-				"Felix Varela", "3ra", "2001");
-		// Materiales 2do Anno Calculo2
-		bookcase.newMaterial(Book.class, Arrays.asList("032??"), 12 / 5 / 2023,
-				"Trascendentes Tempranas de James Stewart", "James Stewart", "Felix Varela", "1ra", "2001");
-		bookcase.newMaterial(Document.class, Arrays.asList("032??"), 12 / 5 / 2023, "Resumenes de Calculo1",
-				"Profe Ester", ".ppt");
-		bookcase.newMaterial(Book.class, Arrays.asList("032??"), 12 / 5 / 2023,
-				"Ecuaciones Diferenciales con Aplicaciones Parte I", "Zill", "Felix Varela", "1ra", "2001");
-		// Materiales 2do Anno Fisica
-		bookcase.newMaterial(Exercices.class, Arrays.asList("032??"), 12 / 5 / 2023, "Ejercicios de Fisica",
-				"Profesor Antonio", 4, ".doc");
-		bookcase.newMaterial(Document.class, Arrays.asList("032??"), 12 / 5 / 2023, "Documnetos Utiles",
-				"Profesor Manuel", "pdf");
-		bookcase.newMaterial(Book.class, Arrays.asList("032??"), 12 / 5 / 2023, "Fisica", "Johnsonbaugh",
-				"Felix Varela", "3ra", "2001");
-		// Materiales 3er Anno Desarrollo de Sistemas Informáticos
-		bookcase.newMaterial(Book.class, Arrays.asList("033??"), 12 / 5 / 2023, "C/C++ Tomo I", "Anonimo", "1ra",
-				"2002");
-		bookcase.newMaterial(Document.class, Arrays.asList("033??"), 12 / 5 / 2023, "Conferncias", "Anonimo", ".ppt");
-		// Materiales 3er Anno Calculo3
-		bookcase.newMaterial(Book.class, Arrays.asList("033??"), 12 / 5 / 2023, "Algebra Lineal I", "Anonimo",
-				"Felix Varela", "3ra", "2001");
-		bookcase.newMaterial(Document.class, Arrays.asList("033??"), 1 / 5 / 2023, "Conferencias", "Roberto C", "ppt");
-		bookcase.newMaterial(Book.class, Arrays.asList("033??"), 15 / 5 / 2023, "Algebra Lineal II", "Anonimo",
-				"Felix Varela", "3ra", "2001");
-}*/
 	}
 	
 	
