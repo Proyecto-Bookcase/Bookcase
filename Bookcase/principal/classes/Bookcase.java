@@ -57,6 +57,30 @@ public class Bookcase {
 			instance = new Bookcase();
 
 			inicializacion();
+
+			//instance.tree.setRoot(new BinaryTreeNode<>(new University("0", "Cujae")));
+
+
+//github.com/Proyecto-Bookcase/Bookcase.git
+			//instance.newCarreer("Informática", 4);
+			//instance.newSubject("001", "Matemática");
+			//instance.newSubject("002", "Matemáticb");
+			//instance.newSubject("003", "Matemáticc");
+			//instance.newSubject("004", "Matemáticd");
+
+		
+			//instance.newMaterial(Document.class, Arrays.asList("00100"), "A", "", new GregorianCalendar(), "");
+			//instance.newMaterial(Document.class, Arrays.asList("00100"), "B", "", new GregorianCalendar(), "");
+			
+
+
+			//instance.newCarreer("Ciencias Médicas", 6);
+			//instance.newSubject("011", "asdsd");
+			//instance.newSubject("011", "asdadasd");
+			//instance.newSubject("011", "asdsdad");
+			//instance.newSubject("021", "asdasdasd");
+			
+			//instance.newMaterial(Document.class, Arrays.asList("00100"), "C", "", new GregorianCalendar(), "");
 		}
 		return instance;
 	}
@@ -660,7 +684,9 @@ public class Bookcase {
 		Iterator<Vertex> iter = vertList.iterator();
 		while (iter.hasNext()) {
 			Vertex vert = iter.next();
+
 			if (vert.getInfo() instanceof Material material) {
+
 				LinkedList<Edge> subjectsList = vert.getEdgeList();
 				Iterator<Edge> iterEdge = subjectsList.iterator();
 				boolean inCarrerAndYear = false;
@@ -704,6 +730,40 @@ public class Bookcase {
 		}
 		return escList;
 	}
+	// devuelve todos los materiales que no usa un subject
+	public List<Material> getAllMaterialOfNotUseSubject(Subject subject) {
+		List<Material> escList = new LinkedList<>();
+
+		
+		LinkedList<Vertex> vertList = graph.getVerticesList();
+		Iterator<Vertex> iter = vertList.iterator();
+
+		LinkedList<Vertex> help = new LinkedList<Vertex>();
+		Vertex subjectVert = new Vertex(null);
+		boolean find = false;
+		while (!find && iter.hasNext()) {
+			Vertex vertIter = iter.next();
+			Object vertInfo = vertIter.getInfo();
+			if (vertInfo instanceof Subject  && ((Subject)vertInfo).getId().equals(subject.getId())) {
+					subjectVert = vertIter;
+					help = vertIter.getAdjacents();
+				}
+
+				find = true;
+			
+		}
+		Iterator<Vertex> iter2 = vertList.iterator();
+		while ( iter2.hasNext()) {
+			Vertex vertIter = iter2.next();
+			Object vertInfo = vertIter.getInfo();
+			if (vertInfo instanceof Material subj && !help.contains(vertIter)) {
+				escList.add(subj);
+			}
+			
+		}
+		return escList;
+	}
+	
 
 	// este metodo devuelve todos los subjects que utilizan un material
 	public List<Subject> getAllSubjectOfMaterial(Material material) {
@@ -911,7 +971,7 @@ public class Bookcase {
 
 	public List<Subject> getAllSubjects() {
 
-		List<Subject> res = new ArrayList<>();
+		List<Subject> res = new LinkedList<Subject>();
 		InBreadthIteratorWithLevels<NodeInfo> it = tree.inBreadthIteratorWithLevels();
 		boolean stop = false;
 		while (!stop && it.hasNext()) {
@@ -1220,5 +1280,6 @@ public class Bookcase {
 				"Felix Varela", "3ra", "2001");
 
 	}
-
+	
+	
 }
