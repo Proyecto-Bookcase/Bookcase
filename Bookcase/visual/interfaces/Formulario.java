@@ -116,6 +116,7 @@ public class Formulario extends JFrame {
 	private DeleteYearTableModel tableModelYears;
 	private DeleteSubjectTableModel tableModelSubjects;
 	private TableModelMostUseMaterial tableModelMaterials;
+	private JButton btnNewButton;
 
 	/**
 	 * Launch the application.
@@ -616,6 +617,7 @@ public class Formulario extends JFrame {
 			panelEliminar.add(getLblEliminarMaterialAsignatura());
 			panelEliminar.add(getComboBoxEliminarMaterialAsignaturas());
 			panelEliminar.add(getCustomTable());
+			panelEliminar.add(getBtnNewButton());
 
 		}
 		return panelEliminar;
@@ -1376,7 +1378,7 @@ public class Formulario extends JFrame {
 			tableModelMaterials = new TableModelMostUseMaterial();
 
 			scrTableEliminar = new CustomTable(tableModelCarreers, new int[] { 0, 1, 2 });
-			scrTableEliminar.setBounds(10, 123, 824, 300);
+			scrTableEliminar.setBounds(34, 131, 824, 300);
 		}
 		return scrTableEliminar;
 	}
@@ -1417,36 +1419,11 @@ public class Formulario extends JFrame {
 			comboBoxEliminarMaterialAsignaturas.setModel(new DefaultComboBoxModel<>(list.toArray(new String[0])));
 		}
 	}
-
-	/*
-	 * private <E> List<E> getFilterList(Class<E> typeData) {
-	 * 
-	 * List<E> res = new LinkedList<>(); GeneralTree<NodeInfo> tree =
-	 * Bookcase.getInstance().getTree();
-	 * 
-	 * List<BinaryTreeNode<NodeInfo>> list = tree.getSons((BinaryTreeNode<NodeInfo>)
-	 * tree.getRoot());
-	 * 
-	 * String item = (String) comboBoxEliminarAnnoCarrera.getSelectedItem(); if
-	 * (typeData.equals(Carreer.class)) { for (BinaryTreeNode<NodeInfo> node : list)
-	 * { res.add((E) node.getInfo()); } } else { list.removeIf(new
-	 * Predicate<BinaryTreeNode<NodeInfo>>() {
-	 * 
-	 * @Override public boolean test(BinaryTreeNode<NodeInfo> t) { return
-	 * !((Carreer)t.getInfo()).getName().equals(item); } });
-	 * 
-	 * if (res.isEmpty()) { List<BinaryTreeNode<NodeInfo>> list2 = new
-	 * LinkedList<>(); for (BinaryTreeNode<NodeInfo> node : list) {
-	 * list2.addAll(tree.getSons(node)); } list = list2;
-	 * 
-	 * if(typeData.equals(Year.class)){ for (BinaryTreeNode<NodeInfo> node : list) {
-	 * res.add((E) node.getInfo()); } }
-	 * 
-	 * if(res.isEmpty())
-	 * 
-	 * 
-	 * }
-	 * 
-	 * return res; }
-	 */
+	private JButton getBtnNewButton() {
+		if (btnNewButton == null) {
+			btnNewButton = new JButton("");
+			btnNewButton.setBounds(10, 75, 42, 40);
+		}
+		return btnNewButton;
+	}
 }

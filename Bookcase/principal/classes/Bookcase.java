@@ -59,12 +59,12 @@ public class Bookcase {
 			instance = new Bookcase();
 			instance.tree.setRoot(new BinaryTreeNode<>(new University("0", "Cujae")));
 
-			/*instance.newCarreer("Informática", 4);
+			instance.newCarreer("Informática", 4);
 			instance.newSubject("001", "Matemática");
 			instance.newSubject("002", "Matemáticb");
 			instance.newSubject("003", "Matemáticc");
-			instance.newSubject("004", "Matemáticd");*/
-			
+			instance.newSubject("004", "Matemáticd");
+		
 			instance.newMaterial(Document.class, Arrays.asList("00100"), "A", "", new GregorianCalendar(), "");
 			instance.newMaterial(Document.class, Arrays.asList("00100"), "B", "", new GregorianCalendar(), "");
 			
