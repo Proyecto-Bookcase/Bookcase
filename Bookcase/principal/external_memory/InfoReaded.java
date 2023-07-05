@@ -1,4 +1,4 @@
-package externalMemory;
+package external_memory;
 
 class InfoReaded<E> {
     private E info;

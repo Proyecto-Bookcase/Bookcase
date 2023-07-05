@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test;
 
 import cu.edu.cujae.ceis.graph.LinkedGraph;
 import cu.edu.cujae.ceis.graph.interfaces.ILinkedNotDirectedGraph;
-import externalMemory.ReadLinkedGraph;
-import externalMemory.WriteLinkedGrah;
+import external_memory.ReadLinkedGraph;
+import external_memory.WriteLinkedGrah;
 
 class WriteAndReadLinkedGraphTest {
 

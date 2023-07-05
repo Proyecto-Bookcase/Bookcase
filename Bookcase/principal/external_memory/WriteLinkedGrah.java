@@ -1,4 +1,4 @@
-package externalMemory;
+package external_memory;
 
 import java.io.File;
 import java.io.RandomAccessFile;

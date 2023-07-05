@@ -11,8 +11,8 @@ import classes.Year;
 import cu.edu.cujae.ceis.tree.binary.BinaryTreeNode;
 import cu.edu.cujae.ceis.tree.general.GeneralTree;
 import cu.edu.cujae.ceis.tree.iterators.general.InDepthIterator;
-import externalMemory.ReadGeneralTree;
-import externalMemory.WriteGeneralTree;
+import external_memory.ReadGeneralTree;
+import external_memory.WriteGeneralTree;
 import interfaces.NodeInfo;
 
 public class BookcaseTests {

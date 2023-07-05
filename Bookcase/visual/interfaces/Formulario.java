@@ -32,6 +32,8 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import org.junit.platform.console.shadow.picocli.CommandLine.Help.Column;
+
 import com.toedter.calendar.JDateChooser;
 
 import classes.Bookcase;
@@ -43,6 +45,7 @@ import cu.edu.cujae.ceis.graph.vertex.Vertex;
 import cu.edu.cujae.ceis.tree.binary.BinaryTreeNode;
 import cu.edu.cujae.ceis.tree.general.GeneralTree;
 import cu.edu.cujae.ceis.tree.iterators.general.InBreadthIterator;
+import custom_components.Auxiliary;
 import custom_components.CustomTable;
 import logica.DeleteCarreerTableModel;
 import logica.DeleteSubjectTableModel;
@@ -116,7 +119,7 @@ public class Formulario extends JFrame {
 	private DeleteYearTableModel tableModelYears;
 	private DeleteSubjectTableModel tableModelSubjects;
 	private TableModelMostUseMaterial tableModelMaterials;
-	private JButton btnNewButton;
+	private JButton deleteButton;
 
 	/**
 	 * Launch the application.
@@ -158,6 +161,8 @@ public class Formulario extends JFrame {
 	private JPanel getPanel() {
 		if (panel == null) {
 			panel = new JPanel();
+			panel.setOpaque(false);
+			panel.setFocusable(false);
 			panel.setBorder(new LineBorder(new Color(0, 0, 0)));
 			panel.setBackground(new Color(255, 255, 255));
 			panel.setBounds(0, 53, 139, 445);
@@ -360,6 +365,9 @@ public class Formulario extends JFrame {
 
 					btnEditarMostrar.setVisible(true);
 					btnAnnadirMostrar.setVisible(true);
+					
+					deleteButton.setVisible(true);
+					
 					// panelDeTrabajo.setVisible(false);
 
 					if (x == 850) {
@@ -606,6 +614,7 @@ public class Formulario extends JFrame {
 	private JPanel getPanelEliminar() {
 		if (panelEliminar == null) {
 			panelEliminar = new JPanel();
+			panelEliminar.setOpaque(false);
 			panelEliminar.setBackground(new Color(255, 255, 255));
 			panelEliminar.setLayout(null);
 			panelEliminar.add(getLblNewLabel_2());
@@ -617,7 +626,7 @@ public class Formulario extends JFrame {
 			panelEliminar.add(getLblEliminarMaterialAsignatura());
 			panelEliminar.add(getComboBoxEliminarMaterialAsignaturas());
 			panelEliminar.add(getCustomTable());
-			panelEliminar.add(getBtnNewButton());
+			panelEliminar.add(getDeleteButton());
 
 		}
 		return panelEliminar;
@@ -1048,6 +1057,7 @@ public class Formulario extends JFrame {
 	private JScrollPane getScrollPane_1() {
 		if (scrollPane_1 == null) {
 			scrollPane_1 = new JScrollPane();
+			scrollPane_1.setOpaque(false);
 			scrollPane_1.setBackground(new Color(255, 255, 255));
 			scrollPane_1.setBounds(0, 0, 846, 10278);
 			scrollPane_1.setViewportView(getPanelEliminar());
@@ -1160,27 +1170,7 @@ public class Formulario extends JFrame {
 			comboBoxEliminarAnnoCarrera = new JComboBox<>(new YearsComboBoxModel());
 			comboBoxEliminarAnnoCarrera.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if (comboBoxEliminar.getSelectedIndex() > 1) {
-						if (comboBoxEliminarAnnoCarrera.getSelectedIndex() == 0) {
-							tableModelYears.actualizarAllYears();
-
-						} else {
-
-							GeneralTree<NodeInfo> tree = Bookcase.getInstance().getTree();
-							InBreadthIterator<NodeInfo> it = tree.inBreadthIterator();
-							boolean found = false;
-							while (!found && it.hasNext()) {
-								BinaryTreeNode<NodeInfo> node = it.nextNode();
-								if (node.getInfo() instanceof Carreer carreer
-										&& carreer.getName().equals(comboBoxEliminarAnnoCarrera.getSelectedItem())) {
-									found = true;
-									tableModelYears.actualizar(Bookcase.getInstance().getAllYearOfCarrer(carreer),
-											carreer.getName());
-								}
-							}
-						}
-					}
-					updateComboYear();
+					comboCarreerAction();
 				}
 			});
 			comboBoxEliminarAnnoCarrera.setVisible(false);
@@ -1248,43 +1238,7 @@ public class Formulario extends JFrame {
 			comboBoxEliminarAsiganturaAnno.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
-					GeneralTree<NodeInfo> tree = Bookcase.getInstance().getTree();
-					InBreadthIterator<NodeInfo> it = tree.inBreadthIterator();
-					boolean found = false;
-					while (!found && it.hasNext()) {
-						BinaryTreeNode<NodeInfo> node = it.nextNode();
-						if (node.getInfo() instanceof Carreer carreer
-								&& carreer.getName().equals(comboBoxEliminarAnnoCarrera.getSelectedItem())) {
-							found = true;
-							tableModelYears.actualizar(Bookcase.getInstance().getAllYearOfCarrer(carreer),
-									carreer.getName());
-						}
-					}
-
-					updateComboSubject();
-
-					if (comboBoxEliminar.getSelectedIndex() == 3) {
-						BinaryTreeNode<NodeInfo> nodeCarreer = null;
-						BinaryTreeNode<NodeInfo> nodeYear = null;
-						for (BinaryTreeNode<NodeInfo> node : Bookcase.getInstance().getTree()
-								.getSons((BinaryTreeNode<NodeInfo>) Bookcase.getInstance().getTree().getRoot())) {
-							if (((Carreer) node.getInfo()).getName()
-									.equalsIgnoreCase((String) comboBoxEliminarAnnoCarrera.getSelectedItem())) {
-								nodeCarreer = node;
-								for (BinaryTreeNode<NodeInfo> node2 : Bookcase.getInstance().getTree().getSons(node)) {
-									if ((((Year) node2.getInfo()).getNumberYear() + "").equalsIgnoreCase(
-											(String) comboBoxEliminarAsiganturaAnno.getSelectedItem())) {
-										nodeYear = node2;
-									}
-								}
-							}
-						}
-						List<Subject> subjects = new LinkedList<>();
-						for (BinaryTreeNode<NodeInfo> node : Bookcase.getInstance().getTree().getSons(nodeYear)) {
-							subjects.add((Subject) node.getInfo());
-						}
-						tableModelSubjects.actualizar(subjects);
-					}
+					comboYearAction();
 
 				}
 			});
@@ -1318,47 +1272,7 @@ public class Formulario extends JFrame {
 			comboBoxEliminarMaterialAsignaturas.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
-					if (comboBoxEliminar.getSelectedIndex() == 4) {
-
-						BinaryTreeNode<NodeInfo> nodeCarreer = null;
-						BinaryTreeNode<NodeInfo> nodeYear = null;
-						BinaryTreeNode<NodeInfo> nodeSubject = null;
-						for (BinaryTreeNode<NodeInfo> node : Bookcase.getInstance().getTree()
-								.getSons((BinaryTreeNode<NodeInfo>) Bookcase.getInstance().getTree().getRoot())) {
-							if (((Carreer) node.getInfo()).getName()
-									.equalsIgnoreCase((String) comboBoxEliminarAnnoCarrera.getSelectedItem())) {
-								nodeCarreer = node;
-								for (BinaryTreeNode<NodeInfo> node2 : Bookcase.getInstance().getTree().getSons(node)) {
-									if ((((Year) node2.getInfo()).getNumberYear() + "").equalsIgnoreCase(
-											(String) comboBoxEliminarAsiganturaAnno.getSelectedItem())) {
-										nodeYear = node2;
-										for (BinaryTreeNode<NodeInfo> node3 : Bookcase.getInstance().getTree()
-												.getSons(node2)) {
-											if ((((Subject) node3.getInfo()).getName() + "").equalsIgnoreCase(
-													(String) comboBoxEliminarMaterialAsignaturas.getSelectedItem())) {
-												nodeSubject = node3;
-											}
-										}
-									}
-								}
-							}
-						}
-						List<Material> materials = new LinkedList<>();
-						for (Vertex vertex : Bookcase.getInstance().getGraph().getVerticesList()) {
-
-							if (vertex.getInfo() instanceof Material material) {
-								Iterator<Vertex> it = vertex.getAdjacents().iterator();
-								boolean stop = false;
-								while (!stop && it.hasNext()) {
-									if (it.next().getInfo() instanceof Subject subject
-											&& subject.getId().equals(nodeSubject.getInfo().getId()))
-										materials.add(material);
-
-								}
-							}
-						}
-						tableModelMaterials.actualizar(materials);
-					}
+					comboSubjectAction();
 				}
 			});
 			comboBoxEliminarMaterialAsignaturas.setVisible(false);
@@ -1419,11 +1333,198 @@ public class Formulario extends JFrame {
 			comboBoxEliminarMaterialAsignaturas.setModel(new DefaultComboBoxModel<>(list.toArray(new String[0])));
 		}
 	}
-	private JButton getBtnNewButton() {
-		if (btnNewButton == null) {
-			btnNewButton = new JButton("");
-			btnNewButton.setBounds(10, 75, 42, 40);
+	private JButton getDeleteButton() {
+		if (deleteButton == null) {
+			deleteButton = new JButton("");
+			deleteButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					delete();
+				}
+			});
+			deleteButton.setEnabled(false);
+			deleteButton.setVisible(false);
+			deleteButton.setIcon(new ImageIcon(Formulario.class.getResource("/icons/icons8_delete_48px.png")));
+			deleteButton.setBounds(34, 82, 42, 40);
+			Auxiliary.activarBotonBorrar(deleteButton, scrTableEliminar.getTable());
 		}
-		return btnNewButton;
+		return deleteButton;
+	}
+
+	private void comboCarreerAction() {
+		if (comboBoxEliminar.getSelectedIndex() > 1) {
+			if (comboBoxEliminarAnnoCarrera.getSelectedIndex() == 0) {
+				tableModelYears.actualizarAllYears();
+
+			} else {
+
+				GeneralTree<NodeInfo> tree = Bookcase.getInstance().getTree();
+				InBreadthIterator<NodeInfo> it = tree.inBreadthIterator();
+				boolean found = false;
+				while (!found && it.hasNext()) {
+					BinaryTreeNode<NodeInfo> node = it.nextNode();
+					if (node.getInfo() instanceof Carreer carreer
+							&& carreer.getName().equals(comboBoxEliminarAnnoCarrera.getSelectedItem())) {
+						found = true;
+						tableModelYears.actualizar(Bookcase.getInstance().getAllYearOfCarrer(carreer),
+								carreer.getName());
+					}
+				}
+			}
+		}
+		updateComboYear();
+	}
+	
+	private void comboYearAction() {
+		GeneralTree<NodeInfo> tree = Bookcase.getInstance().getTree();
+		InBreadthIterator<NodeInfo> it = tree.inBreadthIterator();
+		boolean found = false;
+		while (!found && it.hasNext()) {
+			BinaryTreeNode<NodeInfo> node = it.nextNode();
+			if (node.getInfo() instanceof Carreer carreer
+					&& carreer.getName().equals(comboBoxEliminarAnnoCarrera.getSelectedItem())) {
+				found = true;
+				tableModelYears.actualizar(Bookcase.getInstance().getAllYearOfCarrer(carreer),
+						carreer.getName());
+			}
+		}
+
+		updateComboSubject();
+
+		if (comboBoxEliminar.getSelectedIndex() == 3) {
+			BinaryTreeNode<NodeInfo> nodeCarreer = null;
+			BinaryTreeNode<NodeInfo> nodeYear = null;
+			for (BinaryTreeNode<NodeInfo> node : Bookcase.getInstance().getTree()
+					.getSons((BinaryTreeNode<NodeInfo>) Bookcase.getInstance().getTree().getRoot())) {
+				if (((Carreer) node.getInfo()).getName()
+						.equalsIgnoreCase((String) comboBoxEliminarAnnoCarrera.getSelectedItem())) {
+					nodeCarreer = node;
+					for (BinaryTreeNode<NodeInfo> node2 : Bookcase.getInstance().getTree().getSons(node)) {
+						if ((((Year) node2.getInfo()).getNumberYear() + "").equalsIgnoreCase(
+								(String) comboBoxEliminarAsiganturaAnno.getSelectedItem())) {
+							nodeYear = node2;
+						}
+					}
+				}
+			}
+			List<Subject> subjects = new LinkedList<>();
+			for (BinaryTreeNode<NodeInfo> node : Bookcase.getInstance().getTree().getSons(nodeYear)) {
+				subjects.add((Subject) node.getInfo());
+			}
+			
+			tableModelSubjects.actualizar(subjects);
+		}
+	}
+
+	private void comboSubjectAction() {
+		if (comboBoxEliminar.getSelectedIndex() == 4) {
+
+			BinaryTreeNode<NodeInfo> nodeCarreer = null;
+			BinaryTreeNode<NodeInfo> nodeYear = null;
+			BinaryTreeNode<NodeInfo> nodeSubject = null;
+			for (BinaryTreeNode<NodeInfo> node : Bookcase.getInstance().getTree()
+					.getSons((BinaryTreeNode<NodeInfo>) Bookcase.getInstance().getTree().getRoot())) {
+				if (((Carreer) node.getInfo()).getName()
+						.equalsIgnoreCase((String) comboBoxEliminarAnnoCarrera.getSelectedItem())) {
+					nodeCarreer = node;
+					for (BinaryTreeNode<NodeInfo> node2 : Bookcase.getInstance().getTree().getSons(node)) {
+						if ((((Year) node2.getInfo()).getNumberYear() + "").equalsIgnoreCase(
+								(String) comboBoxEliminarAsiganturaAnno.getSelectedItem())) {
+							nodeYear = node2;
+							for (BinaryTreeNode<NodeInfo> node3 : Bookcase.getInstance().getTree()
+									.getSons(node2)) {
+								if ((((Subject) node3.getInfo()).getName() + "").equalsIgnoreCase(
+										(String) comboBoxEliminarMaterialAsignaturas.getSelectedItem())) {
+									nodeSubject = node3;
+								}
+							}
+						}
+					}
+				}
+			}
+			List<Material> materials = new LinkedList<>();
+			for (Vertex vertex : Bookcase.getInstance().getGraph().getVerticesList()) {
+
+				if (vertex.getInfo() instanceof Material material) {
+					Iterator<Vertex> it = vertex.getAdjacents().iterator();
+					boolean stop = false;
+					while (!stop && it.hasNext()) {
+						if (it.next().getInfo() instanceof Subject subject
+								&& subject.getId().equals(nodeSubject.getInfo().getId()))
+							materials.add(material);
+
+					}
+				}
+			}
+			tableModelMaterials.actualizar(materials);
+		}
+	}
+	
+	protected void delete() {
+		
+		if (comboBoxEliminar.getSelectedItem().equals("Carrera")) {
+			deleteCarreer();
+
+		} else if (comboBoxEliminar.getSelectedItem().equals("Año")) {
+			deleteYear();
+
+		} else if (comboBoxEliminar.getSelectedItem().equals("Asignatura")) {
+			deleteSubject();
+
+		} else {
+			deleteMaterial();
+		}
+		
+	}
+
+	
+	private void deleteMaterial() {
+		
+		int[] selectedRows = scrTableEliminar.getTable().getSelectedRows();
+		for (int i : selectedRows) {
+			String id = (String) scrTableEliminar.getTable().getValueAt(i, 0);
+			Bookcase.getInstance().deleteMaterial((Material) Bookcase.getInstance().getMaterialVertex(id).getInfo());
+			
+		}
+		
+		comboSubjectAction();
+		
+	}
+
+	private void deleteSubject() {
+
+		int[] selectedRows = scrTableEliminar.getTable().getSelectedRows();
+		for (int i : selectedRows) {
+			String id = (String) scrTableEliminar.getTable().getValueAt(i, 0);
+			Bookcase.getInstance().deleteSubject((Subject) Bookcase.getInstance().getSubjectNode(id).getInfo());
+			
+		}
+		
+		comboYearAction();
+		
+	}
+
+	private void deleteYear() {
+		
+		int[] selectedRows = scrTableEliminar.getTable().getSelectedRows();
+		for (int i : selectedRows) {
+			String id = (String) scrTableEliminar.getTable().getValueAt(i, 0);
+			Bookcase.getInstance().deleteYearCarrear((Year) Bookcase.getInstance().getYearNode(id).getInfo());
+			
+		}
+		
+		comboCarreerAction();
+		
+	}
+
+	private void deleteCarreer() {
+		
+		int[] selectedRows = scrTableEliminar.getTable().getSelectedRows();
+		for (int i : selectedRows) {
+			String id = (String) scrTableEliminar.getTable().getValueAt(i, 0);
+			Bookcase.getInstance().deleteCarrer((Carreer) Bookcase.getInstance().getCarreerNode(id).getInfo());
+			
+		}
+		
+		tableModelCarreers.actualizar();
 	}
 }
