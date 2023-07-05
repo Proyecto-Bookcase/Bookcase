@@ -901,10 +901,64 @@ public class Bookcase {
 		
 		return escLists;
 	}
-//	public List<Subject> getAllSubjectOf()
-//	{
-//		
-//		
-//	}
-
+	
+	public void addRelation(String subjectId, String materialId)
+	{
+		List<Vertex> vertList = graph.getVerticesList();
+		Iterator<Vertex> iter = vertList.iterator();
+		
+		
+		int index =0;
+		int subject =-1;
+		int material =-1;
+		while ((subject==-1 && material == -1) && iter.hasNext()) {
+			Vertex vertIter = iter.next(); 
+			Object info = vertIter.getInfo();
+			if(info instanceof Material mat && mat.getId().equals(materialId))
+			{
+				material = index;
+			}
+			else if (info instanceof Subject subj && subj.getId().equals(subjectId)) {
+				subject = index;
+			}
+			index++;
+		}
+		graph.insertEdgeNDG(subject, material);
+	}
+	public void deleteRelation(String subjectId, String materialId)
+	{
+		List<Vertex> vertList = graph.getVerticesList();
+		Iterator<Vertex> iter = vertList.iterator();
+		
+		
+		int index =0;
+		int subject =-1;
+		int material =-1;
+		while ((subject==-1 && material == -1) && iter.hasNext()) {
+			Vertex vertIter = iter.next(); 
+			Object info = vertIter.getInfo();
+			if(info instanceof Material mat && mat.getId().equals(materialId))
+			{
+				if(vertIter.getAdjacents().size()==1)
+				{
+					material = -2;
+				}
+				else {
+					material = index;
+					
+				}
+			}
+			else if (info instanceof Subject subj && subj.getId().equals(subjectId)) {
+				subject = index;
+			}
+			index++;
+		}
+		if(material !=-2)
+		{
+			graph.deleteEdgeND(subject, material);
+		}
+		
+		
+	}
+	
 }

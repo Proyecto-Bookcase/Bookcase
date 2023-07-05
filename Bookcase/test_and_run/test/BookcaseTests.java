@@ -24,7 +24,7 @@ public class BookcaseTests {
 
 	    @BeforeEach
 	    void setUp() {
-	        filePath = new File("Tree3.DATA");
+	        filePath = new File("Tree4.DATA");
 	        tree = new GeneralTree<NodeInfo>();
 	        bookcase = Bookcase.getInstance();
 	        bookcase.newCarreer( "Informatica", 3);
@@ -48,6 +48,9 @@ public class BookcaseTests {
 	        bookcase.newSubject("011", "F");
 	        bookcase.newSubject("012", "BD");
 	        bookcase.newSubject("013", "D");
+	        
+	        
+	        
 	        
 	        BinaryTreeNode<NodeInfo> a = new BinaryTreeNode<NodeInfo>(new University("1", "Cujae"));
 	        BinaryTreeNode<NodeInfo> b = new BinaryTreeNode<NodeInfo>(new Carreer("00", "Informatica", 3));
@@ -74,7 +77,7 @@ public class BookcaseTests {
 	        tree.insertNode(i, c);
 	        tree.insertNode(j, c);
 	        //tree.insertNode(k, d);
-	        InDepthIterator<NodeInfo> iter = tree.inDepthIterator();
+	        InDepthIterator<NodeInfo> iter = bookcase.getTree().inDepthIterator();
 	        while (iter.hasNext()) {
 	            System.out.print(iter.next().getId()+" ");
 	        }
@@ -83,7 +86,7 @@ public class BookcaseTests {
 
 	    @Test
 	    void test() {
-	        WriteGeneralTree<NodeInfo> writer = new WriteGeneralTree<NodeInfo>(filePath, tree);
+	        WriteGeneralTree<NodeInfo> writer = new WriteGeneralTree<NodeInfo>(filePath, bookcase.getTree());
 	        writer.writeTreeNew();
 	        ReadGeneralTree<NodeInfo> reader = new ReadGeneralTree<NodeInfo>(filePath);
 	        GeneralTree<NodeInfo> new_tree= reader.generateTree();
@@ -91,9 +94,9 @@ public class BookcaseTests {
 	        while (iterator.hasNext()) {
 	        	NodeInfo a = iterator.next();
 	            System.out.print(a.getId()+" ");
-	            if (a instanceof Carreer) {
-					System.out.print(((Carreer)a).getName()+" ");
-				}
+//	            if (a instanceof Carreer) {
+//					System.out.print(((Carreer)a).getName()+" ");
+//				}
 	        }
 	    }
 }
