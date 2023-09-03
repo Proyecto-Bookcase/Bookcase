@@ -4,7 +4,7 @@ import java.awt.EventQueue;
 
 import external_memory.Manager;
 import interfaces.Login;
-//Prueba
+
 public class Main {
 
 	public static void main(String[] args) {
